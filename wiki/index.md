@@ -2,7 +2,7 @@
 
 Portable, Obsidian-style engineering knowledge extracted from a real SaaS monorepo. Two trees, one index.
 
-Obsidian vault root should be the `wiki/` directory.
+For **this public repository**, the Obsidian vault root is the `wiki/` directory. Personal laboratories that consume this wiki use a separate private source of truth — see [GOVERNANCE.md](../GOVERNANCE.md).
 
 ## Dual-tree rules
 
