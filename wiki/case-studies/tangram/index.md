@@ -10,6 +10,7 @@ Evidence-backed notes from the Tangram Platform monorepo. Each case study links 
 
 ## Case studies
 
+- [[case-studies/tangram/diplomat-architecture]] — Diplomat service layers, logic sandwich, pure logic, and async/cache deviations.
 - [[case-studies/tangram/identity-pbac-and-auth]] — JWT auth, PBAC scopes, service accounts, and S2S API keys.
 - [[case-studies/tangram/terraform-v2-platform]] — terraform-v2 multi-env state, module boundaries, lifecycle exceptions, and secret handling.
 

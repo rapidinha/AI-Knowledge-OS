@@ -4,11 +4,12 @@ Hub for structural patterns: service layering, monorepo layout, and cross-cuttin
 
 ## Principles
 
-<!-- [[principles/<slug>]] links added during extraction -->
+- [[principles/layered-io-boundaries-diplomat]] — Separates transport, orchestration, domain logic, persistence, cache, and wire contracts.
+- [[principles/pure-domain-logic-no-io]] — Keeps domain rules deterministic and free of infrastructure effects.
 
 ## Case studies
 
-<!-- [[case-studies/tangram/<slug>]] links added during extraction -->
+- [[case-studies/tangram/diplomat-architecture]] — Tangram's Diplomat implementation and documented async/cache deviations.
 
 ## Related
 

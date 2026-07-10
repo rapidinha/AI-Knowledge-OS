@@ -4,7 +4,7 @@ Tracks extraction status for every topic in the [design spec](../../docs/specs/2
 
 | Topic | Domain | Wave | Status | Principle note | Case study note | Gaps |
 |-------|--------|------|--------|----------------|-----------------|------|
-| Diplomat / layered I/O boundaries | Architecture | W1 | pending | — | — | — |
+| Diplomat / layered I/O boundaries | Architecture | W1 | extracted | [[principles/layered-io-boundaries-diplomat]], [[principles/pure-domain-logic-no-io]] | [[case-studies/tangram/diplomat-architecture]] | — |
 | Microservices + shared DB schemas | Architecture | W2 | pending | — | — | — |
 | Git submodules monorepo | Architecture | W1 | pending | — | — | — |
 | Shared auth library | Architecture | W1 | partial | [[principles/dual-channel-auth-jwt-and-service-credentials]] | [[case-studies/tangram/identity-pbac-and-auth]] | Auth guard and scope guard extracted; broader shared library package remains for architecture wave. |

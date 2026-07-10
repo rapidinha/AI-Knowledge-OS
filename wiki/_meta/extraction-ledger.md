@@ -191,3 +191,42 @@ When a wave completes, append a block with this shape:
 **Risks / blockers:**
 
 - Source documentation and root Terraform code disagree in a few places; future infra changes should verify behavior from Terraform files, not README summaries alone.
+
+## Wave 3 — 2026-07-10
+
+**Scope:** Diplomat / layered I/O boundaries extraction: service layering, logic sandwich orchestration, pure logic, repositories, adapters, wire contracts, and documented async/cache deviations.
+
+### Extracted
+
+- [[principles/layered-io-boundaries-diplomat]] — Generic layered I/O boundary pattern for transport, orchestration, logic, persistence, cache, and wire contracts.
+- [[principles/pure-domain-logic-no-io]] — Pure business rules without infrastructure effects.
+- [[case-studies/tangram/diplomat-architecture]] — Tangram evidence for Diplomat layers, Catalog schedule flow, Enrollment queues, Learning workers, and Rewards ranking cache deviations.
+
+### Partial / gaps
+
+- Service source reads: service paths were available from each service repository's `origin/main`; the monorepo root `origin/main:path` did not contain those nested paths directly.
+
+### Out of scope
+
+- Broader shared auth library architecture remains covered by the existing partial architecture row and future architecture/engineering waves.
+
+### Matrix updates
+
+- Diplomat / layered I/O boundaries: `pending` → `extracted`
+
+### Next-wave brief
+
+**Priority topics:**
+
+1. Contract codegen + CI — W1 engineering workflow baseline.
+2. Git submodules monorepo — needed to clarify root repo versus service repo evidence paths.
+3. Microservices + shared DB schemas — natural follow-up to service boundary extraction.
+
+**Hypotheses to confirm/reject:**
+
+- Queue and worker boundaries should be formalized as first-class Diplomat adapters rather than treated as service-specific exceptions.
+- Specialized read-model caches may deserve a separate async/scale principle beyond the generic cache boundary.
+
+**Risks / blockers:**
+
+- Source evidence for service files should continue to use service-level `origin/main` when the monorepo root only tracks submodule pointers.
