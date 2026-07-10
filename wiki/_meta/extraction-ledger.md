@@ -230,3 +230,46 @@ When a wave completes, append a block with this shape:
 **Risks / blockers:**
 
 - Source evidence for service files should continue to use service-level `origin/main` when the monorepo root only tracks submodule pointers.
+
+## Wave 4 — 2026-07-10
+
+**Scope:** Monorepo and contract extraction: Git submodules as service/app/library boundaries, generated API clients, root contract CI, per-submodule CI ownership, and the shared backend kernel package.
+
+### Extracted
+
+- [[principles/git-submodules-as-service-boundaries]] — Root workspaces can pin independently owned nested repositories while reserving root checks for integration.
+- [[principles/generated-api-clients-and-contract-ci]] — Generated clients and CI drift checks keep consumers aligned with provider contracts.
+- [[principles/shared-kernel-library-extraction]] — Shared kernels should stay narrow, versioned, and package-bound.
+- [[case-studies/tangram/monorepo-contracts-and-common]] — Tangram evidence for `.gitmodules`, root contract workflows, Orval configs, package scripts, per-service workflows, and `backend-common`.
+
+### Partial / gaps
+
+- Contract codegen + CI: root workflows validate backoffice generated clients and build compatibility; web has Orval scripts/config but no matching root web contract workflow in the researched root `.github/workflows` files.
+- Contract service coverage: the researched backoffice contract workflows start identity, organization, enrollment, and catalog before generation; additional generated-client projects need owning workflow validation or root workflow extension.
+
+### Out of scope
+
+- Microservices + shared DB schemas: remains pending for a data/architecture wave beyond submodule and contract ownership.
+
+### Matrix updates
+
+- Git submodules monorepo: `pending` → `extracted`
+- Shared auth library: `partial` → `extracted`
+- Contract codegen + CI: `pending` → `extracted`
+
+### Next-wave brief
+
+**Priority topics:**
+
+1. Microservices + shared DB schemas — natural continuation from submodule service boundaries.
+2. TypeORM entities / migrations — needed to map persistence ownership and migration flow.
+3. SQS webhooks & imports — async boundary evidence already appeared during Diplomat extraction.
+
+**Hypotheses to confirm/reject:**
+
+- Shared database schemas may be coordinated through service-level TypeORM entities and migrations rather than root-level database ownership.
+- Async import and webhook workers may require their own boundary principle beyond HTTP contract CI.
+
+**Risks / blockers:**
+
+- Contract evidence is split across root workflows and submodule histories; future contract waves should keep using service-level `origin/main` when root paths are gitlinks.

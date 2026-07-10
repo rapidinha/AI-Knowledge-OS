@@ -6,8 +6,8 @@ Tracks extraction status for every topic in the [design spec](../../docs/specs/2
 |-------|--------|------|--------|----------------|-----------------|------|
 | Diplomat / layered I/O boundaries | Architecture | W1 | extracted | [[principles/layered-io-boundaries-diplomat]], [[principles/pure-domain-logic-no-io]] | [[case-studies/tangram/diplomat-architecture]] | — |
 | Microservices + shared DB schemas | Architecture | W2 | pending | — | — | — |
-| Git submodules monorepo | Architecture | W1 | pending | — | — | — |
-| Shared auth library | Architecture | W1 | partial | [[principles/dual-channel-auth-jwt-and-service-credentials]] | [[case-studies/tangram/identity-pbac-and-auth]] | Auth guard and scope guard extracted; broader shared library package remains for architecture wave. |
+| Git submodules monorepo | Architecture | W1 | extracted | [[principles/git-submodules-as-service-boundaries]] | [[case-studies/tangram/monorepo-contracts-and-common]] | — |
+| Shared auth library | Architecture | W1 | extracted | [[principles/shared-kernel-library-extraction]], [[principles/dual-channel-auth-jwt-and-service-credentials]] | [[case-studies/tangram/monorepo-contracts-and-common]], [[case-studies/tangram/identity-pbac-and-auth]] | — |
 | Cognito + platform JWT | Security | W1 | extracted | [[principles/dual-channel-auth-jwt-and-service-credentials]] | [[case-studies/tangram/identity-pbac-and-auth]] | — |
 | PBAC scopes | Security | W1 | extracted | [[principles/pbac-scopes-in-tokens]] | [[case-studies/tangram/identity-pbac-and-auth]] | — |
 | Service accounts / API keys | Security | W1 | extracted | [[principles/service-accounts-for-s2s]] | [[case-studies/tangram/identity-pbac-and-auth]] | — |
@@ -23,7 +23,7 @@ Tracks extraction status for every topic in the [design spec](../../docs/specs/2
 | terraform-v2 multi-env single state | Infra | W1 | extracted | [[principles/multi-env-terraform-single-state]] | [[case-studies/tangram/terraform-v2-platform]] | README says production uses RDS Proxy, while `main.tf` currently enables the proxy for every environment; documented in case-study deviations. |
 | ECS / ALB / Cognito / SQS / RDS Proxy | Infra | W1 | extracted | [[principles/modular-iaas-boundaries]], [[principles/ignore-changes-and-secret-hygiene-in-iac]] | [[case-studies/tangram/terraform-v2-platform]] | README references `modules/asaas-webhook/main.tf`, while the current root uses `modules/asaas-events/main.tf`; documented in case-study deviations. |
 | Feature flags (Unleash) | Infra | W3 | pending | — | — | — |
-| Contract codegen + CI | Engineering | W1 | pending | — | — | — |
+| Contract codegen + CI | Engineering | W1 | extracted | [[principles/generated-api-clients-and-contract-ci]] | [[case-studies/tangram/monorepo-contracts-and-common]] | Root contract checks observed for backoffice; web app has generated-client config but no matching root web contract workflow in researched root files. |
 | Agent rules (`.cursor`) | Engineering | W3 | pending | — | — | — |
 | Docs / ADRs | Engineering | W4 | pending | — | — | — |
 | Automated-test seed scenarios | Engineering | W3 | pending | — | — | — |
