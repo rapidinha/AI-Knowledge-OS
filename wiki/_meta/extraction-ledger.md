@@ -273,3 +273,48 @@ When a wave completes, append a block with this shape:
 **Risks / blockers:**
 
 - Contract evidence is split across root workflows and submodule histories; future contract waves should keep using service-level `origin/main` when root paths are gitlinks.
+
+## Wave 5 — 2026-07-10
+
+**Scope:** Enrollment async extraction: SQS-backed Asaas payment webhooks, payment/subscription event idempotency, olympiad import command queues, Redis import payload cache, runtime queue guards, and demo-provisioning orchestration contrast.
+
+### Extracted
+
+- [[principles/webhook-ingestion-via-queues]] — Durable external webhook ingestion through a managed queue service, persisted idempotency claims, processing leases, and stale-event guards.
+- [[principles/bulk-import-via-command-queues]] — Long-running imports split into bootstrap, orchestration, and chunk commands with small queue payloads and durable job status.
+- [[case-studies/tangram/enrollment-sqs-asaas-olympiad]] — Tangram evidence for Asaas webhook SQS ingestion, webhook event leases, payment transitions, olympiad import queues, Redis payload cache, and runtime queue guards.
+
+### Partial / gaps
+
+- Workers / streaming imports: queue-backed olympiad import workers were extracted; non-queue streaming import workers remain for a later Learning/import wave.
+- Olympiad cross-service: enrollment-side olympiad import orchestration was extracted; rewards/learning/catalog cross-service behavior remains to map.
+- Requested terraform-v2 evidence: `terraform-v2/modules/sqs` and `terraform-v2/modules/asaas-events` were not available under `tangram-platform` `origin/main` or the source checkout during this task, so infra queue provisioning was not cited in the new case study.
+
+### Out of scope
+
+- Rewards ranking and wallet flows beyond the enrollment-side olympiad import entry points.
+- Learning streaming imports, except as a future-work gap in the coverage matrix.
+
+### Matrix updates
+
+- SQS webhooks & imports: `pending` → `extracted`
+- Workers / streaming imports: `pending` → `partial`
+- Olympiad cross-service: `pending` → `partial`
+- Enrollment / payment: `pending` → `extracted`
+
+### Next-wave brief
+
+**Priority topics:**
+
+1. Rewards / wallet / ranking — follows olympiad import into ranking and award outcomes.
+2. Learning streaming imports — completes the broader worker/streaming import matrix row.
+3. Microservices + shared DB schemas — needed to clarify cross-service persistence boundaries.
+
+**Hypotheses to confirm/reject:**
+
+- Rewards consumes enrollment/olympiad outputs through explicit contracts rather than direct import-worker coupling.
+- Learning VC imports use a different streaming-worker shape than Enrollment's command queues.
+
+**Risks / blockers:**
+
+- Infra queue provisioning could not be verified from `tangram-platform` `origin/main`; future infra-specific updates should use the infra source path that contains `terraform-v2`.
