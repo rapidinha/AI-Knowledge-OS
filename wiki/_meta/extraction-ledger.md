@@ -568,3 +568,38 @@ When a wave completes, append a block with this shape:
 
 - Some matrix rows are intentionally `partial` because Task 10 closed the wiki state rather than performing new deep extraction for every leftover topic.
 - `ADR-002` and `ADR-005` statuses require care: source evidence may be newer than ADR-002's in-progress text, while ADR-005 remains proposed.
+
+## Wave 10 — 2026-07-10
+
+**Scope:** Delta extraction for the organization reusable PR Pipeline (`workflow_call`) with static checks, tests+coverage, and patch-coverage gate; consumer call sites; web fork.
+
+### Extracted
+
+- [[principles/reusable-pr-ci-with-patch-coverage]] — Callable PR CI with parameterized scripts, optional integration/test skips, artifact upload, and patch-coverage merge gate with PR comment.
+- [[case-studies/tangram/reusable-pr-pipeline]] — `TangramEd/.github/.github/workflows/pr.yml` inputs/jobs; callers in catalog/enrollment/learning/organization/rewards/backoffice; web custom sharded Vitest + `diff-cover` at 80%.
+
+### Partial / gaps
+
+- Integration test lane in the reusable workflow is widely skipped (`skip-integration: true`) pending testcontainers/schema standardization across services.
+- Org workflow source lives outside the platform monorepo (`.github` org repo); evidence for the YAML body was provided from the maintained workflow definition plus in-repo callers.
+
+### Matrix updates
+
+- Reusable PR CI + patch coverage: _(new row)_ → `extracted`
+
+### Next-wave brief
+
+**Priority topics:**
+
+1. Re-enable integration tests in reusable PR callers once schema/testcontainers setup is shared.
+2. Reconcile web custom PR CI with org workflow when shared workflow gains skip-DB / sharding inputs.
+3. Continue prior partials: observability, automated-test seeds, TypeORM inventory.
+
+**Hypotheses to confirm/reject:**
+
+- Whether identity-service (and any other submodule) still calls the org reusable workflow or has a local variant not present in this workspace checkout.
+
+**Risks / blockers:**
+
+- None for this delta; do not treat the pasted workflow as a file inside `tangram-platform` — cite org path + local callers.
+
