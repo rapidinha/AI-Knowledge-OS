@@ -1,0 +1,38 @@
+name: Boundary check
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  forbidden-paths:
+    name: Reject private lab paths
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fail if forbidden paths exist
+        run: |
+          set -euo pipefail
+          forbidden=(
+            knowledge
+            notes
+            research
+            journals
+            experiments
+            obsidian
+            vault
+          )
+          found=0
+          for name in "${forbidden[@]}"; do
+            if [ -e "$name" ]; then
+              echo "::error::Forbidden path present on public tree: $name/"
+              found=1
+            fi
+          done
+          if [ "$found" -ne 0 ]; then
+            echo "Personal lab paths must never appear on upstream. See GOVERNANCE.md"
+            exit 1
+          fi
+          echo "Boundary check passed."
