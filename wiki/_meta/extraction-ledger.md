@@ -318,3 +318,47 @@ When a wave completes, append a block with this shape:
 **Risks / blockers:**
 
 - Infra queue provisioning could not be verified from `tangram-platform` `origin/main`; future infra-specific updates should use the infra source path that contains `terraform-v2`.
+
+## Wave 6 — 2026-07-10
+
+**Scope:** Rewards extraction: olympiad ranking read-model cache, ranking visibility cache, cache-isolation guardrails, wallet ledger balances, transaction statements, prize preferences, and prize distribution.
+
+### Extracted
+
+- [[principles/specialized-read-model-cache]] — Expensive user-facing reads served from bounded, periodically rebuilt projections with explicit miss behavior and guardrails.
+- [[principles/wallet-ledger-style-balances]] — Product balances stored for fast reads while each mutation writes an auditable transaction ledger entry.
+- [[case-studies/tangram/rewards-ranking-cache]] — Tangram evidence for Rewards ranking cache, visibility cache, guardrail tests, wallet transactions, and prize distribution.
+
+### Partial / gaps
+
+- Redis cache: Rewards ranking and ranking-visibility caches were extracted, but Redis usage outside Rewards remains to map before treating the broader cache topic as complete.
+- Olympiad cross-service: Enrollment-side import orchestration and Rewards active ranking cache are mapped; Learning/Catalog olympiad behavior remains for a future cross-service wave.
+
+### Out of scope
+
+- Rewards code changes: this wave documented existing `origin/main` behavior only.
+- Learning streaming imports and Catalog olympiad configuration beyond their future cross-service role.
+
+### Matrix updates
+
+- Redis cache: `pending` → `partial`
+- Specialized read-model cache: `pending` → `extracted`
+- Olympiad cross-service: remains `partial` with Rewards cache evidence added
+- Rewards / wallet / ranking: `pending` → `extracted`
+
+### Next-wave brief
+
+**Priority topics:**
+
+1. Learning streaming imports — completes the remaining worker/streaming import gap.
+2. Microservices + shared DB schemas — clarifies service-owned schemas and cross-service persistence boundaries.
+3. TypeORM entities / migrations — follows naturally from wallet, ranking, and transaction evidence.
+
+**Hypotheses to confirm/reject:**
+
+- Redis usage outside Rewards may be generic payload/session caching rather than specialized read models.
+- Learning/Catalog olympiad behavior may complete the cross-service flow from enrollment import to ranking outcomes.
+
+**Risks / blockers:**
+
+- Rewards source is a submodule; future source evidence should keep using service-level `origin/main` paths when the monorepo root only exposes a gitlink.

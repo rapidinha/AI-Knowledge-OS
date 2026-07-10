@@ -14,6 +14,7 @@ Evidence-backed notes from the Tangram Platform monorepo. Each case study links 
 - [[case-studies/tangram/enrollment-sqs-asaas-olympiad]] — Enrollment SQS workers for Asaas payment webhooks and olympiad import commands.
 - [[case-studies/tangram/identity-pbac-and-auth]] — JWT auth, PBAC scopes, service accounts, and S2S API keys.
 - [[case-studies/tangram/monorepo-contracts-and-common]] — Submodule service boundaries, generated API clients, root contract checks, and the backend common package.
+- [[case-studies/tangram/rewards-ranking-cache]] — Rewards ranking cache, visibility cache, wallet transactions, and prize distribution.
 - [[case-studies/tangram/terraform-v2-platform]] — terraform-v2 multi-env state, module boundaries, lifecycle exceptions, and secret handling.
 
 ## Related
