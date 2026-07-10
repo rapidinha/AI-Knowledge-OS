@@ -52,6 +52,8 @@ AI-Knowledge-OS/
 ├── docs/                     # Specs/plans for this project
 │   ├── specs/
 │   └── plans/
+├── templates/
+│   └── personal-lab/         # Generic lab scaffold for private SoTs (org-wide)
 └── wiki/                     # Public Obsidian vault root for contributors
     ├── index.md
     ├── MOC/
@@ -60,9 +62,9 @@ AI-Knowledge-OS/
     └── _meta/
 ```
 
-### 3.2 Paths that must never exist on upstream
+### 3.2 Paths that must never exist at upstream **root**
 
-These names are **forbidden** on the public repository (CI must fail if they appear):
+These names are **forbidden at the repository root** on the public repository (CI must fail if they appear there):
 
 | Path | Reason |
 |------|--------|
@@ -73,6 +75,8 @@ These names are **forbidden** on the public repository (CI must fail if they app
 | `experiments/` | Personal experiments |
 | `obsidian/` | Private vault config dumps |
 | `vault/` | Alternate personal vault roots |
+
+**Allowed on upstream:** the same structure as a **template** under [`templates/personal-lab/`](templates/personal-lab/) (structure and empty READMEs only — no personal content). Org members copy that template into their private SoT root.
 
 ### 3.3 Personal SoT (private only)
 
