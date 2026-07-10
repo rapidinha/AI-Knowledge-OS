@@ -7,11 +7,11 @@ Tracks extraction status for every topic in the [design spec](../../docs/specs/2
 | Diplomat / layered I/O boundaries | Architecture | W1 | pending | — | — | — |
 | Microservices + shared DB schemas | Architecture | W2 | pending | — | — | — |
 | Git submodules monorepo | Architecture | W1 | pending | — | — | — |
-| Shared auth library | Architecture | W1 | pending | — | — | — |
-| Cognito + platform JWT | Security | W1 | pending | — | — | — |
-| PBAC scopes | Security | W1 | pending | — | — | — |
-| Service accounts / API keys | Security | W1 | pending | — | — | — |
-| Contextual permissions | Security | W1 | pending | — | — | — |
+| Shared auth library | Architecture | W1 | partial | [[principles/dual-channel-auth-jwt-and-service-credentials]] | [[case-studies/tangram/identity-pbac-and-auth]] | Auth guard and scope guard extracted; broader shared library package remains for architecture wave. |
+| Cognito + platform JWT | Security | W1 | extracted | [[principles/dual-channel-auth-jwt-and-service-credentials]] | [[case-studies/tangram/identity-pbac-and-auth]] | — |
+| PBAC scopes | Security | W1 | extracted | [[principles/pbac-scopes-in-tokens]] | [[case-studies/tangram/identity-pbac-and-auth]] | — |
+| Service accounts / API keys | Security | W1 | extracted | [[principles/service-accounts-for-s2s]] | [[case-studies/tangram/identity-pbac-and-auth]] | — |
+| Contextual permissions | Security | W1 | partial | [[principles/pbac-scopes-in-tokens]] | [[case-studies/tangram/identity-pbac-and-auth]] | `contextType`/`contextId` are modeled but not enforced by the shared scope guard; endpoint-level checks remain to map. |
 | TypeORM entities / migrations | Data | W2 | pending | — | — | — |
 | Lookup tables | Data | W2 | pending | — | — | — |
 | Audit logs | Data | W2 | pending | — | — | — |

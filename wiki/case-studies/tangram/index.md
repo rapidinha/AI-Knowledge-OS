@@ -10,7 +10,7 @@ Evidence-backed notes from the Tangram Platform monorepo. Each case study links 
 
 ## Case studies
 
-<!-- [[case-studies/tangram/<slug>]] links added during extraction -->
+- [[case-studies/tangram/identity-pbac-and-auth]] — JWT auth, PBAC scopes, service accounts, and S2S API keys.
 
 ## Related
 

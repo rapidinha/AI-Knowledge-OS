@@ -100,3 +100,50 @@ When a wave completes, append a block with this shape:
 **Risks / blockers:**
 
 - None for W1 scaffold; source repo must be readable at `origin/main` paths
+
+## Wave 1 — 2026-07-10
+
+**Scope:** Auth/PBAC extraction: platform JWTs, dual-channel auth guards, PBAC scopes, service accounts, API keys, and contextual-permission gaps.
+
+### Extracted
+
+- [[principles/pbac-scopes-in-tokens]] — Token-embedded scope codes for fast PBAC checks, with contextual authorization caveats.
+- [[principles/dual-channel-auth-jwt-and-service-credentials]] — One auth boundary for bearer JWT users and service credentials.
+- [[principles/service-accounts-for-s2s]] — Service accounts with scoped API keys, revocation, hashing, and validation caches.
+- [[case-studies/tangram/identity-pbac-and-auth]] — Tangram evidence for JWT issuance, shared guards, scope checks, service accounts, and API-key validation.
+
+### Partial / gaps
+
+- Shared auth library: auth guards, scope guard, decorator, strategy, and auth models were extracted; the broader shared package remains for the architecture wave.
+- Contextual permissions: `expiresAt` is filtered before token issuance, but `contextType`/`contextId` are not represented in the shared `scopes[]` guard decision.
+- Service-account IP constraints: `allowedIps` is modeled and documented, but the researched API-key validation path did not show enforcement.
+- ADR-006 user lifecycle lazy expiration: file was not available in `origin/main` or `HEAD`; lifecycle behavior was cited from tracked controller code only.
+
+### Out of scope
+
+- Full user lifecycle extraction beyond the login/refresh auth touchpoints.
+
+### Matrix updates
+
+- Shared auth library: `pending` → `partial`
+- Cognito + platform JWT: `pending` → `extracted`
+- PBAC scopes: `pending` → `extracted`
+- Service accounts / API keys: `pending` → `extracted`
+- Contextual permissions: `pending` → `partial`
+
+### Next-wave brief
+
+**Priority topics:**
+
+1. Diplomat / layered I/O boundaries — needed to frame service-specific notes consistently
+2. terraform-v2 multi-env single state — W1 infra anchor with explicit v2-only evidence
+3. Contract codegen + CI + git submodules monorepo — engineering workflow baseline
+
+**Hypotheses to confirm/reject:**
+
+- Contextual authorization may be enforced in endpoint-specific controllers outside the shared guard.
+- Service-account `allowedIps` may be intended but not wired into API-key validation.
+
+**Risks / blockers:**
+
+- ADR-006 user lifecycle doc exists on disk but was not tracked in `origin/main` or `HEAD` during extraction.
