@@ -12,9 +12,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Fail if forbidden paths exist
+      - name: Fail if forbidden paths exist at repo root
         run: |
           set -euo pipefail
+          # Root-only: templates/personal-lab/<name> is allowed (structure scaffold).
           forbidden=(
             knowledge
             notes
@@ -27,12 +28,13 @@ jobs:
           found=0
           for name in "${forbidden[@]}"; do
             if [ -e "$name" ]; then
-              echo "::error::Forbidden path present on public tree: $name/"
+              echo "::error::Forbidden path at repository root: $name/"
+              echo "Use templates/personal-lab/ on public trees; keep personal SoT private."
               found=1
             fi
           done
           if [ "$found" -ne 0 ]; then
-            echo "Personal lab paths must never appear on upstream. See GOVERNANCE.md"
+            echo "Personal lab paths must never appear at upstream root. See GOVERNANCE.md"
             exit 1
           fi
           echo "Boundary check passed."
