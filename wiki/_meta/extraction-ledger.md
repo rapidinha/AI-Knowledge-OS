@@ -362,3 +362,51 @@ When a wave completes, append a block with this shape:
 **Risks / blockers:**
 
 - Rewards source is a submodule; future source evidence should keep using service-level `origin/main` paths when the monorepo root only exposes a gitlink.
+
+## Wave 7 — 2026-07-10
+
+**Scope:** Catalog and Learning extraction: challenge-seasonal temporal orchestration, trail/channel distribution, release schedules, lookups, session resume, unified session engine, VC XLSX streaming imports, and submission evaluation drafts.
+
+### Extracted
+
+- [[principles/content-distribution-by-channel]] — Content records separated from channel-specific distribution criteria and lookup-backed channel codes.
+- [[principles/temporal-orchestration-of-content]] — Event windows, release calendars, regeneration previews, data-loss guards, and audit/version snapshots.
+- [[principles/timed-session-resume]] — Backend-owned remaining time, idempotent session start, abandoned-session resume, and session lifecycle events.
+- [[principles/streaming-bulk-file-import-workers]] — Spreadsheet/file imports processed as bounded validated chunks with row-level errors and chunk transactions.
+- [[case-studies/tangram/catalog-and-learning]] — Tangram Catalog distribution/release/lookups and Learning session/import/evaluation evidence.
+
+### Partial / gaps
+
+- Lookup tables: Catalog lookup endpoints and cached stable codes were mapped, but a standalone generic lookup-table principle remains to extract.
+- Audit logs: Catalog schedule audit/version snapshots and ADR-005 were mapped, but broader cross-service audit-log modeling remains for a later data/compliance wave.
+
+### Out of scope
+
+- Full TypeORM entities / migrations extraction beyond the entities needed to explain Catalog distribution, schedules, Learning sessions, and evaluations.
+- Frontend challenge engine implementation details beyond ADR context.
+
+### Matrix updates
+
+- Lookup tables: `pending` → `partial`
+- Audit logs: `pending` → `partial`
+- Multi-channel content distribution: `pending` → `extracted`
+- Workers / streaming imports: `partial` → `extracted`
+- Challenge / session / resume: `pending` → `extracted`
+- Olympiad cross-service: `partial` → `extracted`
+
+### Next-wave brief
+
+**Priority topics:**
+
+1. TypeORM entities / migrations — complete the broader persistence model after this targeted Catalog/Learning entity slice.
+2. Cross-service audit logs — turn ADR-005 and existing audit repositories into a generic audit principle.
+3. Microservices + shared DB schemas — clarify when services query shared schemas directly versus through service APIs.
+
+**Hypotheses to confirm/reject:**
+
+- Lookup tables may deserve a small standalone principle focused on stable codes, seed data, cache invalidation, and generated client contracts.
+- Catalog audit evolution may align with existing webhook/queue principles if audit events move to a broker-backed worker.
+
+**Risks / blockers:**
+
+- ADR-005 is proposed, not accepted, so future audit extraction should distinguish shipped behavior from target architecture.

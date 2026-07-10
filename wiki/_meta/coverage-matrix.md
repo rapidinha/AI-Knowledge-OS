@@ -13,13 +13,13 @@ Tracks extraction status for every topic in the [design spec](../../docs/specs/2
 | Service accounts / API keys | Security | W1 | extracted | [[principles/service-accounts-for-s2s]] | [[case-studies/tangram/identity-pbac-and-auth]] | — |
 | Contextual permissions | Security | W1 | partial | [[principles/pbac-scopes-in-tokens]] | [[case-studies/tangram/identity-pbac-and-auth]] | `contextType`/`contextId` are modeled but not enforced by the shared scope guard; endpoint-level checks remain to map. |
 | TypeORM entities / migrations | Data | W2 | pending | — | — | — |
-| Lookup tables | Data | W2 | pending | — | — | — |
-| Audit logs | Data | W2 | pending | — | — | — |
-| Multi-channel content distribution | Data | W2 | pending | — | — | — |
+| Lookup tables | Data | W2 | partial | [[principles/content-distribution-by-channel]] | [[case-studies/tangram/catalog-and-learning]] | Catalog lookup endpoints and cached stable codes mapped; a standalone generic lookup-table principle remains to extract. |
+| Audit logs | Data | W2 | partial | [[principles/temporal-orchestration-of-content]] | [[case-studies/tangram/catalog-and-learning]] | Catalog release schedule audit/version snapshots and ADR-005 mapped; broader cross-service audit-log pattern remains to extract. |
+| Multi-channel content distribution | Data | W2 | extracted | [[principles/content-distribution-by-channel]], [[principles/temporal-orchestration-of-content]] | [[case-studies/tangram/catalog-and-learning]] | — |
 | SQS webhooks & imports | Async / scale | W2 | extracted | [[principles/webhook-ingestion-via-queues]], [[principles/bulk-import-via-command-queues]] | [[case-studies/tangram/enrollment-sqs-asaas-olympiad]] | Requested `terraform-v2/modules/sqs` and `terraform-v2/modules/asaas-events` source paths were not available in `tangram-platform` `origin/main`; extraction cites service, ADR, and script evidence. |
 | Redis cache | Async / scale | W2 | partial | [[principles/specialized-read-model-cache]] | [[case-studies/tangram/rewards-ranking-cache]] | Rewards ranking/visibility Redis caches extracted; broader Redis usage outside Rewards remains to map. |
 | Specialized read-model cache | Async / scale | W2 | extracted | [[principles/specialized-read-model-cache]] | [[case-studies/tangram/rewards-ranking-cache]] | — |
-| Workers / streaming imports | Async / scale | W2 | partial | [[principles/bulk-import-via-command-queues]] | [[case-studies/tangram/enrollment-sqs-asaas-olympiad]] | Queue-backed olympiad import workers extracted; non-queue streaming import workers remain for a later Learning/import wave. |
+| Workers / streaming imports | Async / scale | W2 | extracted | [[principles/bulk-import-via-command-queues]], [[principles/streaming-bulk-file-import-workers]] | [[case-studies/tangram/enrollment-sqs-asaas-olympiad]], [[case-studies/tangram/catalog-and-learning]] | — |
 | terraform-v2 multi-env single state | Infra | W1 | extracted | [[principles/multi-env-terraform-single-state]] | [[case-studies/tangram/terraform-v2-platform]] | README says production uses RDS Proxy, while `main.tf` currently enables the proxy for every environment; documented in case-study deviations. |
 | ECS / ALB / Cognito / SQS / RDS Proxy | Infra | W1 | extracted | [[principles/modular-iaas-boundaries]], [[principles/ignore-changes-and-secret-hygiene-in-iac]] | [[case-studies/tangram/terraform-v2-platform]] | README references `modules/asaas-webhook/main.tf`, while the current root uses `modules/asaas-events/main.tf`; documented in case-study deviations. |
 | Feature flags (Unleash) | Infra | W3 | pending | — | — | — |
@@ -28,8 +28,8 @@ Tracks extraction status for every topic in the [design spec](../../docs/specs/2
 | Docs / ADRs | Engineering | W4 | pending | — | — | — |
 | Automated-test seed scenarios | Engineering | W3 | pending | — | — | — |
 | Observability | Engineering | W3 | pending | — | — | — |
-| Challenge / session / resume | Product domain | W2 | pending | — | — | — |
-| Olympiad cross-service | Product domain | W2 | partial | [[principles/bulk-import-via-command-queues]], [[principles/specialized-read-model-cache]] | [[case-studies/tangram/enrollment-sqs-asaas-olympiad]], [[case-studies/tangram/rewards-ranking-cache]] | Enrollment-side olympiad import orchestration and Rewards active ranking cache extracted; learning/catalog cross-service behavior remains to map. |
+| Challenge / session / resume | Product domain | W2 | extracted | [[principles/temporal-orchestration-of-content]], [[principles/timed-session-resume]] | [[case-studies/tangram/catalog-and-learning]] | — |
+| Olympiad cross-service | Product domain | W2 | extracted | [[principles/bulk-import-via-command-queues]], [[principles/specialized-read-model-cache]], [[principles/content-distribution-by-channel]], [[principles/temporal-orchestration-of-content]], [[principles/timed-session-resume]] | [[case-studies/tangram/enrollment-sqs-asaas-olympiad]], [[case-studies/tangram/rewards-ranking-cache]], [[case-studies/tangram/catalog-and-learning]] | — |
 | Enrollment / payment | Product domain | W2 | extracted | [[principles/webhook-ingestion-via-queues]], [[principles/bulk-import-via-command-queues]] | [[case-studies/tangram/enrollment-sqs-asaas-olympiad]] | — |
 | Rewards / wallet / ranking | Product domain | W2 | extracted | [[principles/specialized-read-model-cache]], [[principles/wallet-ledger-style-balances]] | [[case-studies/tangram/rewards-ranking-cache]] | — |
 | Notification channels | Product domain | W3 | pending | — | — | — |

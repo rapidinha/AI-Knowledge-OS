@@ -10,6 +10,7 @@ Evidence-backed notes from the Tangram Platform monorepo. Each case study links 
 
 ## Case studies
 
+- [[case-studies/tangram/catalog-and-learning]] — Catalog distribution/release modeling, Learning session resume, and VC import chunking.
 - [[case-studies/tangram/diplomat-architecture]] — Diplomat service layers, logic sandwich, pure logic, and async/cache deviations.
 - [[case-studies/tangram/enrollment-sqs-asaas-olympiad]] — Enrollment SQS workers for Asaas payment webhooks and olympiad import commands.
 - [[case-studies/tangram/identity-pbac-and-auth]] — JWT auth, PBAC scopes, service accounts, and S2S API keys.
