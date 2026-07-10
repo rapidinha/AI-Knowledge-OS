@@ -15,13 +15,6 @@ Hub for learning flows, olympiad, enrollment, rewards, notifications, and client
 - [[principles/pluggable-notification-providers]] - Product notifications that span push, email, SMS, devices, campaigns, and scheduled sends.
 - [[principles/multi-client-same-api-contracts]] - Product APIs consumed by web, admin, mobile, or partner clients without contract drift.
 
-## Case studies
-
-- [[case-studies/tangram/enrollment-sqs-asaas-olympiad]] - Tangram enrollment payment webhooks and olympiad import orchestration.
-- [[case-studies/tangram/rewards-ranking-cache]] - Tangram Rewards ranking cache, wallet transactions, and prize distribution.
-- [[case-studies/tangram/catalog-and-learning]] - Tangram Catalog distribution/release modeling and Learning session/import flows.
-- [[case-studies/tangram/clients-dx-and-meta]] - Tangram Notification channels plus web, backoffice, and mobile client contracts.
-
 ## Related
 
 - [[index]]

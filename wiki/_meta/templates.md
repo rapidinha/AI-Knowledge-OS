@@ -1,10 +1,8 @@
 # Note templates
 
-Every principle and case-study note in this wiki **must** follow one of the templates below. Deviations break cross-linking, coverage tracking, and extraction review.
+Every principle and case-study note in this wiki **must** follow one of the templates below.
 
 ## Shared structure
-
-Both templates use the same section order. Sections 5–6 differ by tree; section 7 is required on every note.
 
 | # | Section | Required |
 |---|---------|----------|
@@ -47,52 +45,43 @@ Both templates use the same section order. Sections 5–6 differ by tree; sectio
 - [ ] <Concrete step an engineer can verify before shipping>
 - [ ] <Another step>
 
-## Case studies
-
-- [[MOC/<domain-moc>]] — <one-line hint; MOC bridges to company case studies>
-
 ## Related
 
 - [[principles/<related-slug>]]
 - [[MOC/<domain-moc>]]
 ```
 
-**Linking rule:** Principles must not link into `case-studies/<company>/`. MOCs bridge the principle and case-study trees.
-
-### Principle enforcement checklist
-
-Before marking a principle `extracted` in [[coverage-matrix]]:
+### Principle checklist
 
 - [ ] Zero company leakage (no brands, repos, services, absolute paths)
-- [ ] All seven sections present
-- [ ] No links into `case-studies/<company>/`; case-study evidence reached via parent MOC
+- [ ] All required sections present
 - [ ] Footer wikilinks include parent MOC
 
 ---
 
 ## Case study template
 
-**Path:** `wiki/case-studies/tangram/<slug>.md`
+**Path:** `wiki/case-studies/<system>/<slug>.md`
 
-**Hard rule:** Must cite evidence paths under the Tangram Platform monorepo. Service names, ADRs, and repo-relative paths are allowed.
+**Hard rule:** Only publish when intentionally making a named system public. Cite repo-relative evidence paths; no secrets or copied source blobs.
 
 ```markdown
-# <Title> (Tangram)
+# <Title>
 
-**When to use:** <One sentence: when to read this case study instead of the principle alone.>
+**When to use:** <When to read this case study instead of the principle alone.>
 
 ## Body
 
-<How Tangram implements or bends the pattern. Name services, modules, and decisions explicitly.>
+<How the named system implements or bends the pattern.>
 
 ## Trade-offs
 
-- <Tangram-specific gains>
-- <Tangram-specific costs>
+- <Gains>
+- <Costs>
 
 ## Anti-patterns
 
-- <Observed or avoided mistakes in this codebase>
+- <Observed or avoided mistakes>
 
 ## Evidence
 
@@ -102,7 +91,7 @@ Before marking a principle `extracted` in [[coverage-matrix]]:
 
 ## Deviations
 
-- <Where Tangram diverges from the linked principle and why, if intentional>
+- <Where the system diverges from the linked principle and why>
 
 ## Principles
 
@@ -110,27 +99,13 @@ Before marking a principle `extracted` in [[coverage-matrix]]:
 
 ## Related
 
-- [[case-studies/tangram/<related-slug>]]
+- [[case-studies/<system>/<related-slug>]]
 - [[MOC/<domain-moc>]]
 ```
 
-### Case study enforcement checklist
+### Case study checklist
 
-Before marking a case study `extracted` in [[coverage-matrix]]:
-
-- [ ] Every claim backed by at least one evidence path
-- [ ] Paths are repo-relative under `tangram-platform` (no secrets, no state files)
-- [ ] Linked principle note exists or gap documented in matrix
-- [ ] **Deviations** section explicit (use "None" if fully aligned)
-- [ ] Footer wikilinks include parent MOC
-
----
-
-## Wikilink conventions
-
-- Principles → MOCs only (not `case-studies/<company>/`); MOCs → principles and case studies
-- Case studies → principles: `[[principles/<slug>]]`
-- Both → MOCs: `[[MOC/<name>]]`
-- Index hub: `[[index]]`
-
-Use descriptive slugs (`layered-io-boundaries`, not `note-1`).
+- [ ] Intentional public disclosure of the named system
+- [ ] Evidence table with repo-relative paths only
+- [ ] No secrets, credentials, or source blobs
+- [ ] Links back to principles and parent MOC

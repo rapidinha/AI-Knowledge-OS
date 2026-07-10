@@ -1,6 +1,6 @@
 # AI-Knowledge-OS
 
-Portable **engineering wiki**: reusable principles, architectural patterns, public case studies, ADRs/RFCs, playbooks, and generic examples. The product is **how to think** — not the maintainer’s personal knowledge.
+Portable **engineering wiki**: reusable principles, architectural patterns, optional public case studies, ADRs/RFCs, playbooks, and generic examples. The product is **how to think** — not the maintainer’s personal knowledge.
 
 Start at [wiki/index.md](wiki/index.md).
 
@@ -10,7 +10,7 @@ Start at [wiki/index.md](wiki/index.md).
 |---------------------|-------------------------|
 | A library of engineering judgment | A personal Obsidian vault |
 | Principles and patterns anyone can reuse | A diary, career log, or research dump |
-| Public case studies with evidence | The author’s private notes or highlights |
+| Optional public case studies with evidence | A dump of any one employer’s internal wiki |
 | A system others can fork to build *their* knowledge OS | A requirement that your knowledge live here |
 
 **Personal knowledge systems are sovereign.** They may *consume* this wiki; they must never be merged into it by accident. Nothing becomes public except through an explicit generalization and promotion process.
@@ -33,8 +33,8 @@ Full governance: [GOVERNANCE.md](GOVERNANCE.md) · Contributing: [CONTRIBUTING.m
 ## What this repo contains
 
 - **Principles** (`wiki/principles/`) — company-agnostic patterns
-- **Case studies** (`wiki/case-studies/`) — how a real system implements or bends those patterns (evidence paths allowed; no secrets)
-- **Meta** (`wiki/_meta/`) — templates, coverage matrix, extraction ledger
+- **Case studies** (`wiki/case-studies/`) — optional; none published yet
+- **Meta** (`wiki/_meta/`) — templates, coverage matrix, change ledger
 - **Project docs** (`docs/`) — design specs and plans for *this* repository
 
 For contributors to the **public** wiki, the Obsidian vault root is the `wiki/` directory.
@@ -44,7 +44,7 @@ For contributors to the **public** wiki, the Obsidian vault root is the `wiki/` 
 | Tree | Allowed | Forbidden |
 |------|---------|-----------|
 | `wiki/principles/` | Generic names ("auth service", "user table") | Company names, repo names, service names, absolute paths, product brands |
-| `wiki/case-studies/<org>/` | Service names, ADRs, repo-relative evidence paths | Secrets, Terraform state, copied source blobs, personal notes |
+| `wiki/case-studies/<system>/` | Intentional public evidence for a named system | Secrets, Terraform state, copied source blobs, personal notes |
 
 Link across trees with Obsidian-style `[[wikilinks]]`. Every note follows the templates in `wiki/_meta/templates.md`.
 
@@ -54,10 +54,10 @@ Link across trees with Obsidian-style `[[wikilinks]]`. Every note follows the te
 |-----|---------|
 | [wiki/index.md](wiki/index.md) | Wiki home |
 | [wiki/_meta/templates.md](wiki/_meta/templates.md) | Note templates |
-| [wiki/_meta/coverage-matrix.md](wiki/_meta/coverage-matrix.md) | Topic coverage |
-| [wiki/_meta/extraction-ledger.md](wiki/_meta/extraction-ledger.md) | Wave log |
+| [wiki/_meta/coverage-matrix.md](wiki/_meta/coverage-matrix.md) | Principle coverage |
+| [wiki/_meta/extraction-ledger.md](wiki/_meta/extraction-ledger.md) | Public change log |
 | [docs/specs/](docs/specs/) | Design specs |
 
 ## Status
 
-Tangram extraction waves W1–W4 are closed for the initial corpus. Governance for public vs personal labs is defined in [GOVERNANCE.md](GOVERNANCE.md).
+Public tree focuses on reusable principles. Governance for public vs personal labs is defined in [GOVERNANCE.md](GOVERNANCE.md).

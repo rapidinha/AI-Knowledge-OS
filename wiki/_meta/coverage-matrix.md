@@ -1,56 +1,37 @@
 # Coverage matrix
 
-Tracks extraction status for every topic in the [design spec](../../docs/specs/2026-07-10-wiki-knowledge-os-design.md). Terminal statuses: `extracted`, `partial` (with gap note), `out-of-scope` (with reason). Initial state was all `pending`; current topic rows are closed.
+Tracks which reusable **principles** exist in this wiki. Case studies are optional and none are published in the public tree yet.
 
-| Topic | Domain | Wave | Status | Principle note | Case study note | Gaps |
-|-------|--------|------|--------|----------------|-----------------|------|
-| Diplomat / layered I/O boundaries | Architecture | W1 | extracted | [[principles/layered-io-boundaries-diplomat]], [[principles/pure-domain-logic-no-io]] | [[case-studies/tangram/diplomat-architecture]] | — |
-| Microservices + shared DB schemas | Architecture | W2 | partial | [[principles/git-submodules-as-service-boundaries]], [[principles/layered-io-boundaries-diplomat]] | [[case-studies/tangram/monorepo-contracts-and-common]], [[case-studies/tangram/catalog-and-learning]] | Service ownership and schema-level cross-service reads are mapped, but there is no standalone principle for physical DB versus schema boundaries. |
-| Git submodules monorepo | Architecture | W1 | extracted | [[principles/git-submodules-as-service-boundaries]] | [[case-studies/tangram/monorepo-contracts-and-common]] | — |
-| Shared auth library | Architecture | W1 | extracted | [[principles/shared-kernel-library-extraction]], [[principles/dual-channel-auth-jwt-and-service-credentials]] | [[case-studies/tangram/monorepo-contracts-and-common]], [[case-studies/tangram/identity-pbac-and-auth]] | — |
-| Cognito + platform JWT | Security | W1 | extracted | [[principles/dual-channel-auth-jwt-and-service-credentials]] | [[case-studies/tangram/identity-pbac-and-auth]] | — |
-| PBAC scopes | Security | W1 | extracted | [[principles/pbac-scopes-in-tokens]] | [[case-studies/tangram/identity-pbac-and-auth]] | — |
-| Service accounts / API keys | Security | W1 | extracted | [[principles/service-accounts-for-s2s]] | [[case-studies/tangram/identity-pbac-and-auth]] | — |
-| Contextual permissions | Security | W1 | partial | [[principles/pbac-scopes-in-tokens]] | [[case-studies/tangram/identity-pbac-and-auth]] | `contextType`/`contextId` are modeled but not enforced by the shared scope guard; endpoint-level checks remain to map. |
-| TypeORM entities / migrations | Data | W2 | partial | [[principles/layered-io-boundaries-diplomat]], [[principles/content-distribution-by-channel]], [[principles/wallet-ledger-style-balances]] | [[case-studies/tangram/diplomat-architecture]], [[case-studies/tangram/catalog-and-learning]], [[case-studies/tangram/rewards-ranking-cache]] | Representative entity, repository, transaction, and migration patterns are mapped through service case studies; a full TypeORM/migration inventory remains unextracted. |
-| Lookup tables | Data | W2 | partial | [[principles/content-distribution-by-channel]] | [[case-studies/tangram/catalog-and-learning]] | Catalog lookup endpoints and cached stable codes mapped; a standalone generic lookup-table principle remains to extract. |
-| Audit logs | Data | W2 | partial | [[principles/temporal-orchestration-of-content]] | [[case-studies/tangram/catalog-and-learning]] | Catalog release schedule audit/version snapshots and ADR-005 mapped; broader cross-service audit-log pattern remains to extract. |
-| Multi-channel content distribution | Data | W2 | extracted | [[principles/content-distribution-by-channel]], [[principles/temporal-orchestration-of-content]] | [[case-studies/tangram/catalog-and-learning]] | — |
-| SQS webhooks & imports | Async / scale | W2 | extracted | [[principles/webhook-ingestion-via-queues]], [[principles/bulk-import-via-command-queues]] | [[case-studies/tangram/enrollment-sqs-asaas-olympiad]] | Requested `terraform-v2/modules/sqs` and `terraform-v2/modules/asaas-events` source paths were not available in `tangram-platform` `origin/main`; extraction cites service, ADR, and script evidence. |
-| Redis cache | Async / scale | W2 | partial | [[principles/specialized-read-model-cache]] | [[case-studies/tangram/rewards-ranking-cache]] | Rewards ranking/visibility Redis caches extracted; broader Redis usage outside Rewards remains to map. |
-| Specialized read-model cache | Async / scale | W2 | extracted | [[principles/specialized-read-model-cache]] | [[case-studies/tangram/rewards-ranking-cache]] | — |
-| Workers / streaming imports | Async / scale | W2 | extracted | [[principles/bulk-import-via-command-queues]], [[principles/streaming-bulk-file-import-workers]] | [[case-studies/tangram/enrollment-sqs-asaas-olympiad]], [[case-studies/tangram/catalog-and-learning]] | — |
-| terraform-v2 multi-env single state | Infra | W1 | extracted | [[principles/multi-env-terraform-single-state]] | [[case-studies/tangram/terraform-v2-platform]] | README says production uses RDS Proxy, while `main.tf` currently enables the proxy for every environment; documented in case-study deviations. |
-| ECS / ALB / Cognito / SQS / RDS Proxy | Infra | W1 | extracted | [[principles/modular-iaas-boundaries]], [[principles/ignore-changes-and-secret-hygiene-in-iac]] | [[case-studies/tangram/terraform-v2-platform]] | README references `modules/asaas-webhook/main.tf`, while the current root uses `modules/asaas-events/main.tf`; documented in case-study deviations. |
-| Feature flags (Unleash) | Infra | W3 | out-of-scope | — | — | No Unleash implementation was found in the researched source; only ad-hoc or optional client/env gates surfaced. |
-| Contract codegen + CI | Engineering | W1 | extracted | [[principles/generated-api-clients-and-contract-ci]], [[principles/multi-client-same-api-contracts]] | [[case-studies/tangram/monorepo-contracts-and-common]], [[case-studies/tangram/clients-dx-and-meta]] | Root contract checks observed for backoffice; web app has generated-client config but no matching root web contract workflow in researched root files. |
-| Reusable PR CI + patch coverage | Engineering | W3 | extracted | [[principles/reusable-pr-ci-with-patch-coverage]] | [[case-studies/tangram/reusable-pr-pipeline]] | Org workflow lives in `TangramEd/.github`; most services call it with `skip-integration: true`; web forks a sharded variant keeping the same patch gate. |
-| Agent rules (`.cursor`) | Engineering | W3 | extracted | [[principles/agent-rules-as-living-standards]] | [[case-studies/tangram/clients-dx-and-meta]] | — |
-| Docs / ADRs | Engineering | W4 | extracted | [[principles/architecture-decision-records]] | [[case-studies/tangram/clients-dx-and-meta]], [[case-studies/tangram/adr-index]] | ADR governance, status caveats, and all `docs/architecture/ADR-*.md` files are indexed. |
-| Local dev presets / DX | Engineering | W3 | extracted | [[principles/local-dev-presets-without-full-docker]] | [[case-studies/tangram/clients-dx-and-meta]] | — |
-| Automated-test seed scenarios | Engineering | W3 | partial | [[principles/local-dev-presets-without-full-docker]] | [[case-studies/tangram/clients-dx-and-meta]] | Source paths for automated-test scopes, modules, and deterministic seed scenarios were found, but no standalone principle or case-study note was extracted. |
-| Observability | Engineering | W3 | partial | [[principles/modular-iaas-boundaries]], [[principles/shared-kernel-library-extraction]] | [[case-studies/tangram/terraform-v2-platform]], [[case-studies/tangram/clients-dx-and-meta]] | New Relic/Faro/Prometheus-style metrics evidence is scattered across infra, clients, shared packages, and services; no standalone observability principle was extracted. |
-| Challenge / session / resume | Product domain | W2 | extracted | [[principles/temporal-orchestration-of-content]], [[principles/timed-session-resume]] | [[case-studies/tangram/catalog-and-learning]] | — |
-| Olympiad cross-service | Product domain | W2 | extracted | [[principles/bulk-import-via-command-queues]], [[principles/specialized-read-model-cache]], [[principles/content-distribution-by-channel]], [[principles/temporal-orchestration-of-content]], [[principles/timed-session-resume]] | [[case-studies/tangram/enrollment-sqs-asaas-olympiad]], [[case-studies/tangram/rewards-ranking-cache]], [[case-studies/tangram/catalog-and-learning]] | — |
-| Enrollment / payment | Product domain | W2 | extracted | [[principles/webhook-ingestion-via-queues]], [[principles/bulk-import-via-command-queues]] | [[case-studies/tangram/enrollment-sqs-asaas-olympiad]] | — |
-| Rewards / wallet / ranking | Product domain | W2 | extracted | [[principles/specialized-read-model-cache]], [[principles/wallet-ledger-style-balances]] | [[case-studies/tangram/rewards-ranking-cache]] | — |
-| Notification channels | Product domain | W3 | extracted | [[principles/pluggable-notification-providers]] | [[case-studies/tangram/clients-dx-and-meta]] | — |
-| Frontends (web / admin / mobile) | Product domain | W3 | extracted | [[principles/multi-client-same-api-contracts]] | [[case-studies/tangram/clients-dx-and-meta]] | — |
+| Principle | Status | MOC hint |
+|-----------|--------|----------|
+| [[principles/agent-rules-as-living-standards]] | present | see note footer |
+| [[principles/architecture-decision-records]] | present | see note footer |
+| [[principles/bulk-import-via-command-queues]] | present | see note footer |
+| [[principles/content-distribution-by-channel]] | present | see note footer |
+| [[principles/deterministic-seed-scenarios-with-cleanup]] | present | see note footer |
+| [[principles/dual-channel-auth-jwt-and-service-credentials]] | present | see note footer |
+| [[principles/event-capacity-overlay-on-baseline-autoscaling]] | present | see note footer |
+| [[principles/generated-api-clients-and-contract-ci]] | present | see note footer |
+| [[principles/git-submodules-as-service-boundaries]] | present | see note footer |
+| [[principles/ignore-changes-and-secret-hygiene-in-iac]] | present | see note footer |
+| [[principles/layered-io-boundaries-diplomat]] | present | see note footer |
+| [[principles/local-dev-presets-without-full-docker]] | present | see note footer |
+| [[principles/modular-iaas-boundaries]] | present | see note footer |
+| [[principles/multi-client-same-api-contracts]] | present | see note footer |
+| [[principles/multi-env-terraform-single-state]] | present | see note footer |
+| [[principles/named-rate-limit-profiles]] | present | see note footer |
+| [[principles/pbac-scopes-in-tokens]] | present | see note footer |
+| [[principles/pluggable-notification-providers]] | present | see note footer |
+| [[principles/pure-domain-logic-no-io]] | present | see note footer |
+| [[principles/reusable-pr-ci-with-patch-coverage]] | present | see note footer |
+| [[principles/service-accounts-for-s2s]] | present | see note footer |
+| [[principles/shared-kernel-library-extraction]] | present | see note footer |
+| [[principles/soft-delete-with-actor-audit]] | present | see note footer |
+| [[principles/specialized-read-model-cache]] | present | see note footer |
+| [[principles/streaming-bulk-file-import-workers]] | present | see note footer |
+| [[principles/temporal-orchestration-of-content]] | present | see note footer |
+| [[principles/timed-session-resume]] | present | see note footer |
+| [[principles/typed-domain-cache-with-ttl-tiers]] | present | see note footer |
+| [[principles/wallet-ledger-style-balances]] | present | see note footer |
+| [[principles/webhook-ingestion-via-queues]] | present | see note footer |
 
-## Wave summary
-
-| Wave | Focus |
-|------|--------|
-| W1 | Scaffold, Auth/PBAC, terraform-v2, Diplomat, contracts/monorepo |
-| W2 | Enrollment async, Rewards ranking, Catalog, Learning |
-| W3 | Notification, demo, frontends, DX, observability, `.cursor` / `.github` / `docs` |
-| W4 | ADR sweep, hypothesis confirm/reject, coverage close-out |
-
-## Status legend
-
-| Status | Meaning |
-|--------|---------|
-| `pending` | Not yet extracted |
-| `extracted` | Principle and case study complete per [[templates]] |
-| `partial` | One side done or evidence thin — gap note required |
-| `out-of-scope` | Explicitly excluded — reason required in Gaps column |
