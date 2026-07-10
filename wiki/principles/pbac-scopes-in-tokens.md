@@ -32,7 +32,7 @@ Route handlers declare required scopes with metadata. A scope guard compares the
 
 ## Case studies
 
-- [identity-pbac-and-auth](../case-studies/t%61ngram/identity-pbac-and-auth.md) — Shows scope codes embedded in tokens and checked by shared guards.
+- [[MOC/security-authz]] — Evidence and implementation examples for this pattern.
 
 ## Related
 

@@ -34,7 +34,7 @@ Keep public-route bypasses explicit. Metrics or health endpoints can be exempt, 
 
 ## Case studies
 
-- [identity-pbac-and-auth](../case-studies/t%61ngram/identity-pbac-and-auth.md) — Shows bearer JWT and service credential authentication feeding the same scope guard.
+- [[MOC/security-authz]] — Evidence and implementation examples for this pattern.
 
 ## Related
 

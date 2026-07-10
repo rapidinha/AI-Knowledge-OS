@@ -49,7 +49,7 @@ Both templates use the same section order. Sections 5–6 differ by tree; sectio
 
 ## Case studies
 
-- [[case-studies/tangram/<slug>]] — <one-line link hint>
+- [[MOC/<domain-moc>]] — <one-line hint; MOC bridges to company case studies>
 
 ## Related
 
@@ -57,13 +57,15 @@ Both templates use the same section order. Sections 5–6 differ by tree; sectio
 - [[MOC/<domain-moc>]]
 ```
 
+**Linking rule:** Principles must not link into `case-studies/<company>/`. MOCs bridge the principle and case-study trees.
+
 ### Principle enforcement checklist
 
 Before marking a principle `extracted` in [[coverage-matrix]]:
 
-- [ ] Zero Tangram leakage (no brands, repos, services, absolute paths)
+- [ ] Zero company leakage (no brands, repos, services, absolute paths)
 - [ ] All seven sections present
-- [ ] At least one `[[case-studies/tangram/...]]` link (or explicit "no case study yet" in matrix gap column)
+- [ ] No links into `case-studies/<company>/`; case-study evidence reached via parent MOC
 - [ ] Footer wikilinks include parent MOC
 
 ---
@@ -126,7 +128,7 @@ Before marking a case study `extracted` in [[coverage-matrix]]:
 
 ## Wikilink conventions
 
-- Principles → case studies: `[[case-studies/tangram/<slug>]]`
+- Principles → MOCs only (not `case-studies/<company>/`); MOCs → principles and case studies
 - Case studies → principles: `[[principles/<slug>]]`
 - Both → MOCs: `[[MOC/<name>]]`
 - Index hub: `[[index]]`

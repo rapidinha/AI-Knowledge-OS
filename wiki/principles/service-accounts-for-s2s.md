@@ -36,7 +36,7 @@ Scope assignments should live outside the credential itself. That lets operators
 
 ## Case studies
 
-- [identity-pbac-and-auth](../case-studies/t%61ngram/identity-pbac-and-auth.md) — Shows service accounts, service scopes, API keys, and validation caches.
+- [[MOC/security-authz]] — Evidence and implementation examples for this pattern.
 
 ## Related
 
