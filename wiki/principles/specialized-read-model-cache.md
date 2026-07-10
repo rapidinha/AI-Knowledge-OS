@@ -14,6 +14,8 @@ Use short operation timeouts, bounded TTLs, and expiring locks. A refresh lock p
 
 Add guardrail tests that assert write paths, scoring paths, and normal read handlers do not import the cache service as a recomputation dependency or call the heavy source queries. The read model should have one rebuild entry point that is easy to find and easy to review.
 
+Contrast with a typed domain-object cache: that pattern amplifies ordinary repository reads with per-type TTLs and invalidation. A specialized read-model cache rebuilds an expensive projection on a cadence and must not fall back to the heavy source query on every miss.
+
 ## Trade-offs
 
 - Expensive reads become predictable and cheap during normal traffic.
@@ -52,5 +54,6 @@ Add guardrail tests that assert write paths, scoring paths, and normal read hand
 
 - [[principles/bulk-import-via-command-queues]]
 - [[principles/layered-io-boundaries-diplomat]]
+- [[principles/typed-domain-cache-with-ttl-tiers]]
 - [[MOC/async-scale]]
 - [[MOC/product-domain]]
