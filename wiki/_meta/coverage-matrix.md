@@ -20,8 +20,8 @@ Tracks extraction status for every topic in the [design spec](../../docs/specs/2
 | Redis cache | Async / scale | W2 | pending | — | — | — |
 | Specialized read-model cache | Async / scale | W2 | pending | — | — | — |
 | Workers / streaming imports | Async / scale | W2 | pending | — | — | — |
-| terraform-v2 multi-env single state | Infra | W1 | pending | — | — | — |
-| ECS / ALB / Cognito / SQS / RDS Proxy | Infra | W1 | pending | — | — | — |
+| terraform-v2 multi-env single state | Infra | W1 | extracted | [[principles/multi-env-terraform-single-state]] | [[case-studies/tangram/terraform-v2-platform]] | README says production uses RDS Proxy, while `main.tf` currently enables the proxy for every environment; documented in case-study deviations. |
+| ECS / ALB / Cognito / SQS / RDS Proxy | Infra | W1 | extracted | [[principles/modular-iaas-boundaries]], [[principles/ignore-changes-and-secret-hygiene-in-iac]] | [[case-studies/tangram/terraform-v2-platform]] | README references `modules/asaas-webhook/main.tf`, while the current root uses `modules/asaas-events/main.tf`; documented in case-study deviations. |
 | Feature flags (Unleash) | Infra | W3 | pending | — | — | — |
 | Contract codegen + CI | Engineering | W1 | pending | — | — | — |
 | Agent rules (`.cursor`) | Engineering | W3 | pending | — | — | — |

@@ -147,3 +147,47 @@ When a wave completes, append a block with this shape:
 **Risks / blockers:**
 
 - ADR-006 user lifecycle doc exists on disk but was not tracked in `origin/main` or `HEAD` during extraction.
+
+## Wave 2 — 2026-07-10
+
+**Scope:** terraform-v2 infrastructure extraction: multi-env single state, modular IaC boundaries, lifecycle drift exceptions, secret hygiene, ECS/ALB/Cognito/SQS/RDS Proxy, Cloudflare, Amplify admin, and New Relic notes.
+
+### Extracted
+
+- [[principles/multi-env-terraform-single-state]] — Environment fan-out from one locked IaC state.
+- [[principles/modular-iaas-boundaries]] — Infrastructure modules aligned to ownership boundaries and composed by the root stack.
+- [[principles/ignore-changes-and-secret-hygiene-in-iac]] — Secret ingress through local env files, managed secret storage, and documented lifecycle drift exceptions.
+- [[case-studies/tangram/terraform-v2-platform]] — Tangram terraform-v2 evidence for remote state, `./tf`, `.env.example`, environment fan-out, module wiring, queues, hosted frontend CI, DNS, and observability.
+
+### Partial / gaps
+
+- terraform-v2 documentation drift: README says production uses RDS Proxy, while `main.tf` currently passes `enable_rds_proxy = true` for every environment.
+- terraform-v2 documentation drift: README names `modules/asaas-webhook/main.tf`, while the current root module uses `modules/asaas-events/main.tf`.
+- Observability wording drift: README describes New Relic as the active monitoring path and says the previous LGTM stack was removed, while `main.tf` still contains Grafana Cloud OTEL and deploy annotation code paths.
+
+### Out of scope
+
+- Legacy `terraform/` v1: explicitly excluded by task instructions.
+- Feature flags: remained pending because this wave focused on terraform-v2 infrastructure, not the feature-flag runtime.
+
+### Matrix updates
+
+- terraform-v2 multi-env single state: `pending` → `extracted`
+- ECS / ALB / Cognito / SQS / RDS Proxy: `pending` → `extracted`
+
+### Next-wave brief
+
+**Priority topics:**
+
+1. Diplomat / layered I/O boundaries — needed to frame service-specific notes consistently.
+2. Contract codegen + CI + git submodules monorepo — W1 engineering workflow baseline.
+3. Feature flags — remaining infrastructure-adjacent topic with runtime behavior to map.
+
+**Hypotheses to confirm/reject:**
+
+- The README drift may be stale documentation rather than intentional infrastructure behavior.
+- Grafana Cloud paths may be transitional observability code rather than the primary monitoring stack.
+
+**Risks / blockers:**
+
+- Source documentation and root Terraform code disagree in a few places; future infra changes should verify behavior from Terraform files, not README summaries alone.
