@@ -10,6 +10,8 @@ Portable engineering wiki extracted from real production codebases. Principles s
 
 Source corpus for the first wave: [Tangram Platform](https://github.com/tangram-education/tangram-platform) monorepo.
 
+Obsidian vault root should be the `wiki/` directory.
+
 ## Dual-tree rules (mandatory)
 
 | Tree | Allowed | Forbidden |
@@ -17,7 +19,7 @@ Source corpus for the first wave: [Tangram Platform](https://github.com/tangram-
 | `wiki/principles/` | Generic names ("auth service", "user table") | Company names, repo names, service names, absolute paths, product brands |
 | `wiki/case-studies/tangram/` | Service names, ADRs, repo-relative evidence paths | Secrets, Terraform state, copied source blobs |
 
-Link across trees with Obsidian-style `[[wikilinks]]`. Every note follows [[wiki/_meta/templates|the template]].
+Link across trees with Obsidian-style `[[wikilinks]]`. Every note follows [[_meta/templates|the template]].
 
 ## Navigate the wiki
 

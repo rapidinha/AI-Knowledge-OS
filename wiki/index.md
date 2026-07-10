@@ -2,12 +2,14 @@
 
 Portable, Obsidian-style engineering knowledge extracted from a real SaaS monorepo. Two trees, one index.
 
+Obsidian vault root should be the `wiki/` directory.
+
 ## Dual-tree rules
 
-| Tree | Path | Rule |
-|------|------|------|
-| **Principles** | `wiki/principles/` | **Zero leakage:** no company names, repo names, service names, absolute paths, or product brands |
-| **Case studies** | `wiki/case-studies/tangram/` | **Evidence required:** cite paths under Tangram Platform; names and ADRs allowed |
+| Tree | Allowed | Forbidden |
+|------|---------|-----------|
+| `wiki/principles/` | Generic names ("auth service", "user table") | Company names, repo names, service names, absolute paths, product brands |
+| `wiki/case-studies/tangram/` | Service names, ADRs, repo-relative evidence paths | Secrets, Terraform state, copied source blobs |
 
 Cross-link with `[[wikilinks]]`: principles ↔ case studies ↔ MOCs.
 
