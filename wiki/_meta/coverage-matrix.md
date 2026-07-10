@@ -23,17 +23,18 @@ Tracks extraction status for every topic in the [design spec](../../docs/specs/2
 | terraform-v2 multi-env single state | Infra | W1 | extracted | [[principles/multi-env-terraform-single-state]] | [[case-studies/tangram/terraform-v2-platform]] | README says production uses RDS Proxy, while `main.tf` currently enables the proxy for every environment; documented in case-study deviations. |
 | ECS / ALB / Cognito / SQS / RDS Proxy | Infra | W1 | extracted | [[principles/modular-iaas-boundaries]], [[principles/ignore-changes-and-secret-hygiene-in-iac]] | [[case-studies/tangram/terraform-v2-platform]] | README references `modules/asaas-webhook/main.tf`, while the current root uses `modules/asaas-events/main.tf`; documented in case-study deviations. |
 | Feature flags (Unleash) | Infra | W3 | pending | — | — | — |
-| Contract codegen + CI | Engineering | W1 | extracted | [[principles/generated-api-clients-and-contract-ci]] | [[case-studies/tangram/monorepo-contracts-and-common]] | Root contract checks observed for backoffice; web app has generated-client config but no matching root web contract workflow in researched root files. |
-| Agent rules (`.cursor`) | Engineering | W3 | pending | — | — | — |
-| Docs / ADRs | Engineering | W4 | pending | — | — | — |
+| Contract codegen + CI | Engineering | W1 | extracted | [[principles/generated-api-clients-and-contract-ci]], [[principles/multi-client-same-api-contracts]] | [[case-studies/tangram/monorepo-contracts-and-common]], [[case-studies/tangram/clients-dx-and-meta]] | Root contract checks observed for backoffice; web app has generated-client config but no matching root web contract workflow in researched root files. |
+| Agent rules (`.cursor`) | Engineering | W3 | extracted | [[principles/agent-rules-as-living-standards]] | [[case-studies/tangram/clients-dx-and-meta]] | — |
+| Docs / ADRs | Engineering | W4 | partial | [[principles/architecture-decision-records]] | [[case-studies/tangram/clients-dx-and-meta]] | Brief ADR governance and ADR file list extracted; full ADR index is deferred to Task 10. |
+| Local dev presets / DX | Engineering | W3 | extracted | [[principles/local-dev-presets-without-full-docker]] | [[case-studies/tangram/clients-dx-and-meta]] | — |
 | Automated-test seed scenarios | Engineering | W3 | pending | — | — | — |
 | Observability | Engineering | W3 | pending | — | — | — |
 | Challenge / session / resume | Product domain | W2 | extracted | [[principles/temporal-orchestration-of-content]], [[principles/timed-session-resume]] | [[case-studies/tangram/catalog-and-learning]] | — |
 | Olympiad cross-service | Product domain | W2 | extracted | [[principles/bulk-import-via-command-queues]], [[principles/specialized-read-model-cache]], [[principles/content-distribution-by-channel]], [[principles/temporal-orchestration-of-content]], [[principles/timed-session-resume]] | [[case-studies/tangram/enrollment-sqs-asaas-olympiad]], [[case-studies/tangram/rewards-ranking-cache]], [[case-studies/tangram/catalog-and-learning]] | — |
 | Enrollment / payment | Product domain | W2 | extracted | [[principles/webhook-ingestion-via-queues]], [[principles/bulk-import-via-command-queues]] | [[case-studies/tangram/enrollment-sqs-asaas-olympiad]] | — |
 | Rewards / wallet / ranking | Product domain | W2 | extracted | [[principles/specialized-read-model-cache]], [[principles/wallet-ledger-style-balances]] | [[case-studies/tangram/rewards-ranking-cache]] | — |
-| Notification channels | Product domain | W3 | pending | — | — | — |
-| Frontends (web / admin / mobile) | Product domain | W3 | pending | — | — | — |
+| Notification channels | Product domain | W3 | extracted | [[principles/pluggable-notification-providers]] | [[case-studies/tangram/clients-dx-and-meta]] | — |
+| Frontends (web / admin / mobile) | Product domain | W3 | extracted | [[principles/multi-client-same-api-contracts]] | [[case-studies/tangram/clients-dx-and-meta]] | — |
 
 ## Wave summary
 

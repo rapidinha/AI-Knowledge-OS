@@ -410,3 +410,54 @@ When a wave completes, append a block with this shape:
 **Risks / blockers:**
 
 - ADR-005 is proposed, not accepted, so future audit extraction should distinguish shipped behavior from target architecture.
+
+## Wave 8 — 2026-07-10
+
+**Scope:** Task 9 extraction: Notification providers and scheduling, web/backoffice/mobile clients, generated contracts, local dev presets, agent rules, GitHub metadata, contract workflows, PR template, CODEOWNERS, and brief ADR list.
+
+### Extracted
+
+- [[principles/pluggable-notification-providers]] — Generic channel-provider pattern for push, email, SMS, delivery attempts, metrics, and scheduled campaigns.
+- [[principles/multi-client-same-api-contracts]] — Generic pattern for multiple clients sharing provider API contracts while adapting runtime URLs locally.
+- [[principles/local-dev-presets-without-full-docker]] — Native/hybrid/full-stack preset pattern for faster monorepo development without requiring the full stack for every task.
+- [[principles/agent-rules-as-living-standards]] — Repository-scoped agent rules with frontmatter, always-apply behavior, and explicit deprecation.
+- [[principles/architecture-decision-records]] — Status-aware ADR pattern for context, decisions, consequences, and follow-ups.
+- [[case-studies/tangram/clients-dx-and-meta]] — Tangram evidence for Notification providers, web/backoffice/mobile clients, DX presets, agent rules, GitHub workflows, and ADR files.
+
+### Partial / gaps
+
+- Docs / ADRs: brief governance and ADR file list extracted; full ADR index remains Task 10.
+- Contract codegen + CI: new client evidence added, but the root contract workflows still directly gate backoffice only in researched files.
+
+### Out of scope
+
+- Full ADR index and per-ADR synthesis: deferred to Task 10 by task instruction.
+- Observability extraction: web/backoffice Faro/New Relic references appeared in client/DX evidence but remain a separate pending topic.
+- Automated-test seed scenarios: Notification seed endpoint evidence appeared but the broader topic remains pending.
+
+### Matrix updates
+
+- Agent rules (`.cursor`): `pending` → `extracted`
+- Docs / ADRs: `pending` → `partial`
+- Local dev presets / DX: added as `extracted`
+- Notification channels: `pending` → `extracted`
+- Frontends (web / admin / mobile): `pending` → `extracted`
+- Contract codegen + CI: remains `extracted` with multi-client evidence added
+
+### Next-wave brief
+
+**Priority topics:**
+
+1. Full ADR index — Task 10 should turn the brief ADR list into a navigable index.
+2. Observability — client and infra references surfaced but were not extracted as a generic pattern.
+3. Automated-test seed scenarios — Notification automated-test seed paths surfaced and should be mapped with other services.
+
+**Hypotheses to confirm/reject:**
+
+- Web contract validation may live in the app-level workflow rather than a root contract workflow.
+- Notification scheduling failures may be intentionally best-effort or may need stronger campaign-state feedback.
+- Mobile bridge logs may be development residue and should be audited before treating the bridge as production pattern evidence.
+
+**Risks / blockers:**
+
+- Source evidence includes provider-specific naming in Notification service code; the extracted principle intentionally generalizes those providers to avoid vendor lock-in.
