@@ -15,6 +15,7 @@ Hub for contracts, CI, agent rules, ADRs, test seeds, and observability.
 
 - [[case-studies/tangram/monorepo-contracts-and-common]] — Tangram's root contract workflows, generated clients, CODEOWNERS, PR checklist, and per-submodule CI split.
 - [[case-studies/tangram/clients-dx-and-meta]] — Tangram's clients, local dev presets, agent rules, GitHub metadata, and ADR set.
+- [[case-studies/tangram/adr-index]] — Tangram's ADR inventory with status, summaries, and related wiki-note links.
 
 ## Related
 

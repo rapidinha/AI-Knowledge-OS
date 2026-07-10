@@ -14,6 +14,8 @@ Service-to-service identity uses `ServiceAccount`, `ServiceScope`, and `ApiKey` 
 
 Contextual permissions are partly modeled but not fully enforced by the shared guard. `UserScope` stores `contextType`, `contextId`, and `expiresAt`; `UserRepository.findUserScopes` filters expired assignments before token issuance, but returns only scope codes. The shared `ScopesGuard` therefore cannot enforce contextual fields unless an endpoint performs an additional resource-level authorization check.
 
+`ADR-006-user-lifecycle-lazy-expiration.md` adds an identity lifecycle decision adjacent to auth: demo and admin-managed users can carry `statusExpiresAt`, and auth touchpoints perform lazy expiration side effects before new tokens are issued. The ADR explicitly accepts that already-issued JWTs remain valid until natural expiry instead of making every service revalidate identity status on each request.
+
 ## Trade-offs
 
 - Tangram gets a single scope model for both user JWTs and service API keys.
@@ -49,13 +51,14 @@ Contextual permissions are partly modeled but not fully enforced by the shared g
 | Service accounts seed | `services/identity-service/src/database/seeds/005-service-accounts.seed.ts` | Creates service accounts, assigns scopes, and seeds local development API-key hashes. |
 | Identity-local hybrid guard | `services/identity-service/src/common/guards/identity-jwt-auth.guard.ts` | Lets identity validate API keys locally and convert service JWT subjects to service-account payloads. |
 | S2S architecture doc | `docs/architecture/service-accounts.md` | Documents service accounts, API-key validation, cache strategy, and S2S usage. |
+| User lifecycle ADR | `docs/architecture/ADR-006-user-lifecycle-lazy-expiration.md` | Accepts `statusExpiresAt`, lazy-only expiration at auth touchpoints, session revocation, Cognito disablement, and no per-request status revalidation. |
 
 ## Deviations
 
 - `UserScope.contextType` and `UserScope.contextId` are persisted, but the shared `ScopesGuard` only evaluates scope codes in `scopes[]`. Contextual permissions are therefore partial unless individual endpoints add resource-level checks.
 - `UserScope.expiresAt` is enforced before token issuance through `UserRepository.findUserScopes`, not by the shared guard after the token has been signed.
 - `ServiceAccount.allowedIps` exists on the entity and is described in the architecture doc, but the researched validation path did not show `ApiKeyLogic.isIpAllowed` being called.
-- `docs/architecture/ADR-006-user-lifecycle-lazy-expiration.md` was not available in `origin/main` or `HEAD` during extraction, so lifecycle claims are grounded in `AuthController` rather than the ADR.
+- `ADR-006` deliberately leaves already-issued JWTs valid until token expiry; downstream services rely on token expiry rather than per-request lifecycle revalidation.
 
 ## Principles
 

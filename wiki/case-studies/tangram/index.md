@@ -10,6 +10,7 @@ Evidence-backed notes from the Tangram Platform monorepo. Each case study links 
 
 ## Case studies
 
+- [[case-studies/tangram/adr-index]] — Tangram ADR status, summaries, and related principle/case-study links.
 - [[case-studies/tangram/catalog-and-learning]] — Catalog distribution/release modeling, Learning session resume, and VC import chunking.
 - [[case-studies/tangram/clients-dx-and-meta]] — Notification providers, web/backoffice/mobile clients, local dev presets, agent rules, GitHub metadata, and ADRs.
 - [[case-studies/tangram/diplomat-architecture]] — Diplomat service layers, logic sandwich, pure logic, and async/cache deviations.
@@ -29,5 +30,6 @@ Evidence-backed notes from the Tangram Platform monorepo. Each case study links 
 - [[MOC/infrastructure]]
 - [[MOC/engineering-practice]]
 - [[MOC/product-domain]]
+- [[case-studies/tangram/adr-index]]
 - [[_meta/templates]]
 - [[_meta/coverage-matrix]]

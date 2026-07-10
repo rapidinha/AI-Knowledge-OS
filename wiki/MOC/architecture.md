@@ -15,6 +15,7 @@ Hub for structural patterns: service layering, monorepo layout, and cross-cuttin
 - [[case-studies/tangram/diplomat-architecture]] — Tangram's Diplomat implementation and documented async/cache deviations.
 - [[case-studies/tangram/monorepo-contracts-and-common]] — Tangram's submodule platform workspace, root contract checks, generated clients, and shared backend package.
 - [[case-studies/tangram/clients-dx-and-meta]] — Tangram's brief ADR set, agent standards, and CI/review metadata.
+- [[case-studies/tangram/adr-index]] — Tangram's ADR status index and related principle/case-study map.
 
 ## Related
 

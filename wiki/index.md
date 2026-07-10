@@ -28,12 +28,13 @@ Cross-link with `[[wikilinks]]`: principles ↔ case studies ↔ MOCs.
 ### Meta
 
 - [[_meta/templates]] — required note structure (enforceable)
-- [[_meta/coverage-matrix]] — topic × wave × status (30 topics, all `pending`)
+- [[_meta/coverage-matrix]] — topic × wave × status (no topic rows remain `pending`)
 - [[_meta/extraction-ledger]] — wave log and next-wave brief
 
 ### Case study hub
 
 - [[case-studies/tangram/index]] — Tangram-specific evidence index
+- [[case-studies/tangram/adr-index]] — ADR status and related wiki-note index
 
 ## Extraction waves
 

@@ -14,7 +14,9 @@ Tangram's local DX centers on presets. The root `Makefile` includes `make/dev.mk
 
 Repository meta practices are similarly explicit. `.cursor/rules/*.mdc` frontmatter scopes agent rules by `globs` and `alwaysApply`; security and NestJS architecture rules are always active for service TypeScript, while `diplomat-architecture.mdc` is intentionally deprecated and points to `nestjs-architecture.mdc`. `.github/CODEOWNERS` assigns backend, frontend, devops, and tech-lead ownership; `.github/pull_request_template.md` asks for local tests, generated API clients after contract changes, CodeRabbit review, and no secrets or `.generated/`; root contract workflows regenerate backoffice clients and build the consumer; the web app has a custom PR workflow with static checks, four Vitest coverage shards, and an 80% patch coverage gate; the mobile workflow builds and submits Expo/EAS profiles for internal and production release paths.
 
-Tangram has a brief ADR set rather than a full index in this extraction. `docs/architecture/ADR-001` covers seasonal challenge temporal orchestration, `ADR-002` covers Asaas B2C payment integration, `ADR-003` covers session resume, `ADR-004` covers the unified challenge engine, `ADR-005` proposes catalog audit evolution, `ADR-006` accepts user lifecycle lazy expiration, and `ADR-arc42-template.md` supplies the longer decision-record template. A full ADR index remains intentionally deferred to Task 10.
+Tangram has a brief ADR set, now indexed in [[case-studies/tangram/adr-index]]. `docs/architecture/ADR-001` covers seasonal challenge temporal orchestration, `ADR-002` covers Asaas B2C payment integration, `ADR-003` covers session resume, `ADR-004` covers the unified challenge engine, `ADR-005` proposes catalog audit evolution, `ADR-006` accepts user lifecycle lazy expiration, and `ADR-arc42-template.md` supplies the longer decision-record template.
+
+Automated-test seed infrastructure surfaced during the final sweep but remains only partially extracted. Identity seeds dedicated `automated-tests:seed:*` scopes, Cypress refers to `/automated-tests/seed` and `/automated-tests/scenarios`, and service modules/controllers exist for identity, organization, catalog, and enrollment seed flows. Observability is similarly distributed: terraform-v2 and client evidence mention New Relic/Faro, while backend packages and services expose metrics modules and `/metrics` paths. Neither topic has a standalone principle note yet.
 
 ## Trade-offs
 
@@ -57,6 +59,8 @@ Tangram has a brief ADR set rather than a full index in this extraction. `docs/a
 | Contract workflows | `.github/workflows/backend-contract-check.yml` and `.github/workflows/backoffice-contracts.yml` | Regenerate backoffice clients, detect generated drift, and build backoffice against selected services. |
 | Web PR workflow | `apps/web/.github/workflows/pr.yml` | Runs static checks, sharded tests, coverage merge, and patch coverage gate. |
 | ADR docs | `docs/architecture/ADR-001-challenge-seasonal-temporal-orchestration.md`, `ADR-002-asaas-b2c-payment-integration.md`, `ADR-003-session-resume-time-is-money.md`, `ADR-004-challenge-engine.md`, `ADR-005-catalog-audit-system-evolution.md`, `ADR-006-user-lifecycle-lazy-expiration.md`, `ADR-arc42-template.md` | Brief ADR set for domain, integration, lifecycle, audit, and decision-record template evidence. |
+| Automated-test seed evidence | `services/identity-service/src/database/seeds/003-scopes.seed.ts`, `services/*/src/modules/*automated-tests.module.ts`, `apps/web/cypress/support/constants.ts` | Shows seed orchestration scopes, service modules, and Cypress seed/scenario endpoints; not yet extracted into a dedicated principle. |
+| Observability evidence | `apps/web/src/providers/FaroProvider.tsx`, `libs/backend-common/src/interceptors/metrics.interceptor.ts`, `services/*/src/common/metrics/*`, `tangram-api-infra-prod/terraform-v2/modules/newrelic-logs/main.tf` | Shows client telemetry, shared/backend metrics surfaces, and New Relic log forwarding; not yet extracted into a dedicated principle. |
 
 ## Deviations
 
@@ -64,6 +68,7 @@ Tangram has a brief ADR set rather than a full index in this extraction. `docs/a
 - The generic multi-client principle prefers all important clients to be contract-gated; Tangram root contract workflows gate backoffice, while web has generated clients and a PR workflow but not the same root contract check in the researched files.
 - The mobile app shares the web product through a WebView and native bridge instead of generating its own full API client surface.
 - `ADR-005` is proposed, while `ADR-006` is accepted; readers should not treat every ADR file as shipped behavior.
+- Automated-test seed scenarios and observability are only partially mapped here; future extraction should create focused notes if those topics become first-class wiki knowledge.
 
 ## Principles
 
@@ -78,6 +83,7 @@ Tangram has a brief ADR set rather than a full index in this extraction. `docs/a
 
 - [[case-studies/tangram/catalog-and-learning]]
 - [[case-studies/tangram/monorepo-contracts-and-common]]
+- [[case-studies/tangram/adr-index]]
 - [[case-studies/tangram/index]]
 - [[MOC/product-domain]]
 - [[MOC/engineering-practice]]

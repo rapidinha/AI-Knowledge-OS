@@ -461,3 +461,110 @@ When a wave completes, append a block with this shape:
 **Risks / blockers:**
 
 - Source evidence includes provider-specific naming in Notification service code; the extracted principle intentionally generalizes those providers to avoid vendor lock-in.
+
+## Wave 9 — 2026-07-10
+
+**Scope:** Task 10 close-out: full ADR index, coverage-matrix terminal statuses, hypothesis resolution, MOC polish, README/navigation completion, and future extraction brief.
+
+### Extracted
+
+**Principle inventory now present:**
+
+- [[principles/agent-rules-as-living-standards]] — Repository-scoped agent guidance as reviewable, deprecatable standards.
+- [[principles/architecture-decision-records]] — Status-aware ADRs with context, decisions, consequences, follow-ups, and implementation links.
+- [[principles/bulk-import-via-command-queues]] — Long-running imports split into queue commands and bounded chunks.
+- [[principles/content-distribution-by-channel]] — Content separated from channel-specific distribution criteria.
+- [[principles/dual-channel-auth-jwt-and-service-credentials]] — One auth boundary for user JWTs and service credentials.
+- [[principles/generated-api-clients-and-contract-ci]] — Generated clients backed by contract drift checks.
+- [[principles/git-submodules-as-service-boundaries]] — Root workspace as integration layer for independently owned submodules.
+- [[principles/ignore-changes-and-secret-hygiene-in-iac]] — Secret ingress outside committed config plus documented lifecycle drift exceptions.
+- [[principles/layered-io-boundaries-diplomat]] — Transport, orchestration, logic, persistence, cache, and wire-contract boundaries.
+- [[principles/local-dev-presets-without-full-docker]] — Native/hybrid/full-stack local presets to avoid mandatory full Docker startup.
+- [[principles/modular-iaas-boundaries]] — Infrastructure modules aligned to ownership boundaries.
+- [[principles/multi-client-same-api-contracts]] — Web, admin, mobile, and partner clients sharing provider API contracts.
+- [[principles/multi-env-terraform-single-state]] — Environment fan-out from one locked infrastructure state.
+- [[principles/pbac-scopes-in-tokens]] — Token-embedded PBAC scope codes with contextual-permission caveats.
+- [[principles/pluggable-notification-providers]] — Channel/provider notification delivery plus scheduler boundaries.
+- [[principles/pure-domain-logic-no-io]] — Deterministic domain rules kept free of I/O.
+- [[principles/service-accounts-for-s2s]] — Scoped service accounts and hashed API keys for service-to-service access.
+- [[principles/shared-kernel-library-extraction]] — Narrow, versioned shared backend primitives.
+- [[principles/specialized-read-model-cache]] — Expensive active reads served from explicit warmed projections.
+- [[principles/streaming-bulk-file-import-workers]] — Spreadsheet/file imports parsed and persisted as bounded validated chunks.
+- [[principles/temporal-orchestration-of-content]] — Product content released through event windows, calendars, and audit/version snapshots.
+- [[principles/timed-session-resume]] — Backend-owned remaining time and idempotent resumable sessions.
+- [[principles/wallet-ledger-style-balances]] — Fast wallet balance snapshots paired with transaction-ledger writes.
+- [[principles/webhook-ingestion-via-queues]] — External webhook receipt decoupled from durable internal processing.
+
+**Tangram case-study inventory now present:**
+
+- [[case-studies/tangram/adr-index]] — All `docs/architecture/ADR-*.md` files indexed with status, one-line summary, and related wiki links.
+- [[case-studies/tangram/catalog-and-learning]] — Catalog temporal/distribution modeling, Learning sessions, VC imports, and audit ADR evidence.
+- [[case-studies/tangram/clients-dx-and-meta]] — Notification providers, client contracts, DX presets, agent rules, GitHub metadata, partial seed/observability evidence, and ADR links.
+- [[case-studies/tangram/diplomat-architecture]] — Diplomat layers, logic sandwich, pure logic, and async/cache deviations.
+- [[case-studies/tangram/enrollment-sqs-asaas-olympiad]] — Asaas webhook queues, idempotency, leases, SQS workers, Redis payload cache, and olympiad imports.
+- [[case-studies/tangram/identity-pbac-and-auth]] — JWT auth, PBAC scopes, service accounts, API keys, contextual-scope limitations, and ADR-006 lifecycle behavior.
+- [[case-studies/tangram/monorepo-contracts-and-common]] — Submodule boundaries, generated clients, contract CI, and `backend-common`.
+- [[case-studies/tangram/rewards-ranking-cache]] — Ranking/visibility read-model caches, wallet ledger transactions, and prize distribution.
+- [[case-studies/tangram/terraform-v2-platform]] — terraform-v2 state, modules, ECS/ALB/Cognito/SQS/RDS Proxy, secret handling, and observability drift.
+
+### Hypotheses resolved
+
+- **CQRS formal:** Rejected with high confidence. The wiki found specialized read models and generated contracts, but no formal CQRS vocabulary, command/query segregation framework, or separate write/read model architecture.
+- **Event Sourcing:** Rejected as a platform-wide claim with high confidence; partial as local event-history/audit language. ADR-002 uses "event sourcing" wording for payment events, and the codebase has webhook events, session events, transactions, and proposed audit events, but no full event-sourced aggregate replay model.
+- **Aggregate Root explicit:** Rejected with high confidence. No explicit aggregate-root terminology or DDD aggregate boundary was found in ADRs or wiki-backed source evidence.
+- **Kafka vs SQS:** Resolved with high confidence for shipped webhook/import paths: SQS is the accepted/implemented queue. For future audit evolution, ADR-005 leaves broker choice open across Kafka/SQS/Rabbit/Kinesis.
+- **Multi-DB physical vs schemas:** Resolved with medium-high confidence as schema-separated services on shared PostgreSQL/Aurora infrastructure, not clearly separate physical databases per service. ADR-001 says shared DB schemas and no cross-schema queries for that flow; ADR-006 names separate PostgreSQL schemas; terraform-v2 maps one database module per environment.
+- **Diplomat 100% consistent:** Rejected with high confidence. The core HTTP/controller/logic/repository/wire pattern is strong, but queue consumers, streaming workers, ranking caches, seasonal logic I/O, and heavy schedule controllers are documented deviations.
+- **ECS vs EKS coexistence:** Rejected with high confidence for researched evidence. terraform-v2 evidence shows ECS Fargate, ALB, Lambda/event modules, Amplify, and related AWS services; no EKS/Kubernetes implementation surfaced beyond package-lock noise.
+- **Outbox pattern:** Rejected with medium-high confidence. The platform uses SQS producers/consumers, idempotency rows, leases, transactionally updated state, and proposed audit producers, but no transactional outbox table/dispatcher pattern was found.
+- **UserScope `contextType`/`contextId` enforcement:** Resolved with high confidence as partial. `UserScope` stores `contextType` and `contextId`, and `expiresAt` is filtered before token issuance, but `UserRepository.findUserScopes` returns only scope codes and the shared `ScopesGuard` checks only `request.user.scopes`.
+
+### Partial / gaps
+
+- Microservices + shared DB schemas: service ownership, schema-level coupling, and cross-schema reads are documented, but no standalone physical-DB-versus-schema principle was extracted.
+- TypeORM entities / migrations: representative entity/repository/migration/transaction evidence is distributed across service case studies; no complete TypeORM migration inventory was extracted.
+- Lookup tables: Catalog lookup endpoints and stable codes are mapped; no generic lookup-table principle exists yet.
+- Audit logs: Catalog audit snapshots and ADR-005 are mapped; no shipped cross-service audit principle exists yet.
+- Redis cache: Rewards read models are extracted; Redis use outside Rewards remains only partially mapped.
+- Automated-test seed scenarios: source evidence exists for automated-test scopes, modules, and deterministic seeds; no standalone note was extracted.
+- Observability: New Relic/Faro/metrics evidence is scattered across infra, clients, shared packages, and services; no standalone observability principle was extracted.
+- Contextual permissions: context fields are modeled but not enforced by the shared guard.
+
+### Out of scope
+
+- Feature flags (Unleash): no Unleash implementation was found in the researched source; only ad-hoc or optional feature-gate references surfaced.
+- Legacy `terraform/` v1: excluded throughout in favor of terraform-v2 evidence.
+- New source extraction beyond Task 10 ADR/matrix close-out: this wave did not create new standalone principles for seeds, observability, TypeORM inventory, or lookup tables.
+
+### Matrix updates
+
+- Microservices + shared DB schemas: `pending` → `partial`
+- TypeORM entities / migrations: `pending` → `partial`
+- Feature flags (Unleash): `pending` → `out-of-scope`
+- Docs / ADRs: `partial` → `extracted`
+- Automated-test seed scenarios: `pending` → `partial`
+- Observability: `pending` → `partial`
+- Coverage matrix invariant: no topic rows remain `pending`.
+
+### Next extraction brief
+
+**If extracting future Tangram deltas:**
+
+1. Start from [[_meta/coverage-matrix]] and only reopen `partial` topics when the source delta contains material new evidence; do not create compatibility shims for stale branch work.
+2. For each delta, update the matching case study first, then decide whether the evidence deserves a new generic principle. Keep principles company-agnostic and move Tangram service names, paths, ADR names, and vendor details into case studies.
+3. Priority Tangram gaps: automated-test seed scenarios, observability, TypeORM/migration inventory, generic lookup-table governance, cross-service audit implementation if ADR-005 becomes accepted/shipped, and any real feature-flag implementation if Unleash or another flag service appears.
+4. Re-check ADR statuses before citing them. Proposed or in-progress ADRs can explain intent, but shipped behavior should be grounded in source paths or accepted ADRs.
+5. Preserve the hypothesis ledger pattern: for each claimed architecture style, state confirmed/partial/rejected plus confidence and evidence path family.
+
+**If extracting a different company's repository using this wiki as latent knowledge:**
+
+1. Treat this wiki as a pattern vocabulary, not a template to force-fit. Use existing principles as candidate labels only after evidence supports them.
+2. Build a fresh coverage matrix for that company, then map each topic to `extracted`, `partial`, or `out-of-scope` with a gap/reason. Never leave terminal extraction rows as `pending`.
+3. Keep the dual-tree rule: generic reusable knowledge belongs in `wiki/principles/`; company names, product names, repo paths, ADR ids, vendors, and operational caveats belong in `wiki/case-studies/<company>/`.
+4. Prefer small case studies around real execution flows over broad architecture summaries. Each case study should cite paths, note deviations, and link to the generic principles it supports or bends.
+5. When comparing to Tangram, write contrast explicitly: "same pattern", "different implementation", or "not present"; do not imply that absence of evidence is evidence of absence unless searches covered the relevant code/docs.
+
+### Risks / blockers
+
+- Some matrix rows are intentionally `partial` because Task 10 closed the wiki state rather than performing new deep extraction for every leftover topic.
+- `ADR-002` and `ADR-005` statuses require care: source evidence may be newer than ADR-002's in-progress text, while ADR-005 remains proposed.

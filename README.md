@@ -1,6 +1,6 @@
 # AI-Knowledge-OS
 
-Portable engineering wiki extracted from real production codebases. Principles stay company-agnostic; case studies carry evidence.
+Portable engineering wiki extracted from real production codebases. Principles stay company-agnostic; case studies carry evidence. Start at [wiki/index.md](wiki/index.md).
 
 ## What this repo is
 
@@ -39,4 +39,4 @@ Open **[wiki/index.md](wiki/index.md)** — MOC hubs, meta docs, and wave plan.
 
 ## Status
 
-Task 1 complete: skeleton, templates, coverage matrix (all topics `pending`). Principle and case-study content arrives in waves W1–W4.
+Tangram extraction waves W1-W4 are closed. The coverage matrix has no topic rows left as `pending`; remaining non-extracted topics are marked `partial` with gaps or `out-of-scope` with reasons.
