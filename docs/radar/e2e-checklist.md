@@ -33,7 +33,7 @@ If TLS errors occur on macOS, set certifi:
 
 ```bash
 export SSL_CERT_FILE="$(python3 -c 'import certifi; print(certifi.where())')"
-python3 radar/providers/fetch_enabled.py \
+python3 providers/signals/fetch_enabled.py \
   --config journals/radar/config.yaml \
   --out journals/radar/_raw/$(date +%Y-%m-%d)-v2-smoke.jsonl
 ```

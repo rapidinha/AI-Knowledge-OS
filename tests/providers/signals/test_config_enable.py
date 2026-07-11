@@ -1,10 +1,10 @@
 from pathlib import Path
 import sys
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
 
-from radar.lib.io import load_config, enabled_providers
+from providers.signals.lib.io import load_config, enabled_providers
 
 
 def test_enabled_providers_respects_flags(tmp_path: Path):

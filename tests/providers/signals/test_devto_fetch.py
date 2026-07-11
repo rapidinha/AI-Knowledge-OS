@@ -2,12 +2,12 @@ import json
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
 
-from radar.providers.devto import fetch as devto_fetch
+from providers.signals.sources.devto import fetch as devto_fetch
 
-FIXTURE = ROOT / "radar" / "fixtures" / "devto_articles.json"
+FIXTURE = ROOT / "providers" / "signals" / "fixtures" / "devto_articles.json"
 
 
 def test_parse_articles():

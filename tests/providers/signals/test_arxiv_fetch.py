@@ -2,12 +2,12 @@ import sys
 from io import BytesIO
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
 
-from radar.providers.arxiv import fetch as arxiv_fetch
+from providers.signals.sources.arxiv import fetch as arxiv_fetch
 
-FIXTURE = ROOT / "radar" / "fixtures" / "arxiv_atom.xml"
+FIXTURE = ROOT / "providers" / "signals" / "fixtures" / "arxiv_atom.xml"
 
 
 def test_arxiv_fetch_maps_entries(monkeypatch):

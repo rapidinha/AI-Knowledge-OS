@@ -1,10 +1,10 @@
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
 
-from radar.lib import topics_io
+from providers.signals.lib import topics_io
 
 
 def test_round_trip_topics_yaml(tmp_path: Path):

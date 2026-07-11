@@ -2,12 +2,12 @@ import sys
 from io import BytesIO
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
 
-from radar.providers.github_trending import fetch as github_trending_fetch
+from providers.signals.sources.github_trending import fetch as github_trending_fetch
 
-FIXTURE = ROOT / "radar" / "fixtures" / "github_trending.html"
+FIXTURE = ROOT / "providers" / "signals" / "fixtures" / "github_trending.html"
 
 
 def test_github_trending_fetch_maps_repos(monkeypatch):

@@ -2,17 +2,17 @@ import json
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
 
-from radar.providers import fetch_enabled
-from radar.providers.arxiv import fetch as arxiv_fetch
-from radar.providers.devto import fetch as devto_fetch
-from radar.providers.github_trending import fetch as github_trending_fetch
-from radar.providers.hn import fetch as hn_fetch
-from radar.providers.lobsters import fetch as lobsters_fetch
-from radar.providers.reddit import fetch as reddit_fetch
-from radar.providers.youtube import fetch as youtube_fetch
+from providers.signals import fetch_enabled
+from providers.signals.sources.arxiv import fetch as arxiv_fetch
+from providers.signals.sources.devto import fetch as devto_fetch
+from providers.signals.sources.github_trending import fetch as github_trending_fetch
+from providers.signals.sources.hn import fetch as hn_fetch
+from providers.signals.sources.lobsters import fetch as lobsters_fetch
+from providers.signals.sources.reddit import fetch as reddit_fetch
+from providers.signals.sources.youtube import fetch as youtube_fetch
 
 
 HN_SIGNAL = {

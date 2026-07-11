@@ -1,9 +1,9 @@
 import sys
 from pathlib import Path
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
 
-from radar.lib.dedupe import canonicalize_url, dedupe_signals
+from providers.signals.lib.dedupe import canonicalize_url, dedupe_signals
 
 
 def test_canonicalize_strips_tracking():

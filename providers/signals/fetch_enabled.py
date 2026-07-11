@@ -7,20 +7,20 @@ from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
-# Allow `python radar/providers/fetch_enabled.py` from repo root (agent entrypoint).
+# Allow `python providers/signals/fetch_enabled.py` from repo root (agent entrypoint).
 _ROOT = Path(__file__).resolve().parents[2]
 if str(_ROOT) not in sys.path:
     sys.path.insert(0, str(_ROOT))
 
-from radar.lib.dedupe import dedupe_signals
-from radar.lib.io import enabled_providers, load_config
-from radar.providers.arxiv import fetch as arxiv_fetch
-from radar.providers.devto import fetch as devto_fetch
-from radar.providers.github_trending import fetch as github_trending_fetch
-from radar.providers.hn import fetch as hn_fetch
-from radar.providers.lobsters import fetch as lobsters_fetch
-from radar.providers.reddit import fetch as reddit_fetch
-from radar.providers.youtube import fetch as youtube_fetch
+from providers.signals.lib.dedupe import dedupe_signals
+from providers.signals.lib.io import enabled_providers, load_config
+from providers.signals.sources.arxiv import fetch as arxiv_fetch
+from providers.signals.sources.devto import fetch as devto_fetch
+from providers.signals.sources.github_trending import fetch as github_trending_fetch
+from providers.signals.sources.hn import fetch as hn_fetch
+from providers.signals.sources.lobsters import fetch as lobsters_fetch
+from providers.signals.sources.reddit import fetch as reddit_fetch
+from providers.signals.sources.youtube import fetch as youtube_fetch
 
 
 def _fetch_hn(_meta: dict[str, Any]) -> list[dict]:

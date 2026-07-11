@@ -1,12 +1,12 @@
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
 
-from radar.providers.youtube import fetch as youtube_fetch
+from providers.signals.sources.youtube import fetch as youtube_fetch
 
-FIXTURE = ROOT / "radar" / "fixtures" / "youtube_atom.xml"
+FIXTURE = ROOT / "providers" / "signals" / "fixtures" / "youtube_atom.xml"
 
 
 def test_parse_atom():

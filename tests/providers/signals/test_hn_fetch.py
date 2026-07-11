@@ -1,9 +1,9 @@
 import sys
 from pathlib import Path
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
 
-from radar.providers.hn import fetch as hn_fetch
+from providers.signals.sources.hn import fetch as hn_fetch
 
 
 def test_hn_fetch_maps_items(monkeypatch):

@@ -29,12 +29,12 @@ This feature does **not** call LLM vendor APIs from the repo. Scoring and cluste
 3. Run fetch aggregation:
 
    ```bash
-   python radar/providers/fetch_enabled.py \
+   python providers/signals/fetch_enabled.py \
      --config journals/radar/config.yaml \
      --out journals/radar/_raw/YYYY-MM-DD.jsonl
    ```
 
-4. Read the jsonl and `topics.yaml` (optional helper: `radar.lib.topics_io`), dedupe if needed.
+4. Read the jsonl and `topics.yaml` (optional helper: `providers.signals.lib.topics_io`), dedupe if needed.
 5. **Using this session's model** (not external APIs): cluster signals, assign categories, score dimensions, update topic graph.
 6. **Dual-write topic memory:** save `topics.yaml` and create/update `topics/<slug>.md` notes (rolling summary, timeline, sources) plus `_index.md`.
 7. Write `journals/radar/YYYY-MM-DD.md` from `templates/radar/daily.md` (topic wikilinks + recurrence).

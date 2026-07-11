@@ -1,6 +1,6 @@
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 TOPIC = (ROOT / "templates" / "radar" / "topic.md").read_text(encoding="utf-8")
 INDEX = (ROOT / "templates" / "radar" / "topics-index.md").read_text(encoding="utf-8")
 

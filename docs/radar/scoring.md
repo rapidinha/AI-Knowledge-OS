@@ -34,7 +34,7 @@ Weights and `personal_relevance` live **only** in private `journals/radar/config
 
 Cheap heuristics run before the agent scores:
 
-- URL canonicalization and dedupe (`radar/lib/dedupe.py`)
+- URL canonicalization and dedupe (`providers/signals/lib/dedupe.py`)
 - Provider enablement from config
 - Optional caps (`defaults.max_opportunities`)
 

@@ -3,12 +3,12 @@ import sys
 from io import BytesIO
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
 
-from radar.providers.reddit import fetch as reddit_fetch
+from providers.signals.sources.reddit import fetch as reddit_fetch
 
-FIXTURE = ROOT / "radar" / "fixtures" / "reddit_hot.json"
+FIXTURE = ROOT / "providers" / "signals" / "fixtures" / "reddit_hot.json"
 
 
 def test_reddit_fetch_maps_posts(monkeypatch):

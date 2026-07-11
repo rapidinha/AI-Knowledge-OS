@@ -15,7 +15,7 @@ That is the entire connect flow — no daemon, no product CLI, no API keys in th
 
 ### PyYAML (recommended)
 
-`radar/lib/io.py` includes a minimal YAML fallback, but **PyYAML is recommended** in your private lab for full nested config (categories, subreddits, weights). Install once:
+`providers/signals/lib/io.py` includes a minimal YAML fallback, but **PyYAML is recommended** in your private lab for full nested config (categories, subreddits, weights). Install once:
 
 ```bash
 pip install pyyaml
@@ -81,7 +81,7 @@ Each signal must match `radar/schema/signal.schema.json`:
 The agent aggregates enabled providers:
 
 ```bash
-python radar/providers/fetch_enabled.py \
+python providers/signals/fetch_enabled.py \
   --config journals/radar/config.yaml \
   --out journals/radar/_raw/2026-07-11.jsonl
 ```
@@ -95,7 +95,7 @@ python radar/providers/hn/fetch.py --out journals/radar/_raw/hn.jsonl
 ## Add a new provider
 
 1. Create `radar/providers/<id>/fetch.py` with `fetch(**kwargs) -> list[dict]` matching the Signal schema.
-2. Register the fetcher in `radar/providers/fetch_enabled.py` (`PROVIDER_FETCHERS` map).
+2. Register the fetcher in `providers/signals/fetch_enabled.py` (`PROVIDER_FETCHERS` map).
 3. Add a `providers.<id>:` block under `templates/radar/config.example.yaml` with `enabled: false` by default.
 4. Add a fixture test under `tests/radar/test_<id>_fetch.py` (monkeypatch HTTP; no live network in CI).
 5. Document connect steps here if secrets or env vars are required.
