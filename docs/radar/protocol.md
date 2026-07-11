@@ -10,6 +10,9 @@ Vault-native protocol for Stage 1 discovery. Markdown under `journals/radar/` is
 | `journals/radar/decisions.yaml` | Optional append-only decision log (agent-maintained) |
 | `journals/radar/_raw/YYYY-MM-DD.jsonl` | Per-day signal cache (gitignored) |
 | `journals/radar/config.yaml` | Private weights, subs, keys, personal relevance (**never promote**) |
+| `journals/radar/topics.yaml` | Machine topic graph (gitignored) |
+| `journals/radar/topics/<slug>.md` | Obsidian topic notes + rolling summary (durable) |
+| `journals/radar/topics/_index.md` | Topic MOC |
 | `research/radar/<slug>/README.md` | Stage 2 research stub (v1: queue only) |
 
 Bootstrap: copy `templates/radar/config.example.yaml` → `journals/radar/config.yaml`.
@@ -22,11 +25,14 @@ Providers (adapters)
     → cheap URL/title dedupe
     → agent: cluster → Opportunities + leverage category
     → agent: extensible score map + rationale
+    → agent: dual-write topic graph (topics.yaml + topics/<slug>.md + _index.md)
     → journals/radar/YYYY-MM-DD.md
     → Human decision (in-note or via agent chat)
     → agent updates note + decisions.yaml
     → if research: research/radar/<slug>/README.md stub
 ```
+
+**Topic memory dual-write (v2):** The agent writes both `journals/radar/topics.yaml` (machine index, gitignored) and per-topic Markdown notes under `journals/radar/topics/<slug>.md` (Obsidian-durable). Future AI summarization should prefer topic notes (`## Rolling summary`, `## Timeline`, `## Sources`) over `_raw/` history.
 
 Nothing from Stage 1 enters durable `wiki/principles/` or public case studies.
 

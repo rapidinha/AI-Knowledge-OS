@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns:yt="http://www.youtube.com/xml/schemas/2015"
+      xmlns:media="http://search.yahoo.com/mrss/"
+      xmlns="http://www.w3.org/2005/Atom">
+  <title>Example Eng</title>
+  <entry>
+    <id>yt:video:VIDEO123</id>
+    <yt:videoId>VIDEO123</yt:videoId>
+    <yt:channelId>UCxxxx</yt:channelId>
+    <title>How agent skills change workflows</title>
+    <published>2026-07-10T15:00:00+00:00</published>
+    <author><name>Example Eng</name></author>
+    <link rel="alternate" href="https://www.youtube.com/watch?v=VIDEO123"/>
+  </entry>
+</feed>

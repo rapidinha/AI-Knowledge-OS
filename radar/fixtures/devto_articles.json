@@ -1,0 +1,12 @@
+[
+  {
+    "id": 999001,
+    "title": "Shipping agent skills in production",
+    "url": "https://dev.to/example/shipping-agent-skills",
+    "published_timestamp": "2026-07-11T12:00:00Z",
+    "user": {"username": "example"},
+    "public_reactions_count": 12,
+    "comments_count": 3,
+    "tag_list": ["ai", "productivity"]
+  }
+]

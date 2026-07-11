@@ -48,3 +48,21 @@ providers:
       - MachineLearning
       - experienceddevs
     user_agent: "ai-knowledge-os-radar/0.1 (by /u/YOUR_USER)"
+
+  lobsters:
+    enabled: true
+    tag: ""
+    limit: 30
+
+  devto:
+    enabled: true
+    tag: "ai"
+    limit: 30
+
+  youtube:
+    enabled: false
+    channels:
+      - id: UCxxxx
+        label: "Example Eng"
+    search_queries: []
+    max_videos_per_channel: 5

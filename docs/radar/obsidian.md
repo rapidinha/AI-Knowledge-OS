@@ -7,7 +7,7 @@ Obsidian is the primary reading surface for Leverage Radar. The agent writes; yo
 1. Open your private lab vault in Obsidian.
 2. Navigate to `journals/radar/YYYY-MM-DD.md` (today's date).
 3. Read **Executive Summary** (2–4 sentences) for the day's leverage picture.
-4. Scan **Top Opportunities** — each has category, scores, rationale, sources, and a **Decide** line.
+4. Scan **Top Opportunities** — each has topic wikilink, recurrence, category, scores, rationale, sources, and a **Decide** line.
 5. Skim **Highest ROI** (Learning / Content / Project picks) and **Worth Watching**.
 6. Ignore **Ignore** unless you want to sanity-check what was deprioritized.
 7. Expand **Signals** only if you need raw provenance — link points to `_raw/YYYY-MM-DD.jsonl`.
@@ -56,11 +56,28 @@ Frontmatter tracks metadata for filtering and dashboards:
 
 `_raw/` signal caches are gitignored — they are ephemeral fetch output, not notes you curate.
 
+## Topic memory (v2)
+
+Durable theme notes live under `journals/radar/topics/`:
+
+1. Open `journals/radar/topics/_index.md` for the MOC (active and retired topics).
+2. Click a topic wikilink from the daily note or index to open `topics/<slug>.md`.
+3. Read **Rolling summary** for the cumulative abstract; **Timeline** for day-by-day history with links back to daily notes.
+
+Optional Dataview query for active topics:
+
+```dataview
+TABLE status, hit_count, last_seen FROM "journals/radar/topics" WHERE radar_topic = true SORT hit_count DESC
+```
+
+Topic Markdown notes are **not** gitignored — they are durable vault memory. `topics.yaml` (machine index) is gitignored.
+
 ## Wikilinks
 
 Daily notes and research stubs use Obsidian-style links:
 
 - `[[journals/radar/2026-07-11]]` — back to the originating daily
+- `[[journals/radar/topics/agent-skills]]` — durable topic note with rolling summary
 - `[[research/radar/some-slug]]` — research stub from a decision
 
 Keep links relative to your vault root.

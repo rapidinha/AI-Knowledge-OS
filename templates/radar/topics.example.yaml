@@ -1,0 +1,5 @@
+# Copy to journals/radar/topics.yaml on first radar run (private — gitignored).
+# Machine index for the topic graph. Obsidian notes live in journals/radar/topics/*.md
+version: 1
+updated_at: null
+topics: []

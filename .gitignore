@@ -7,3 +7,5 @@ journals/radar/_raw/
 journals/radar/config.yaml
 __pycache__/
 *.py[cod]
+
+journals/radar/topics.yaml
