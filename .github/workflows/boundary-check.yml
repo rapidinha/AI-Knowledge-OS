@@ -15,26 +15,34 @@ jobs:
       - name: Fail if forbidden paths exist at repo root
         run: |
           set -euo pipefail
-          # Root-only: templates/instance/<name> is allowed (structure scaffold).
-          forbidden=(
-            knowledge
-            notes
-            research
-            journals
-            experiments
-            obsidian
-            vault
-          )
+          forbidden=(knowledge notes journals experiments obsidian vault)
           found=0
           for name in "${forbidden[@]}"; do
             if [ -e "$name" ]; then
               echo "::error::Forbidden path at repository root: $name/"
-              echo "Use templates/instance/ on public trees; keep personal SoT private."
               found=1
             fi
           done
+          # research/ allowed only as scaffold
+          if [ -d research ]; then
+            while IFS= read -r -d '' f; do
+              base=$(basename "$f")
+              case "$base" in
+                README.md|.gitkeep) ;;
+                *)
+                  echo "::error::research/ must be scaffold-only; found: $f"
+                  found=1
+                  ;;
+              esac
+            done < <(find research -mindepth 1 -maxdepth 1 -print0)
+          fi
+          # public wiki/principles must not contain markdown corpus
+          if ls wiki/principles/*.md >/dev/null 2>&1; then
+            echo "::error::wiki/principles must be scaffold-only on upstream (no .md corpus)"
+            found=1
+          fi
           if [ "$found" -ne 0 ]; then
-            echo "Personal lab paths must never appear at upstream root. See GOVERNANCE.md"
+            echo "See GOVERNANCE.md"
             exit 1
           fi
           echo "Boundary check passed."
