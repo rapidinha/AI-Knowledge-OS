@@ -2,7 +2,7 @@
 
 | Phase | Focus | Status |
 |-------|--------|--------|
-| 1 | Restructuring — Protocol Kernel identity | In progress |
+| 1 | Restructuring — Protocol Kernel identity | **Complete** |
 | 2 | Research engine (ResearchBrief / Synthesis + agent) | Planned |
 | 3 | Trend Radar pack stabilization | Planned |
 | 4 | Content Intelligence | Planned |

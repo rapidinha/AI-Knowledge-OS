@@ -73,7 +73,7 @@ python3 -m pytest tests/radar -q
 ## 4. Agent path (optional full run)
 
 1. Open the vault in Obsidian (or your editor).
-2. Invoke the leverage-radar skill: *"Run today's Leverage Radar"*.
+2. Invoke the trend-radar skill: *"Run today's Leverage Radar"*.
 3. Confirm the agent writes `journals/radar/YYYY-MM-DD.md` with Opportunities and topic dual-write under `journals/radar/topics/`.
 
 ## 5. Cleanup

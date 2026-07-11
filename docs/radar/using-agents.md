@@ -9,7 +9,7 @@ This feature does **not** call LLM vendor APIs from the repo. Scoring and cluste
 ## Cursor IDE
 
 1. Open the private lab repo root (vault root).
-2. Ensure `.cursor/skills/leverage-radar/SKILL.md` is present (synced from `skills/leverage-radar/`).
+2. Ensure `.cursor/skills/trend-radar/SKILL.md` is present (synced from `agents/trend-radar/`).
 3. Ask: **"Run today's Leverage Radar"** (the skill should attach).
 4. Review `journals/radar/YYYY-MM-DD.md` in Obsidian.
 5. When ready, request decisions: e.g. **"Research opportunity #1"**.
@@ -17,8 +17,8 @@ This feature does **not** call LLM vendor APIs from the repo. Scoring and cluste
 ## Claude Code
 
 1. Same vault root.
-2. Ensure `.claude/skills/leverage-radar/SKILL.md` is present.
-3. Invoke the leverage-radar skill / ask the same prompt.
+2. Ensure `.claude/skills/trend-radar/SKILL.md` is present.
+3. Invoke the trend-radar skill / ask the same prompt.
 4. Review the daily note in Obsidian.
 5. Apply decisions through agent chat the same way as Cursor.
 
@@ -63,7 +63,7 @@ Run when the user asks for:
 
 ## Install skill copies
 
-Canonical skill: `skills/leverage-radar/SKILL.md`. Keep `.cursor/skills/leverage-radar/SKILL.md` and `.claude/skills/leverage-radar/SKILL.md` identical. See `skills/leverage-radar/README.md`.
+Canonical skill: `agents/trend-radar/SKILL.md`. Keep `.cursor/skills/trend-radar/SKILL.md` and `.claude/skills/trend-radar/SKILL.md` identical. See `agents/trend-radar/README.md`.
 
 ## Related
 

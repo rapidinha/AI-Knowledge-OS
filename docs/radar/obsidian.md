@@ -51,10 +51,10 @@ Frontmatter tracks metadata for filtering and dashboards:
 
 ## Vault setup
 
-1. Copy `templates/personal-lab/` into your private lab if you have not already.
-2. Ensure `journals/radar/` exists (see `templates/personal-lab/journals/radar/README.md`).
+1. Copy `templates/instance/` into your private instance if you have not already.
+2. Ensure `journals/radar/` exists (see `templates/instance/journals/radar/README.md`).
 3. Copy `templates/radar/config.example.yaml` → `journals/radar/config.yaml`.
-4. Run the leverage-radar skill in Cursor or Claude Code before your morning read.
+4. Run the trend-radar skill in Cursor or Claude Code before your morning read.
 
 `_raw/` signal caches are gitignored — they are ephemeral fetch output, not notes you curate.
 

@@ -41,13 +41,13 @@ Without PyYAML, only top-level `providers.<id>.enabled` flags are parsed reliabl
 
 1. Set `providers.lobsters.enabled: true` in `journals/radar/config.yaml`.
 2. Optional: set `tag` to filter by Lobsters tag (empty = hottest).
-3. Run the leverage-radar skill.
+3. Run the trend-radar skill.
 
 ### DEV.to
 
 1. Set `providers.devto.enabled: true`.
 2. Optional: set `tag` (e.g. `ai`, `productivity`) to filter articles.
-3. Run the leverage-radar skill.
+3. Run the trend-radar skill.
 
 ### YouTube (light — channel RSS only)
 

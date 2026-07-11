@@ -51,7 +51,9 @@ When you pull framework updates from upstream, **your instance wiki is never ove
 
 See [GOVERNANCE.md](../GOVERNANCE.md) for the full dual-identity model.
 
-A sync script will ship at `templates/instance/scripts/sync-from-upstream.sh` (added in a later Phase 1 task). Until then, manually merge framework paths (`contracts/`, `engine/`, `agents/`, `providers/`, `docs/`, institutional root docs) and use `--ignore-existing` semantics for `wiki/`.
+**Default:** run `templates/instance/scripts/sync-from-upstream.sh --upstream /path/to/AI-Knowledge-OS --instance .` to pull framework updates. The script rsyncs framework paths (`contracts/`, `engine/`, `agents/`, `providers/`, `docs/`, institutional root docs) and uses `--ignore-existing` semantics for `wiki/`.
+
+**Fallback only:** if the script is unavailable, manually merge the same framework paths and preserve existing `wiki/` files.
 
 **Rule:** instance `wiki/` wins. Scaffold from OSS only creates files that do not yet exist.
 

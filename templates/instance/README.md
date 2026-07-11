@@ -35,22 +35,24 @@ cp templates/instance/AGENTS.private.md ./AGENTS.private.md
 
 # 4) Edit LAB.md remotes for your accounts, then commit to origin (private)
 
-# 5) Optional — Leverage Radar
+# 5) Optional — Trend Radar
 cp templates/radar/config.example.yaml journals/radar/config.yaml
-# enable providers; then run the leverage-radar skill in Cursor or Claude Code
+# enable providers; then run the trend-radar skill in Cursor or Claude Code
 ```
 
 Open the **private repo root** in Obsidian (not only `wiki/`).
 
 ## Sync from upstream
 
-After bootstrap, pull framework updates without overwriting your instance wiki:
+After bootstrap, pull framework updates without overwriting your instance wiki. **Default:** use the sync script (ships with this template):
 
 ```bash
-templates/instance/scripts/sync-from-upstream.sh
+templates/instance/scripts/sync-from-upstream.sh --upstream /path/to/AI-Knowledge-OS --instance .
 ```
 
-The script ships with the template (added in Phase 1). Until it exists in your checkout, manually merge framework paths (`contracts/`, `engine/`, `agents/`, `providers/`, `docs/`, institutional root docs) and use `--ignore-existing` semantics for `wiki/`. **Rule:** instance `wiki/` wins.
+The script rsyncs framework paths (`contracts/`, `engine/`, `agents/`, `providers/`, `docs/`, institutional root docs) and uses `--ignore-existing` semantics for `wiki/`. **Rule:** instance `wiki/` wins.
+
+**Fallback only:** if the script is unavailable, manually merge the same framework paths and preserve existing `wiki/` files.
 
 ## Layout
 

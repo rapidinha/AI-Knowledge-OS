@@ -16,7 +16,7 @@ Optional: `author`, `text`, `metrics`, `provenance`.
 
 ## JSON schema (reference)
 
-See `providers/signals/schema/signal.schema.json` after relocate.
+See `providers/signals/schema/signal.schema.json`.
 
 ## Emitters
 

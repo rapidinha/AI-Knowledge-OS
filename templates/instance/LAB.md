@@ -57,5 +57,5 @@ Sanitization: [GOVERNANCE.md](GOVERNANCE.md) §4.
 
 ## Leverage Radar
 
-Optional discovery journal under `journals/radar/`. Copy `templates/radar/config.example.yaml` to `journals/radar/config.yaml`, enable providers, then run the **leverage-radar** skill in Cursor or Claude Code. See `docs/radar/using-agents.md`.
+Optional discovery journal under `journals/radar/`. Copy `templates/radar/config.example.yaml` to `journals/radar/config.yaml`, enable providers, then run the **trend-radar** skill in Cursor or Claude Code. See `docs/radar/using-agents.md`.
 
