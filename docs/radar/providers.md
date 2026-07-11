@@ -1,3 +1,5 @@
+> **Note:** Leverage Radar is a **reference signal provider** for AI Knowledge OS, not the product identity. See [ARCHITECTURE.md](../../ARCHITECTURE.md).
+
 # Providers
 
 Source-agnostic adapters fetch raw signals for the agent to cluster and score. Provider scripts are **agent-invoked tools**, not a user-facing CLI.

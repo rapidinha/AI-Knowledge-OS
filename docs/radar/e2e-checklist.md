@@ -1,3 +1,5 @@
+> **Note:** Leverage Radar is a **reference signal provider** for AI Knowledge OS, not the product identity. See [ARCHITECTURE.md](../../ARCHITECTURE.md).
+
 # Leverage Radar v2 — manual E2E checklist
 
 Run this in a private lab worktree before merging v2 provider changes. No secrets or personal config should be committed.

@@ -1,3 +1,5 @@
+> **Note:** Leverage Radar is a **reference signal provider** for AI Knowledge OS, not the product identity. See [ARCHITECTURE.md](../../ARCHITECTURE.md).
+
 # Leverage Radar protocol
 
 Vault-native protocol for Stage 1 discovery. Markdown under `journals/radar/` is the source of truth; agents are the only writers of radar artifacts.

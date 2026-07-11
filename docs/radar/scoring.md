@@ -1,3 +1,5 @@
+> **Note:** Leverage Radar is a **reference signal provider** for AI Knowledge OS, not the product identity. See [ARCHITECTURE.md](../../ARCHITECTURE.md).
+
 # Scoring
 
 Leverage Radar scoring is **LLM-assisted inside the agent session** — Cursor or Claude Code — not a hardcoded formula in this repository.

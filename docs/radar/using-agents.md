@@ -1,3 +1,5 @@
+> **Note:** Leverage Radar is a **reference signal provider** for AI Knowledge OS, not the product identity. See [ARCHITECTURE.md](../../ARCHITECTURE.md).
+
 # Using Leverage Radar with agents
 
 This feature does **not** call LLM vendor APIs from the repo. Scoring and clustering run **inside Cursor or Claude Code** using the agent's session model.

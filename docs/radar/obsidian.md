@@ -1,3 +1,5 @@
+> **Note:** Leverage Radar is a **reference signal provider** for AI Knowledge OS, not the product identity. See [ARCHITECTURE.md](../../ARCHITECTURE.md).
+
 # Obsidian morning UX
 
 Obsidian is the primary reading surface for Leverage Radar. The agent writes; you read and decide.
