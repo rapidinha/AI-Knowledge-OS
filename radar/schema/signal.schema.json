@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RadarSignal",
+  "type": "object",
+  "required": ["id", "provider", "url", "title", "ts"],
+  "properties": {
+    "id": { "type": "string" },
+    "provider": { "type": "string" },
+    "url": { "type": "string" },
+    "title": { "type": "string" },
+    "ts": { "type": "string", "description": "ISO-8601 timestamp" },
+    "author": { "type": ["string", "null"] },
+    "text": { "type": ["string", "null"] },
+    "metrics": { "type": "object" },
+    "provenance": { "type": "object" }
+  }
+}

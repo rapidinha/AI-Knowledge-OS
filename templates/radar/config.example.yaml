@@ -1,0 +1,50 @@
+# Copy to journals/radar/config.yaml (private — gitignored)
+# Connect a source: set enabled: true. Secrets via env vars only.
+
+defaults:
+  watch_days: 7
+  ignore_suppress_days: 3
+  max_opportunities: 7
+
+# Scoring hints for the AGENT (not an API). The agent applies these while writing the daily note.
+score_dimensions:
+  - knowledge_gain
+  - influence
+  - market_opportunity
+  - buildability
+  - source_authority
+  - signal_consensus
+  - growth_velocity
+  - novelty
+  # - personal_relevance
+
+providers:
+  hn:
+    enabled: true
+    # no secrets
+
+  github_trending:
+    enabled: true
+    spoken_language: en
+    # optional: since: daily|weekly|monthly
+    since: daily
+    # optional language filter (empty = all)
+    languages: []
+
+  arxiv:
+    enabled: true
+    categories:
+      - cs.AI
+      - cs.SE
+      - cs.DC
+    max_results: 30
+
+  reddit:
+    enabled: false
+    # Connect: set enabled true + export REDDIT_CLIENT_ID / REDDIT_CLIENT_SECRET
+    # or use public JSON with User-Agent (see docs/radar/providers.md)
+    subreddits:
+      - programming
+      - MachineLearning
+      - experienceddevs
+    user_agent: "ai-knowledge-os-radar/0.1 (by /u/YOUR_USER)"

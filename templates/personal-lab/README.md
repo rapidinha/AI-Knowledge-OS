@@ -34,6 +34,10 @@ cp templates/personal-lab/LAB.md ./LAB.md
 cp templates/personal-lab/AGENTS.private.md ./AGENTS.private.md
 
 # 4) Edit LAB.md remotes for your accounts, then commit to origin (private)
+
+# 5) Optional — Leverage Radar
+cp templates/radar/config.example.yaml journals/radar/config.yaml
+# enable providers; then run the leverage-radar skill in Cursor or Claude Code
 ```
 
 Open the **private repo root** in Obsidian (not only `wiki/`).

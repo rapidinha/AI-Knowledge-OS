@@ -1,0 +1,9 @@
+# Copy to journals/radar/decisions.yaml (local decision log; commit only if you want history)
+# Append-only decision log. Agent maintains this on HITL actions.
+
+decisions:
+  # - date: 2026-07-11
+  #   slug: agentic-rag-patterns
+  #   action: research   # ignore | watch | research | known | merge
+  #   at: 2026-07-11T09:15:00-03:00
+  #   note: "User requested research on opportunity #2"
