@@ -1,26 +1,28 @@
 # Note templates
 
-Every principle and case-study note in this wiki **must** follow one of the templates below.
+Every Knowledge Base note in an **instance** must follow one of the templates below.
 
-## Shared structure
+Upstream ships templates only — no living principles or case studies. Copy categories into your private instance and write notes there.
 
-| # | Section | Required |
-|---|---------|----------|
-| 1 | Title + one-line **When to use** | Yes |
-| 2 | Body (decisions, mechanics) | Yes |
-| 3 | **Trade-offs** | Yes |
-| 4 | **Anti-patterns** | Yes |
-| 5 | Tree-specific (see below) | Yes |
-| 6 | Tree-specific (see below) | Yes |
-| 7 | `[[wikilinks]]` footer | Yes |
+## Shared minimum
+
+| Field | Required |
+|-------|----------|
+| Title | Yes |
+| **When to use** | Yes — one line |
+| **Body** | Yes |
+| **Related** | Yes — `[[wikilinks]]` |
+| **Origin** | Yes — signal, research, decision, or prior note |
+
+Optional across categories: **Trade-offs**, **Anti-patterns**, frontmatter (`updated`, `category`, `slug`).
 
 ---
 
 ## Principle template
 
-**Path:** `wiki/principles/<slug>.md`
+**Path (instance):** `wiki/principles/<slug>.md`
 
-**Hard rule:** No company names, repo names, service names, absolute paths, or product brands anywhere in the note.
+**Note:** Principles are **instance-only** content. Upstream does not store personal judgment notes.
 
 ```markdown
 # <Title>
@@ -29,7 +31,7 @@ Every principle and case-study note in this wiki **must** follow one of the temp
 
 ## Body
 
-<Decisions, mechanics, and rationale. Use generic names only (e.g. "auth service", "user table").>
+<Decisions, mechanics, and rationale. Use generic names only.>
 
 ## Trade-offs
 
@@ -40,30 +42,23 @@ Every principle and case-study note in this wiki **must** follow one of the temp
 
 - <What to avoid and why>
 
-## Checklist for a new project
-
-- [ ] <Concrete step an engineer can verify before shipping>
-- [ ] <Another step>
-
 ## Related
 
 - [[principles/<related-slug>]]
-- [[MOC/<domain-moc>]]
+- [[architecture/<related-slug>]]
+
+## Origin
+
+- <Signal, research, or decision that led to this principle>
 ```
-
-### Principle checklist
-
-- [ ] Zero company leakage (no brands, repos, services, absolute paths)
-- [ ] All required sections present
-- [ ] Footer wikilinks include parent MOC
 
 ---
 
 ## Case study template
 
-**Path:** `wiki/case-studies/<system>/<slug>.md`
+**Path (instance):** `wiki/case-studies/<system>/<slug>.md`
 
-**Hard rule:** Only publish when intentionally making a named system public. Cite repo-relative evidence paths; no secrets or copied source blobs.
+Publish only when intentionally making a named system public.
 
 ```markdown
 # <Title>
@@ -79,33 +74,264 @@ Every principle and case-study note in this wiki **must** follow one of the temp
 - <Gains>
 - <Costs>
 
-## Anti-patterns
-
-- <Observed or avoided mistakes>
-
 ## Evidence
 
 | Area | Path | Notes |
 |------|------|-------|
-| <layer or concern> | `<repo-relative/path>` | <what to look at> |
-
-## Deviations
-
-- <Where the system diverges from the linked principle and why>
-
-## Principles
-
-- [[principles/<slug>]] — <one-line link hint>
+| <layer> | `<repo-relative/path>` | <what to look at> |
 
 ## Related
 
+- [[principles/<slug>]]
 - [[case-studies/<system>/<related-slug>]]
-- [[MOC/<domain-moc>]]
+
+## Origin
+
+- <Research, project, or insight that prompted this case study>
 ```
 
-### Case study checklist
+---
 
-- [ ] Intentional public disclosure of the named system
-- [ ] Evidence table with repo-relative paths only
-- [ ] No secrets, credentials, or source blobs
-- [ ] Links back to principles and parent MOC
+## Architecture template
+
+**Path:** `wiki/architecture/<slug>.md`
+
+```markdown
+# <Title>
+
+**When to use:** <When this system shape or boundary doc applies.>
+
+## Body
+
+<Components, boundaries, data flows, and invariants.>
+
+## Related
+
+- [[principles/<slug>]]
+- [[adrs/<slug>]]
+
+## Origin
+
+- <Signal, RFC, or engineering decision>
+```
+
+---
+
+## RFC template
+
+**Path:** `wiki/rfcs/<slug>.md`
+
+```markdown
+# RFC: <Title>
+
+**When to use:** <Problem space requiring a proposal before implementation.>
+
+## Body
+
+<Problem, proposed change, alternatives, open questions.>
+
+## Related
+
+- [[adrs/<slug-if-accepted>]]
+- [[architecture/<slug>]]
+
+## Origin
+
+- <Signal, trend, or stakeholder request>
+```
+
+---
+
+## ADR template
+
+**Path:** `wiki/adrs/<slug>.md`
+
+```markdown
+# ADR: <Title>
+
+**When to use:** <Context where this decision applies.>
+
+## Body
+
+<Decision, status, consequences, and supersession notes.>
+
+## Related
+
+- [[rfcs/<slug>]]
+- [[architecture/<slug>]]
+
+## Origin
+
+- <Meeting, incident, or RFC that drove the decision>
+```
+
+---
+
+## Playbook template
+
+**Path:** `wiki/playbooks/<slug>.md`
+
+```markdown
+# <Title>
+
+**When to use:** <Procedure trigger — e.g. incident, release, onboarding.>
+
+## Body
+
+<Steps, checks, rollback, and owners.>
+
+## Related
+
+- [[principles/<slug>]]
+- [[architecture/<slug>]]
+
+## Origin
+
+- <Incident, postmortem, or repeated manual process>
+```
+
+---
+
+## Research template
+
+**Path:** `wiki/research/<slug>.md`
+
+```markdown
+# <Title>
+
+**When to use:** <Topic worth durable memory beyond a transient working note.>
+
+## Body
+
+<Questions, sources, findings, open questions.>
+
+## Related
+
+- [[synthesis-or-principle links]]
+- [[trend-analysis/<slug>]]
+
+## Origin
+
+- <Signal or ResearchBrief id>
+```
+
+---
+
+## Learning path template
+
+**Path:** `wiki/learning-paths/<slug>.md`
+
+```markdown
+# <Title>
+
+**When to use:** <Skill or domain someone should study over time.>
+
+## Body
+
+<Stages, resources, exercises, completion criteria.>
+
+## Related
+
+- [[research/<slug>]]
+- [[principles/<slug>]]
+
+## Origin
+
+- <Insight, gap analysis, or career goal>
+```
+
+---
+
+## Trend analysis template
+
+**Path:** `wiki/trend-analysis/<slug>.md`
+
+```markdown
+# <Title>
+
+**When to use:** <Market or technology shift worth tracking over months.>
+
+## Body
+
+<What changed, who cares, implications, watch signals.>
+
+## Related
+
+- [[research/<slug>]]
+- [[decision-logs/<slug>]]
+
+## Origin
+
+- <Signal cluster or radar run date>
+```
+
+---
+
+## Content idea template
+
+**Path:** `wiki/content-ideas/<slug>.md`
+
+```markdown
+# <Title>
+
+**When to use:** <Insight ready to become a post, talk, or project.>
+
+## Body
+
+<Angle, audience, outline, source insights.>
+
+## Related
+
+- [[principles/<slug>]]
+- [[research/<slug>]]
+
+## Origin
+
+- <Insight or synthesis note>
+```
+
+---
+
+## Decision log template
+
+**Path:** `wiki/decision-logs/<slug>.md`
+
+```markdown
+# <Title>
+
+**When to use:** <Choice to prioritize, defer, or explicitly ignore.>
+
+## Body
+
+<Decision, ignored alternatives, rationale, review date.>
+
+## Related
+
+- [[principles/<slug>]]
+- [[trend-analysis/<slug>]]
+
+## Origin
+
+- <Signal, insight, or review session>
+```
+
+---
+
+## Checklists
+
+### Before creating any note
+
+- [ ] Template matches primary category
+- [ ] **When to use** is one clear sentence
+- [ ] **Origin** links to source artifact or note
+- [ ] **Related** wikilinks present (no orphan)
+
+### Principles (instance)
+
+- [ ] No company leakage unless intentional case-study cross-link
+- [ ] Judgment is stable enough to reuse across projects
+
+### Case studies (instance)
+
+- [ ] Intentional public disclosure of named system
+- [ ] Evidence uses repo-relative paths only; no secrets
