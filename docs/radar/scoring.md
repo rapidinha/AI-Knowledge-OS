@@ -40,13 +40,33 @@ Ranking, clustering, and prose remain agent-produced.
 
 ## How the agent scores (workflow)
 
-1. Read `journals/radar/_raw/YYYY-MM-DD.jsonl`.
+1. Read `journals/radar/_raw/YYYY-MM-DD.jsonl` and `journals/radar/topics.yaml`.
 2. Cluster related signals into ≤ `max_opportunities` opportunities.
 3. Assign a leverage **category** (Knowledge, Influence, Opportunity, Builder).
 4. For each opportunity, set dimension scores (e.g. 1–5 or low/medium/high — be consistent within the note).
 5. Write rationale and populate `templates/radar/daily.md` placeholders.
 6. Pick **Highest ROI** rows (Learning, Content, Project).
 7. Populate **Worth Watching** and **Ignore** from lower-priority clusters.
+
+## Recurrence (v2)
+
+Each opportunity links to a durable topic in `journals/radar/topics/<slug>.md`. The daily note shows recurrence inline:
+
+```markdown
+- **Recurrence:** hits 3 · first 2026-07-09 · providers hn, lobsters
+```
+
+Topic graph fields (in `topics.yaml` and topic notes):
+
+| Field | Meaning |
+|-------|---------|
+| `hit_count` | Distinct days the topic appeared |
+| `first_seen` | First day surfaced |
+| `last_seen` | Most recent day |
+| `provider_set` | Providers that contributed signals |
+| `status` | `emerging`, `validated`, or `retired` |
+
+**YouTube bias:** Themes with strong YouTube evidence should lean toward **Influence** (content leverage) when assigning category.
 
 ## Output format
 

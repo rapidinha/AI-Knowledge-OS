@@ -18,7 +18,9 @@ opportunity_count: {{opportunity_count}}
 {{#opportunities}}
 ### {{rank}}. {{title}}
 
+- **Topic:** [[journals/radar/topics/{{topic_slug}}|{{topic_title}}]]
 - **Category:** {{category}}
+- **Recurrence:** hits {{hit_count}} · first {{first_seen}} · providers {{provider_set}}
 - **Scores:** {{scores_inline}}
 - **Why:** {{rationale}}
 - **Sources:** {{sources_md}}
@@ -45,3 +47,8 @@ opportunity_count: {{opportunity_count}}
 ## Signals
 
 Raw: `journals/radar/_raw/{{date}}.jsonl`
+
+## Topics
+
+Index: `journals/radar/topics/_index.md` · Graph: `journals/radar/topics.yaml` (private)
+

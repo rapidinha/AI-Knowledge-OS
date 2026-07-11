@@ -20,7 +20,11 @@ Run when the user asks for:
 
 1. **Config** — Read `journals/radar/config.yaml`. If missing, copy from `templates/radar/config.example.yaml` and ask the user to enable providers before continuing.
 
-2. **Fetch** — Run (use today's date as `YYYY-MM-DD`):
+2. **Topic store bootstrap**
+   - If `journals/radar/topics.yaml` missing → copy `templates/radar/topics.example.yaml`.
+   - Ensure `journals/radar/topics/` exists. If `_index.md` missing → copy `templates/radar/topics-index.md`.
+
+3. **Fetch** — Run (today's date as `YYYY-MM-DD`):
 
    ```bash
    python radar/providers/fetch_enabled.py \
@@ -28,17 +32,30 @@ Run when the user asks for:
      --out journals/radar/_raw/YYYY-MM-DD.jsonl
    ```
 
-3. **Load signals** — Read the jsonl. Dedupe with `radar/lib/dedupe.py` if duplicate URLs or titles appear.
+   Note any `degraded` lines from stderr for the Executive Summary.
 
-4. **Cluster and score (session model only)** — Using **this session's model** (never OpenAI/Anthropic HTTP APIs or SDKs):
-   - Cluster signals into ≤ `defaults.max_opportunities` opportunities
-   - Assign leverage categories: **Knowledge** | **Influence** | **Opportunity** | **Builder**
-   - Fill score dimensions from `score_dimensions` in config
-   - Write a short rationale per opportunity
+4. **Load** — Read jsonl + `topics.yaml` via reading files (optional: `radar.lib.topics_io`). Dedupe URLs/titles if needed.
 
-5. **Write daily note** — Render `journals/radar/YYYY-MM-DD.md` from `templates/radar/daily.md`. Fill frontmatter (`date`, `generated_by`, `providers`, `signal_count`, `opportunity_count`) and all body sections.
+5. **Cluster and score (session model only)** — never OpenAI/Anthropic HTTP APIs or SDKs:
+   - Cluster into ≤ `defaults.max_opportunities` Opportunities (ecosystem themes, not per-feed lists).
+   - Prefer multi-provider Opportunities when evidence exists.
+   - Bias YouTube-heavy themes toward **Influence** (content leverage).
+   - Assign/create topic `slug` per Opportunity; merge with existing topics on alias/title/url overlap.
+   - Update topic fields: `hit_count` (+1 once per distinct day), `last_seen`, `provider_set` union, `recent_urls` (cap 8), `status` hint (`emerging` / `validated` when hits≥3 and ≥2 providers).
+   - Cap ~200 topics; set `status: retired` on oldest low-hit — **do not delete** Markdown notes.
 
-6. **Stop** — Do not research, draft wiki notes, or open Stage 2 work unless the user explicitly decides.
+6. **Persist topic memory (dual-write — required)**
+   - Write `journals/radar/topics.yaml` (machine index).
+   - For each touched topic, create/update `journals/radar/topics/<slug>.md` from `templates/radar/topic.md`:
+     - Refresh **Rolling summary** (2–4 sentences; cumulative, not only today).
+     - Append today's bullet under **Timeline** with wikilink to `[[journals/radar/YYYY-MM-DD]]`.
+     - Merge **Sources** URLs.
+   - Update `journals/radar/topics/_index.md` active/retired lists.
+   - These notes are for **Obsidian and future AI summarization** — keep them readable without `_raw/`.
+
+7. **Write daily note** — `journals/radar/YYYY-MM-DD.md` from `templates/radar/daily.md`, including Topic wikilink + Recurrence from the topic graph.
+
+8. **Stop** — No Stage 2 / wiki edits unless the user Decide's.
 
 ## HITL decisions (when user requests)
 
@@ -67,3 +84,4 @@ Bootstrap `journals/radar/decisions.yaml` from `templates/radar/decisions.exampl
 - Protocol: `docs/radar/protocol.md`
 - Scoring hints: `docs/radar/scoring.md`
 - Providers: `docs/radar/providers.md`
+- v2 design spec: `docs/specs/2026-07-11-leverage-radar-v2-design.md`

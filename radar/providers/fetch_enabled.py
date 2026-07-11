@@ -15,9 +15,12 @@ if str(_ROOT) not in sys.path:
 from radar.lib.dedupe import dedupe_signals
 from radar.lib.io import enabled_providers, load_config
 from radar.providers.arxiv import fetch as arxiv_fetch
+from radar.providers.devto import fetch as devto_fetch
 from radar.providers.github_trending import fetch as github_trending_fetch
 from radar.providers.hn import fetch as hn_fetch
+from radar.providers.lobsters import fetch as lobsters_fetch
 from radar.providers.reddit import fetch as reddit_fetch
+from radar.providers.youtube import fetch as youtube_fetch
 
 
 def _fetch_hn(_meta: dict[str, Any]) -> list[dict]:
@@ -46,11 +49,29 @@ def _fetch_reddit(meta: dict[str, Any]) -> list[dict]:
     )
 
 
+def _fetch_lobsters(meta: dict[str, Any]) -> list[dict]:
+    return lobsters_fetch.fetch(tag=meta.get("tag") or "", limit=int(meta.get("limit") or 30))
+
+
+def _fetch_devto(meta: dict[str, Any]) -> list[dict]:
+    return devto_fetch.fetch(tag=meta.get("tag") or "", limit=int(meta.get("limit") or 30))
+
+
+def _fetch_youtube(meta: dict[str, Any]) -> list[dict]:
+    return youtube_fetch.fetch(
+        channels=meta.get("channels") or [],
+        max_videos_per_channel=int(meta.get("max_videos_per_channel") or 5),
+    )
+
+
 PROVIDER_FETCHERS: dict[str, Callable[[dict[str, Any]], list[dict]]] = {
     "hn": _fetch_hn,
     "github_trending": _fetch_github_trending,
     "arxiv": _fetch_arxiv,
     "reddit": _fetch_reddit,
+    "lobsters": _fetch_lobsters,
+    "devto": _fetch_devto,
+    "youtube": _fetch_youtube,
 }
 
 
@@ -67,7 +88,12 @@ def fetch_all(config: dict[str, Any]) -> tuple[list[dict], dict[str, int]]:
         meta = providers.get(name) or {}
         if not isinstance(meta, dict):
             meta = {}
-        signals = fetcher(meta)
+        try:
+            signals = fetcher(meta)
+        except Exception as exc:
+            print(f"{name}: degraded ({exc})", file=sys.stderr)
+            counts[name] = 0
+            continue
         counts[name] = len(signals)
         raw.extend(signals)
 

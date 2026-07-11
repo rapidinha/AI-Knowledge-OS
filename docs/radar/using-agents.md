@@ -23,7 +23,8 @@ This feature does **not** call LLM vendor APIs from the repo. Scoring and cluste
 ## What the agent does
 
 1. Read or bootstrap `journals/radar/config.yaml` from `templates/radar/config.example.yaml`.
-2. Run fetch aggregation:
+2. Bootstrap topic store: `topics.yaml` from `templates/radar/topics.example.yaml`; `topics/_index.md` from `templates/radar/topics-index.md` if missing.
+3. Run fetch aggregation:
 
    ```bash
    python radar/providers/fetch_enabled.py \
@@ -31,11 +32,14 @@ This feature does **not** call LLM vendor APIs from the repo. Scoring and cluste
      --out journals/radar/_raw/YYYY-MM-DD.jsonl
    ```
 
-3. Read the jsonl, dedupe if needed.
-4. **Using this session's model** (not external APIs): cluster signals, assign categories, score dimensions, write rationale.
-5. Write `journals/radar/YYYY-MM-DD.md` from `templates/radar/daily.md`.
-6. **Stop** — do not research unless the user decides.
-7. On decision requests: update Decide fields, append `decisions.yaml`; on `research`, create `research/radar/<slug>/README.md` from `templates/radar/research-stub.md`.
+4. Read the jsonl and `topics.yaml` (optional helper: `radar.lib.topics_io`), dedupe if needed.
+5. **Using this session's model** (not external APIs): cluster signals, assign categories, score dimensions, update topic graph.
+6. **Dual-write topic memory:** save `topics.yaml` and create/update `topics/<slug>.md` notes (rolling summary, timeline, sources) plus `_index.md`.
+7. Write `journals/radar/YYYY-MM-DD.md` from `templates/radar/daily.md` (topic wikilinks + recurrence).
+8. **Stop** — do not research unless the user decides.
+9. On decision requests: update Decide fields, append `decisions.yaml`; on `research`, create `research/radar/<slug>/README.md` from `templates/radar/research-stub.md`.
+
+**PyYAML** is recommended for `topics_io` and full config parsing (`pip install pyyaml`).
 
 ## Headless schedule (optional)
 
