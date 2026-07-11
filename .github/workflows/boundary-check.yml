@@ -15,7 +15,7 @@ jobs:
       - name: Fail if forbidden paths exist at repo root
         run: |
           set -euo pipefail
-          # Root-only: templates/personal-lab/<name> is allowed (structure scaffold).
+          # Root-only: templates/instance/<name> is allowed (structure scaffold).
           forbidden=(
             knowledge
             notes
@@ -29,7 +29,7 @@ jobs:
           for name in "${forbidden[@]}"; do
             if [ -e "$name" ]; then
               echo "::error::Forbidden path at repository root: $name/"
-              echo "Use templates/personal-lab/ on public trees; keep personal SoT private."
+              echo "Use templates/instance/ on public trees; keep personal SoT private."
               found=1
             fi
           done

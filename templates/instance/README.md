@@ -1,23 +1,23 @@
-# Personal lab template (structure only)
+# Instance template (Context Engine)
 
-Generic scaffold for a **private** source-of-truth repository that consumes [AI-Knowledge-OS](https://github.com/rapidinha/AI-Knowledge-OS).
+Generic scaffold for a **private instance** — a source-of-truth repository that consumes [AI-Knowledge-OS](https://github.com/rapidinha/AI-Knowledge-OS) as its Protocol Kernel.
 
-This directory is safe on the **public** tree. The same folder names at the **repository root** (`knowledge/`, `notes/`, …) are forbidden on upstream — they belong only in each member’s private SoT.
+This directory is safe on the **public** tree. The same folder names at the **repository root** (`knowledge/`, `notes/`, …) are forbidden on upstream — they belong only in each member's private instance.
 
 ## Who this is for
 
 Any org member (or external user) who wants:
 
-1. The public wiki as a library
-2. A private Obsidian vault that also holds personal knowledge
+1. The public framework as a library
+2. A private Obsidian vault that holds their living Knowledge Base
 3. A clear path to promote sanitized notes back upstream
 
 ## Bootstrap
 
 ```bash
 # 1) Create a PRIVATE repo (not a GitHub fork of the public repo — forks cannot be private)
-gh repo create <you>/AI-Knowledge-OS-private --private --clone
-cd AI-Knowledge-OS-private
+gh repo create <you>/AI-Knowledge-OS-instance --private --clone
+cd AI-Knowledge-OS-instance
 
 # 2) Pull the public library as upstream history (or clone upstream then add private remote)
 git remote add upstream https://github.com/rapidinha/AI-Knowledge-OS.git
@@ -25,13 +25,13 @@ git fetch upstream
 git checkout -B main upstream/main
 
 # 3) Copy this template to the repo root (structure only — no personal content)
-cp -R templates/personal-lab/knowledge .
-cp -R templates/personal-lab/notes .
-cp -R templates/personal-lab/research .
-cp -R templates/personal-lab/journals .
-cp -R templates/personal-lab/experiments .
-cp templates/personal-lab/LAB.md ./LAB.md
-cp templates/personal-lab/AGENTS.private.md ./AGENTS.private.md
+cp -R templates/instance/knowledge .
+cp -R templates/instance/notes .
+cp -R templates/instance/research .
+cp -R templates/instance/journals .
+cp -R templates/instance/experiments .
+cp templates/instance/LAB.md ./LAB.md
+cp templates/instance/AGENTS.private.md ./AGENTS.private.md
 
 # 4) Edit LAB.md remotes for your accounts, then commit to origin (private)
 
@@ -42,13 +42,25 @@ cp templates/radar/config.example.yaml journals/radar/config.yaml
 
 Open the **private repo root** in Obsidian (not only `wiki/`).
 
+## Sync from upstream
+
+After bootstrap, pull framework updates without overwriting your instance wiki:
+
+```bash
+templates/instance/scripts/sync-from-upstream.sh
+```
+
+The script ships with the template (added in Phase 1). Until it exists in your checkout, manually merge framework paths (`contracts/`, `engine/`, `agents/`, `providers/`, `docs/`, institutional root docs) and use `--ignore-existing` semantics for `wiki/`. **Rule:** instance `wiki/` wins.
+
 ## Layout
 
 ```text
-templates/personal-lab/          ← lives on public upstream (this folder)
+templates/instance/              ← lives on public upstream (this folder)
 ├── README.md                    ← you are here
 ├── LAB.md                       ← copy to private root
 ├── AGENTS.private.md            ← copy to private root
+├── scripts/
+│   └── sync-from-upstream.sh    ← sync framework without clobbering wiki
 ├── knowledge/
 │   ├── README.md
 │   ├── private/
@@ -60,11 +72,11 @@ templates/personal-lab/          ← lives on public upstream (this folder)
 └── experiments/
 ```
 
-After copy, the private SoT root looks like:
+After copy, the private instance root looks like:
 
 ```text
-(private SoT)/
-├── wiki/                        ← from upstream
+(private instance)/
+├── wiki/                        ← from upstream (scaffold) + your living KB
 ├── knowledge/{private,shared,imported}/
 ├── notes/
 ├── research/

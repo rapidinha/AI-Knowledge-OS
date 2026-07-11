@@ -81,8 +81,6 @@ These names are **forbidden at the repository root** on the public repository (C
 
 **Allowed on upstream:** the same structure as a **template** under [`templates/instance/`](templates/instance/) (structure and empty READMEs only — no personal content). Copy that template into a private repo root.
 
-> **Note:** Until the directory rename lands, the template may still appear as `templates/personal-lab/` locally; treat it as `templates/instance/`.
-
 ### 3.3 Private instance (SoT)
 
 Vault **physical root** = repository root. **Logical domains:**

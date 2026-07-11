@@ -34,17 +34,13 @@ git checkout -B main upstream/main
 Copy the instance template into your repo root:
 
 ```bash
-# Target path: templates/instance/ (may still be templates/personal-lab/ until renamed in upstream)
-TEMPLATE=templates/instance
-test -d "$TEMPLATE" || TEMPLATE=templates/personal-lab
-
-cp -R "$TEMPLATE"/knowledge .
-cp -R "$TEMPLATE"/notes .
-cp -R "$TEMPLATE"/research .
-cp -R "$TEMPLATE"/journals .
-cp -R "$TEMPLATE"/experiments .
-cp "$TEMPLATE"/LAB.md ./LAB.md
-cp "$TEMPLATE"/AGENTS.private.md ./AGENTS.private.md
+cp -R templates/instance/knowledge .
+cp -R templates/instance/notes .
+cp -R templates/instance/research .
+cp -R templates/instance/journals .
+cp -R templates/instance/experiments .
+cp templates/instance/LAB.md ./LAB.md
+cp templates/instance/AGENTS.private.md ./AGENTS.private.md
 ```
 
 Edit `LAB.md` with your remotes and commit to your private origin. Your **living Knowledge Base** grows under `wiki/` in this private repo — never in the public upstream tree.
