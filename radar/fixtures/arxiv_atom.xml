@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:arxiv="http://arxiv.org/schemas/atom">
+  <title>ArXiv Query: search_query=cat:cs.AI+OR+cat:cs.SE</title>
+  <entry>
+    <id>http://arxiv.org/abs/2301.00001v1</id>
+    <updated>2023-01-02T12:00:00Z</updated>
+    <published>2023-01-01T08:30:00Z</published>
+    <title>Attention Is All You Need Again</title>
+    <summary>We revisit transformer architectures.</summary>
+    <author>
+      <name>Alice Researcher</name>
+    </author>
+    <author>
+      <name>Bob Scientist</name>
+    </author>
+    <link href="http://arxiv.org/abs/2301.00001" rel="alternate" type="text/html"/>
+    <link href="http://arxiv.org/pdf/2301.00001" rel="related" type="application/pdf"/>
+    <arxiv:primary_category term="cs.AI"/>
+  </entry>
+  <entry>
+    <id>http://arxiv.org/abs/2302.00002v2</id>
+    <updated>2023-02-15T18:00:00Z</updated>
+    <published>2023-02-10T14:00:00Z</published>
+    <title>Refactoring at Scale</title>
+    <summary>A study of large-scale software evolution.</summary>
+    <author>
+      <name>Carol Engineer</name>
+    </author>
+    <link href="http://arxiv.org/abs/2302.00002" rel="alternate" type="text/html"/>
+    <arxiv:primary_category term="cs.SE"/>
+  </entry>
+</feed>

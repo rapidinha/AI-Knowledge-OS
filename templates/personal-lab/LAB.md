@@ -54,3 +54,8 @@ Sanitization: [GOVERNANCE.md](GOVERNANCE.md) §4.
 - Personal trees are write-private; never suggest PRs that include them.
 - If you used any file under `knowledge/`, `notes/`, `research/`, `journals/`, or `experiments/`, the output is **private**.
 - Doubt ⇒ private.
+
+## Leverage Radar
+
+Optional discovery journal under `journals/radar/`. Copy `templates/radar/config.example.yaml` to `journals/radar/config.yaml`, enable providers, then run the **leverage-radar** skill in Cursor or Claude Code. See `docs/radar/using-agents.md`.
+

@@ -29,6 +29,7 @@ Start at [wiki/index.md](wiki/index.md).
 Full governance: [GOVERNANCE.md](GOVERNANCE.md) · Contributing: [CONTRIBUTING.md](CONTRIBUTING.md) · Agents: [AGENTS.md](AGENTS.md)
 
 **Personal lab (structure only):** copy [`templates/personal-lab/`](templates/personal-lab/) into a **private** repo — never commit those trees at the public repo root.
+| [docs/radar/using-agents.md](docs/radar/using-agents.md) | Leverage Radar — run with Cursor or Claude Code |
 
 ## What this repo contains
 

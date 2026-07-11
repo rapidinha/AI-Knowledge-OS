@@ -1,3 +1,9 @@
 .DS_Store
 **/.DS_Store
 /graphify-out/
+
+# Leverage Radar (personal lab — never commit raw/config)
+journals/radar/_raw/
+journals/radar/config.yaml
+__pycache__/
+*.py[cod]
