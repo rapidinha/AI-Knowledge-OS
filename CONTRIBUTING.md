@@ -1,38 +1,39 @@
-# Contributing to AI-Knowledge-OS
+# Contributing to AI Knowledge OS
 
-Thank you for helping grow a **reusable engineering wiki**. Please read the [constitution in the README](README.md) and [GOVERNANCE.md](GOVERNANCE.md) before opening a PR.
+Thank you for helping grow the **Context Engine** framework. Please read the [constitution in the README](README.md) and [GOVERNANCE.md](GOVERNANCE.md) before opening a PR.
+
+This repository is a **Protocol Kernel** — contracts, cycle, agents, providers, and docs — not a personal knowledge base. Your living Knowledge Base belongs in a **private instance** copied from [`templates/instance/`](templates/instance/).
 
 ## What to contribute
 
 | Welcome | Not welcome |
 |---------|-------------|
-| Generic principles and patterns | Personal notes, journals, highlights |
-| Public case studies with evidence paths | Secrets, credentials, private URLs |
-| ADRs/RFCs/playbooks that strangers can apply | Content that only makes sense with your biography |
-| Fixes to templates, MOCs, typos | Dumps from a private Obsidian vault |
+| Contract schemas and engine protocol improvements | Personal notes, journals, highlights |
+| Agent and provider packs | Secrets, credentials, private URLs |
+| Wiki **scaffold** (templates, structure) | Living instance wiki content |
+| Institutional and feature docs | Content that only makes sense with your biography |
+| Generic examples strangers can apply | Dumps from a private vault |
 
 ## Classification (short)
 
-1. Would a stranger reuse this without your personal context? If **no** → do not submit.
-2. Prefer **principles** (no org names) over case studies when possible.
-3. Case studies must stay free of secrets and copied source blobs.
-4. When unsure → **do not** open a PR; ask in an issue.
+1. Is this a **framework** artifact (contract, engine rule, agent, provider, doc, scaffold)? If **no** → do not submit.
+2. Would a stranger reuse this without your personal context? If **no** → do not submit.
+3. When unsure → **do not** open a PR; ask in an issue.
 
 ## Pull request process
 
-1. Branch from the latest `main`.
-2. Keep the diff inside allowed paths (`wiki/`, `docs/`, top-level project docs).
+1. Branch from the latest `main` (prefer `feature/public/<topic>`).
+2. Keep the diff inside allowed paths: `contracts/`, `engine/`, `agents/`, `providers/`, `wiki/` (scaffold only), `docs/`, top-level institutional docs.
 3. Complete the PR template sanitization checklist (all answers **No** for private dependence).
 4. Ensure CI `boundary-check` passes.
-5. Link related issues; explain *why* the change is reusable.
+5. Link related issues; explain *why* the change improves the framework.
 
-## Dual-tree rules
+## Private instance vs upstream
 
-- `wiki/principles/` — no company, product, or absolute paths.
-- `wiki/case-studies/<org>/` — evidence allowed; no secrets.
-
-Follow `wiki/_meta/templates.md`.
+- **Instance `wiki/`** is your long-term Knowledge Base — it does not get promoted upstream by default.
+- Upstream `wiki/` is **scaffold only** (templates, categories, empty structure).
+- Sync policy: **instance wiki wins**. See [GOVERNANCE.md](GOVERNANCE.md) §4.
 
 ## Local preview
 
-Open the `wiki/` folder as an Obsidian vault (or any markdown preview). Public contributions should not require files outside `wiki/` and `docs/`.
+Open `wiki/` as a markdown preview or Obsidian vault to inspect scaffold structure. Framework contributions should not require files outside allowed public paths.
