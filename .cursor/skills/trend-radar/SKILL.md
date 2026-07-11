@@ -1,5 +1,5 @@
 ---
-name: leverage-radar
+name: trend-radar
 description: Run daily Leverage Radar discovery (fetch signals, cluster/score in-session, write Obsidian journal). Use when user asks for leverage radar, daily radar, or what deserves attention today.
 ---
 
@@ -27,14 +27,14 @@ Run when the user asks for:
 3. **Fetch** — Run (today's date as `YYYY-MM-DD`):
 
    ```bash
-   python radar/providers/fetch_enabled.py \
+   python providers/signals/fetch_enabled.py \
      --config journals/radar/config.yaml \
      --out journals/radar/_raw/YYYY-MM-DD.jsonl
    ```
 
    Note any `degraded` lines from stderr for the Executive Summary.
 
-4. **Load** — Read jsonl + `topics.yaml` via reading files (optional: `radar.lib.topics_io`). Dedupe URLs/titles if needed.
+4. **Load** — Read jsonl + `topics.yaml` via reading files (optional: `providers.signals.lib.topics_io`). Dedupe URLs/titles if needed.
 
 5. **Cluster and score (session model only)** — never OpenAI/Anthropic HTTP APIs or SDKs:
    - Cluster into ≤ `defaults.max_opportunities` Opportunities (ecosystem themes, not per-feed lists).
