@@ -19,3 +19,7 @@ Research Agent.
 ## Consumers
 
 Synthesis Agent, Knowledge Curator.
+
+## Wiki touchpoints
+
+- May land as `wiki/research/` notes in the instance.

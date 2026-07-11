@@ -25,3 +25,8 @@ Signal providers (e.g. Trend Radar sources).
 ## Consumers
 
 Research Agent, Trend Radar clustering, Knowledge Curator (indirect).
+
+## Wiki touchpoints
+
+- Typically does not write wiki directly.
+- May later inform `wiki/trend-analysis/` entries.

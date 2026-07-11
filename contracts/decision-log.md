@@ -18,3 +18,7 @@ Human or agent at decision points in the cycle.
 ## Consumers
 
 Learning Agent, future Context assembly.
+
+## Wiki touchpoints
+
+- Writes to `wiki/decision-logs/`.

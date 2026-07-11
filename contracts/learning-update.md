@@ -17,3 +17,7 @@ Learning Agent (end of cycle).
 ## Consumers
 
 Knowledge Curator, next Research cycle.
+
+## Wiki touchpoints
+
+- Updates `learning-paths`, `principles`, and `decision-logs` as needed.

@@ -6,7 +6,7 @@
 
 | Field | Type | Notes |
 |-------|------|-------|
-| category | string | Wiki section (e.g. `principles`, `patterns`) |
+| category | string | Wiki section (e.g. `principles`, `research`) |
 | slug | string | Stable path key |
 | when_to_use | string | Applicability guidance |
 | links[] | string[] | Related wiki slugs |

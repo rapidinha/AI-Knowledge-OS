@@ -18,3 +18,7 @@ Insight Agent.
 ## Consumers
 
 Content Agent, Project workflows, Decision Log.
+
+## Wiki touchpoints
+
+- May spawn `wiki/content-ideas/` or `decision-logs/` entries.

@@ -18,3 +18,7 @@ Synthesis Agent.
 ## Consumers
 
 Knowledge Curator, Insight Agent, Decision Log.
+
+## Wiki touchpoints
+
+- Often becomes `wiki/trend-analysis/` or `principles` drafts.
