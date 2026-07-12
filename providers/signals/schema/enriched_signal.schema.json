@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RadarEnrichedSignal",
+  "type": "object",
+  "required": [
+    "id",
+    "provider",
+    "url",
+    "title",
+    "ts",
+    "canonical_url",
+    "norm_title",
+    "entities",
+    "topics_hint",
+    "language",
+    "enrich_meta"
+  ],
+  "properties": {
+    "id": { "type": "string" },
+    "provider": { "type": "string" },
+    "url": { "type": "string" },
+    "title": { "type": "string" },
+    "ts": { "type": "string", "description": "ISO-8601 timestamp" },
+    "author": { "type": ["string", "null"] },
+    "text": { "type": ["string", "null"] },
+    "metrics": { "type": "object" },
+    "provenance": { "type": "object" },
+    "canonical_url": { "type": "string" },
+    "norm_title": { "type": "string" },
+    "entities": { "type": "array", "items": { "type": "string" } },
+    "topics_hint": { "type": "array", "items": { "type": "string" } },
+    "language": { "type": ["string", "null"] },
+    "enrich_meta": {
+      "type": "object",
+      "required": ["version", "cache_hit"],
+      "properties": {
+        "version": { "type": "integer" },
+        "cache_hit": { "type": "boolean" }
+      }
+    }
+  }
+}

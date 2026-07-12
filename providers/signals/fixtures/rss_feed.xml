@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Example Blog</title>
+  <entry>
+    <id>urn:uuid:example-entry-1</id>
+    <title>Building Agent Skills</title>
+    <link href="https://example.com/posts/agent-skills" rel="alternate"/>
+    <published>2026-07-10T10:00:00Z</published>
+    <author>
+      <name>Jane Doe</name>
+    </author>
+    <summary>Notes on packaging agent skills for reuse.</summary>
+  </entry>
+</feed>

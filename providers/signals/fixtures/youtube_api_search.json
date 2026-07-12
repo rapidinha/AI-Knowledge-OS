@@ -1,0 +1,30 @@
+{
+  "kind": "youtube#searchListResponse",
+  "items": [
+    {
+      "kind": "youtube#searchResult",
+      "id": {
+        "kind": "youtube#video",
+        "videoId": "dQw4w9WgXcQ"
+      },
+      "snippet": {
+        "publishedAt": "2026-07-10T12:00:00Z",
+        "channelTitle": "Example Channel",
+        "title": "Building AI Agents in Production",
+        "description": "A short overview of agent patterns for shipping."
+      }
+    },
+    {
+      "kind": "youtube#searchResult",
+      "id": {
+        "kind": "youtube#video",
+        "videoId": "abc123xyz"
+      },
+      "snippet": {
+        "publishedAt": "2026-07-11T08:30:00Z",
+        "channelTitle": "Dev Talks",
+        "title": "Context Engineering Basics"
+      }
+    }
+  ]
+}

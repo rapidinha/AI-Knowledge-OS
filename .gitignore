@@ -9,3 +9,4 @@ __pycache__/
 *.py[cod]
 
 journals/radar/topics.yaml
+journals/radar/_pipeline/

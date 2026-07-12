@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RadarRunMeta",
+  "type": "object",
+  "required": [
+    "date",
+    "schema_version",
+    "providers_ok",
+    "providers_degraded",
+    "counts"
+  ],
+  "properties": {
+    "date": { "type": "string", "description": "YYYY-MM-DD run date" },
+    "schema_version": { "type": "integer" },
+    "providers_ok": { "type": "array", "items": { "type": "string" } },
+    "providers_degraded": { "type": "array", "items": { "type": "string" } },
+    "counts": {
+      "type": "object",
+      "additionalProperties": { "type": "integer" }
+    },
+    "notes": { "type": "array", "items": { "type": "string" } },
+    "timings_ms": {
+      "type": "object",
+      "additionalProperties": { "type": "integer" }
+    }
+  }
+}

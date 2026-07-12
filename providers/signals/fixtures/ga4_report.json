@@ -1,0 +1,14 @@
+{
+  "dimensionHeaders": [{"name": "pagePath"}],
+  "metricHeaders": [{"name": "sessions"}, {"name": "screenPageViews"}],
+  "rows": [
+    {
+      "dimensionValues": [{"value": "/blog/agent-skills-guide"}],
+      "metricValues": [{"value": "128"}, {"value": "340"}]
+    },
+    {
+      "dimensionValues": [{"value": "/notes/context-engineering"}],
+      "metricValues": [{"value": "96"}, {"value": "210"}]
+    }
+  ]
+}
