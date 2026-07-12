@@ -2,7 +2,7 @@
 
 **Status:** Accepted for planning  
 **Date:** 2026-07-12  
-**Repo roles:** Public library (`radar/`, `docs/`, skills, templates) + private lab SoT (`journals/radar/`)  
+**Repo roles:** Public library (`providers/signals/`, `docs/`, skills, templates) + private lab SoT (`journals/radar/`)  
 **Approach:** Pipeline contract + adapters + light Supervisor/Sub-Agents (Python-first hybrid)  
 **Depends on:** [Leverage Radar v2](2026-07-11-leverage-radar-v2-design.md)  
 **Naming:** Product/docs may say **Trend Radar**; existing paths and skill id `leverage-radar` remain compatible unless a follow-up rename is planned separately.
@@ -49,6 +49,10 @@ Target questions for the daily output:
 
 ---
 
+> **Implementation paths (Context Engine layout):** `providers/signals/pipeline/`, `providers/signals/sources/`, `tests/providers/signals/`. Skill: `agents/trend-radar/SKILL.md`.
+
+
+
 ## 2. Design principles
 
 | Principle | Implication |
@@ -59,7 +63,7 @@ Target questions for the daily output:
 | High explainability | Scores, degrade reasons, and cluster membership are inspectable on disk |
 | Auditable artifacts | Versioned schemas; JSON/JSONL machine path; optional Markdown for human audit |
 | Obsidian Second Brain | Dual-write topic graph under `journals/radar/topics/`; daily note wikilinks |
-| Private-safe OSS | Generic adapters may live in public `radar/`; live config, tokens, and personal outputs stay in the lab |
+| Private-safe OSS | Generic adapters may live in public `providers/signals/`; live config, tokens, and personal outputs stay in the lab |
 
 Inspiration from editorial pipelines (e.g. curated multi-section digests): **structured stages and specialized commentary**, not list-of-links dumping — without adopting their delivery stack.
 
@@ -94,7 +98,7 @@ User / Skill (Supervisor)
 |------|--------------------------|----------------|
 | **Supervisor** | Primary session agent running the Trend/Leverage Radar skill | Not a separate daemon or LangGraph app |
 | **Sub-agent** | Stage-specific prompt + Python tools + minimal artifact input | Not a required multi-process fleet |
-| **Execution layer** | Pure Python functions / CLI entrypoints under `radar/` | Not vendor LLM HTTP from the repo |
+| **Execution layer** | Pure Python functions / CLI entrypoints under `providers/signals/` | Not vendor LLM HTTP from the repo |
 
 Default UX: user asks to run today’s radar → supervisor runs full pipeline. Power users / agent may invoke a single stage.
 
@@ -139,7 +143,7 @@ Legacy `_raw/YYYY-MM-DD.jsonl` may alias or be written as a copy of `signals.jso
 
 ## 4. Data contracts
 
-Schemas are versioned (Pydantic in Python; mirror JSON Schema under `radar/schema/` where useful).
+Schemas are versioned (Pydantic in Python; mirror JSON Schema under `providers/signals/schema/` where useful).
 
 ### 4.1 `Signal` (existing, extended providers)
 

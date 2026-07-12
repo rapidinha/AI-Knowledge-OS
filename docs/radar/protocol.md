@@ -1,5 +1,3 @@
-> **Note:** Leverage Radar is a **reference signal provider** for AI Knowledge OS, not the product identity. See [ARCHITECTURE.md](../../ARCHITECTURE.md).
-
 # Leverage Radar protocol
 
 Vault-native protocol for Stage 1 discovery. Markdown under `journals/radar/` is the source of truth; agents are the only writers of radar artifacts.
@@ -10,7 +8,8 @@ Vault-native protocol for Stage 1 discovery. Markdown under `journals/radar/` is
 |------|---------|
 | `journals/radar/YYYY-MM-DD.md` | Daily Leverage Radar report (Obsidian) |
 | `journals/radar/decisions.yaml` | Optional append-only decision log (agent-maintained) |
-| `journals/radar/_raw/YYYY-MM-DD.jsonl` | Per-day signal cache (gitignored) |
+| `journals/radar/_pipeline/YYYY-MM-DD/` | Pipeline artifacts: `signals.jsonl`, `enriched.jsonl`, `clusters.json`, `run_meta.json` (gitignored) |
+| `journals/radar/_raw/YYYY-MM-DD.jsonl` | Legacy per-day signal cache (mirrored from ingest; gitignored) |
 | `journals/radar/config.yaml` | Private weights, subs, keys, personal relevance (**never promote**) |
 | `journals/radar/topics.yaml` | Machine topic graph (gitignored) |
 | `journals/radar/topics/<slug>.md` | Obsidian topic notes + rolling summary (durable) |
@@ -21,18 +20,41 @@ Bootstrap: copy `templates/radar/config.example.yaml` → `journals/radar/config
 
 ## Data flow
 
+Python stages write auditable artifacts under `journals/radar/_pipeline/YYYY-MM-DD/`. The agent runs stages via `providers/signals/pipeline/run_stages.py`, then performs cluster refinement, judgement scoring, and synthesis **inside the session** (no vendor LLM APIs from repo tools).
+
 ```text
 Providers (adapters)
-    → journals/radar/_raw/YYYY-MM-DD.jsonl
-    → cheap URL/title dedupe
-    → agent: cluster → Opportunities + leverage category
-    → agent: extensible score map + rationale
-    → agent: dual-write topic graph (topics.yaml + topics/<slug>.md + _index.md)
-    → journals/radar/YYYY-MM-DD.md
+    → [ingest]  signals.jsonl + run_meta.json (+ legacy _raw/YYYY-MM-DD.jsonl)
+    → [enrich]  enriched.jsonl (cheap Python + optional session refine per contracts/prompts/enrich.md)
+    → [correlate] clusters.json (hint-cluster + deterministic score fields)
+    → [session] semantic merge/refine → Opportunities + leverage category
+    → [session] judgement scores (novelty, hype vs substance) on top of deterministic fields
+    → [session] dual-write topic graph (topics.yaml + topics/<slug>.md + _index.md)
+    → [session] journals/radar/YYYY-MM-DD.md (contracts/prompts/synthesize.md)
     → Human decision (in-note or via agent chat)
     → agent updates note + decisions.yaml
     → if research: research/radar/<slug>/README.md stub
 ```
+
+### Pipeline entrypoint
+
+```bash
+python providers/signals/pipeline/run_stages.py \
+  --config journals/radar/config.yaml \
+  --radar-root journals/radar \
+  --date YYYY-MM-DD \
+  --stage ingest|enrich|correlate|all
+```
+
+Stages `score` and `synthesize` are reserved hooks; v2 runs deterministic scoring inside `correlate` and leaves final synthesis to the agent session.
+
+### Personal relevance (boost-only)
+
+`personal_relevance` may come from GA4/Search Console token overlap in Python (`providers/signals/pipeline/score.py`) and from private config hints. It **boosts ranking only** — never drives narrative. The agent must **not** leak GA4/GSC raw metrics, page paths, or query strings into daily prose.
+
+### Setup assist
+
+When `run_meta.json` lists setup-related entries in `providers_degraded`, the agent follows `contracts/prompts/configure-provider.md`: one provider at a time, secrets via environment variables, dry-run `--stage ingest` with only that provider enabled. **Never commit** tokens, service-account JSON, or personal `config.yaml`.
 
 **Topic memory dual-write (v2):** The agent writes both `journals/radar/topics.yaml` (machine index, gitignored) and per-topic Markdown notes under `journals/radar/topics/<slug>.md` (Obsidian-durable). Future AI summarization should prefer topic notes (`## Rolling summary`, `## Timeline`, `## Sources`) over `_raw/` history.
 
@@ -40,7 +62,7 @@ Nothing from Stage 1 enters durable `wiki/principles/` or public case studies.
 
 ## Entities
 
-**Signal** — one provider item: `id`, `provider`, `url`, `title`, `ts`, `author?`, `text?`, `metrics{}`, `provenance`. See `radar/schema/signal.schema.json`.
+**Signal** — one provider item: `id`, `provider`, `url`, `title`, `ts`, `author?`, `text?`, `metrics{}`, `provenance`. See `providers/signals/schema/signal.schema.json`.
 
 **Opportunity** — clustered trend: `slug`, `category`, `scores{}`, `sources[]`, `rationale`, `status`.
 

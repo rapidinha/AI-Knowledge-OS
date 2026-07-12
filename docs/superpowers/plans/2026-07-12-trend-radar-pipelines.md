@@ -66,14 +66,14 @@ contracts/prompts/                      # stage prompt stubs for supervisor
   synthesize.md
   configure-provider.md
 
-skills/leverage-radar/SKILL.md          # pipeline + setup assist
-.cursor/skills/leverage-radar/SKILL.md  # sync
-.claude/skills/leverage-radar/SKILL.md  # sync
+agents/trend-radar/SKILL.md          # pipeline + setup assist
+.cursor/agents/trend-radar/SKILL.md  # sync
+.claude/agents/trend-radar/SKILL.md  # sync
 
 docs/radar/
   protocol.md, providers.md, scoring.md, using-agents.md
 
-tests/radar/
+tests/providers/signals/
   test_pipeline_models.py
   test_pipeline_paths.py
   test_pipeline_enrich.py
@@ -92,25 +92,29 @@ tests/radar/
 
 ---
 
+> **Implementation paths (Context Engine layout):** `providers/signals/pipeline/`, `providers/signals/sources/`, `tests/providers/signals/`. Skill: `agents/trend-radar/SKILL.md`.
+
+
+
 ### Task 1: Gitignore + pipeline package skeleton
 
 **Files:**
 - Modify: `.gitignore`
-- Create: `radar/pipeline/__init__.py`
-- Create: `radar/pipeline/paths.py`
-- Test: `tests/radar/test_pipeline_paths.py`
+- Create: `providers/signals/pipeline/__init__.py`
+- Create: `providers/signals/pipeline/paths.py`
+- Test: `tests/providers/signals/test_pipeline_paths.py`
 
 - [ ] **Step 1: Write the failing test**
 
 ```python
-# tests/radar/test_pipeline_paths.py
+# tests/providers/signals/test_pipeline_paths.py
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-from radar.pipeline.paths import PipelinePaths
+from providers.signals.pipeline.paths import PipelinePaths
 
 
 def test_pipeline_paths_layout(tmp_path: Path):
@@ -126,7 +130,7 @@ def test_pipeline_paths_layout(tmp_path: Path):
 - [ ] **Step 2: Run test to verify it fails**
 
 ```bash
-python3 -m pytest tests/radar/test_pipeline_paths.py -v
+python3 -m pytest tests/providers/signals/test_pipeline_paths.py -v
 ```
 
 Expected: FAIL with `ModuleNotFoundError` or import error for `radar.pipeline.paths`.
@@ -139,9 +143,9 @@ Append to `.gitignore`:
 journals/radar/_pipeline/
 ```
 
-Create `radar/pipeline/__init__.py` (empty or docstring only).
+Create `providers/signals/pipeline/__init__.py` (empty or docstring only).
 
-Create `radar/pipeline/paths.py`:
+Create `providers/signals/pipeline/paths.py`:
 
 ```python
 from __future__ import annotations
@@ -187,7 +191,7 @@ class PipelinePaths:
 - [ ] **Step 4: Run test to verify it passes**
 
 ```bash
-python3 -m pytest tests/radar/test_pipeline_paths.py -v
+python3 -m pytest tests/providers/signals/test_pipeline_paths.py -v
 ```
 
 Expected: PASS
@@ -195,7 +199,7 @@ Expected: PASS
 - [ ] **Step 5: Commit**
 
 ```bash
-git add .gitignore radar/pipeline/__init__.py radar/pipeline/paths.py tests/radar/test_pipeline_paths.py
+git add .gitignore providers/signals/pipeline/__init__.py providers/signals/pipeline/paths.py tests/providers/signals/test_pipeline_paths.py
 git commit -m "feat(radar): add pipeline path layout and gitignore"
 ```
 
@@ -204,24 +208,24 @@ git commit -m "feat(radar): add pipeline path layout and gitignore"
 ### Task 2: Artifact models + JSON schemas
 
 **Files:**
-- Create: `radar/pipeline/models.py`
-- Create: `radar/pipeline/artifacts.py`
-- Create: `radar/schema/enriched_signal.schema.json`
-- Create: `radar/schema/cluster.schema.json`
-- Create: `radar/schema/run_meta.schema.json`
-- Test: `tests/radar/test_pipeline_models.py`
+- Create: `providers/signals/pipeline/models.py`
+- Create: `providers/signals/pipeline/artifacts.py`
+- Create: `providers/signals/schema/enriched_signal.schema.json`
+- Create: `providers/signals/schema/cluster.schema.json`
+- Create: `providers/signals/schema/run_meta.schema.json`
+- Test: `tests/providers/signals/test_pipeline_models.py`
 
 - [ ] **Step 1: Write the failing test**
 
 ```python
-# tests/radar/test_pipeline_models.py
+# tests/providers/signals/test_pipeline_models.py
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-from radar.pipeline.models import (
+from providers.signals.pipeline.models import (
     Cluster,
     EnrichedSignal,
     RunMeta,
@@ -286,14 +290,14 @@ def test_cluster_and_run_meta_roundtrip():
 - [ ] **Step 2: Run test to verify it fails**
 
 ```bash
-python3 -m pytest tests/radar/test_pipeline_models.py -v
+python3 -m pytest tests/providers/signals/test_pipeline_models.py -v
 ```
 
 Expected: FAIL import / missing symbols.
 
 - [ ] **Step 3: Write minimal implementation**
 
-`radar/pipeline/models.py` — required surface:
+`providers/signals/pipeline/models.py` — required surface:
 
 ```python
 from __future__ import annotations
@@ -301,7 +305,7 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass, field
 from typing import Any
 
-from radar.lib.dedupe import canonicalize_url
+from providers.signals.lib.dedupe import canonicalize_url
 
 REQUIRED_SIGNAL = ("id", "provider", "url", "title", "ts")
 ENRICH_VERSION = 1
@@ -389,7 +393,7 @@ class RunMeta:
         )
 ```
 
-`radar/pipeline/artifacts.py`:
+`providers/signals/pipeline/artifacts.py`:
 
 ```python
 from __future__ import annotations
@@ -426,12 +430,12 @@ def read_json(path: Path) -> Any:
     return json.loads(path.read_text(encoding="utf-8"))
 ```
 
-Add JSON Schema files under `radar/schema/` mirroring `EnrichedSignal`, `Cluster`, `RunMeta` required fields (draft 2020-12, same style as `signal.schema.json`).
+Add JSON Schema files under `providers/signals/schema/` mirroring `EnrichedSignal`, `Cluster`, `RunMeta` required fields (draft 2020-12, same style as `signal.schema.json`).
 
 - [ ] **Step 4: Run test to verify it passes**
 
 ```bash
-python3 -m pytest tests/radar/test_pipeline_models.py -v
+python3 -m pytest tests/providers/signals/test_pipeline_models.py -v
 ```
 
 Expected: PASS
@@ -439,7 +443,7 @@ Expected: PASS
 - [ ] **Step 5: Commit**
 
 ```bash
-git add radar/pipeline/models.py radar/pipeline/artifacts.py radar/schema/*.json tests/radar/test_pipeline_models.py
+git add providers/signals/pipeline/models.py providers/signals/pipeline/artifacts.py providers/signals/schema/*.json tests/providers/signals/test_pipeline_models.py
 git commit -m "feat(radar): add pipeline models and artifact I/O"
 ```
 
@@ -448,20 +452,20 @@ git commit -m "feat(radar): add pipeline models and artifact I/O"
 ### Task 3: Enrich stage (cheap + cache)
 
 **Files:**
-- Create: `radar/pipeline/enrich.py`
-- Test: `tests/radar/test_pipeline_enrich.py`
+- Create: `providers/signals/pipeline/enrich.py`
+- Test: `tests/providers/signals/test_pipeline_enrich.py`
 
 - [ ] **Step 1: Write the failing test**
 
 ```python
-# tests/radar/test_pipeline_enrich.py
+# tests/providers/signals/test_pipeline_enrich.py
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-from radar.pipeline.enrich import enrich_batch
+from providers.signals.pipeline.enrich import enrich_batch
 
 
 def test_enrich_batch_dedupes_by_canonical_and_caches(tmp_path: Path):
@@ -492,7 +496,7 @@ def test_enrich_batch_dedupes_by_canonical_and_caches(tmp_path: Path):
 - [ ] **Step 2: Run test to verify it fails**
 
 ```bash
-python3 -m pytest tests/radar/test_pipeline_enrich.py -v
+python3 -m pytest tests/providers/signals/test_pipeline_enrich.py -v
 ```
 
 Expected: FAIL missing `enrich_batch`.
@@ -500,15 +504,15 @@ Expected: FAIL missing `enrich_batch`.
 - [ ] **Step 3: Write minimal implementation**
 
 ```python
-# radar/pipeline/enrich.py
+# providers/signals/pipeline/enrich.py
 from __future__ import annotations
 
 import json
 from pathlib import Path
 from typing import Any
 
-from radar.lib.dedupe import canonicalize_url
-from radar.pipeline.models import enrich_signal, validate_signal
+from providers.signals.lib.dedupe import canonicalize_url
+from providers.signals.pipeline.models import enrich_signal, validate_signal
 
 
 def _load_cache(path: Path | None) -> dict[str, dict[str, Any]]:
@@ -559,7 +563,7 @@ def enrich_batch(
 - [ ] **Step 4: Run test to verify it passes**
 
 ```bash
-python3 -m pytest tests/radar/test_pipeline_enrich.py -v
+python3 -m pytest tests/providers/signals/test_pipeline_enrich.py -v
 ```
 
 Expected: PASS
@@ -567,7 +571,7 @@ Expected: PASS
 - [ ] **Step 5: Commit**
 
 ```bash
-git add radar/pipeline/enrich.py tests/radar/test_pipeline_enrich.py
+git add providers/signals/pipeline/enrich.py tests/providers/signals/test_pipeline_enrich.py
 git commit -m "feat(radar): add cheap enrich stage with URL cache"
 ```
 
@@ -576,22 +580,22 @@ git commit -m "feat(radar): add cheap enrich stage with URL cache"
 ### Task 4: Correlate + score stages
 
 **Files:**
-- Create: `radar/pipeline/correlate.py`
-- Create: `radar/pipeline/score.py`
-- Test: `tests/radar/test_pipeline_correlate.py`
-- Test: `tests/radar/test_pipeline_score.py`
+- Create: `providers/signals/pipeline/correlate.py`
+- Create: `providers/signals/pipeline/score.py`
+- Test: `tests/providers/signals/test_pipeline_correlate.py`
+- Test: `tests/providers/signals/test_pipeline_score.py`
 
 - [ ] **Step 1: Write failing correlate test**
 
 ```python
-# tests/radar/test_pipeline_correlate.py
+# tests/providers/signals/test_pipeline_correlate.py
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-from radar.pipeline.correlate import correlate_enriched
+from providers.signals.pipeline.correlate import correlate_enriched
 
 
 def test_correlate_groups_shared_topic_hint():
@@ -642,19 +646,19 @@ def test_correlate_groups_shared_topic_hint():
 - [ ] **Step 2: Run correlate test — expect FAIL**
 
 ```bash
-python3 -m pytest tests/radar/test_pipeline_correlate.py -v
+python3 -m pytest tests/providers/signals/test_pipeline_correlate.py -v
 ```
 
 - [ ] **Step 3: Implement `correlate.py`**
 
 ```python
-# radar/pipeline/correlate.py
+# providers/signals/pipeline/correlate.py
 from __future__ import annotations
 
 from typing import Any
 from urllib.parse import urlparse
 
-from radar.pipeline.models import Cluster
+from providers.signals.pipeline.models import Cluster
 
 
 def _jaccard(a: set[str], b: set[str]) -> float:
@@ -730,15 +734,15 @@ def correlate_enriched(
 - [ ] **Step 4: Write failing score test**
 
 ```python
-# tests/radar/test_pipeline_score.py
+# tests/providers/signals/test_pipeline_score.py
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-from radar.pipeline.models import Cluster
-from radar.pipeline.score import apply_deterministic_scores
+from providers.signals.pipeline.models import Cluster
+from providers.signals.pipeline.score import apply_deterministic_scores
 
 
 def test_signal_consensus_and_personal_boost():
@@ -768,12 +772,12 @@ def test_signal_consensus_and_personal_boost():
 - [ ] **Step 5: Implement `score.py`**
 
 ```python
-# radar/pipeline/score.py
+# providers/signals/pipeline/score.py
 from __future__ import annotations
 
 from typing import Any
 
-from radar.pipeline.models import Cluster
+from providers.signals.pipeline.models import Cluster
 
 
 def apply_deterministic_scores(
@@ -817,8 +821,8 @@ def personal_tokens_from_signals(signals: list[dict[str, Any]]) -> set[str]:
 - [ ] **Step 6: Run tests PASS + commit**
 
 ```bash
-python3 -m pytest tests/radar/test_pipeline_correlate.py tests/radar/test_pipeline_score.py -v
-git add radar/pipeline/correlate.py radar/pipeline/score.py tests/radar/test_pipeline_correlate.py tests/radar/test_pipeline_score.py
+python3 -m pytest tests/providers/signals/test_pipeline_correlate.py tests/providers/signals/test_pipeline_score.py -v
+git add providers/signals/pipeline/correlate.py providers/signals/pipeline/score.py tests/providers/signals/test_pipeline_correlate.py tests/providers/signals/test_pipeline_score.py
 git commit -m "feat(radar): add correlate and deterministic score stages"
 ```
 
@@ -827,20 +831,20 @@ git commit -m "feat(radar): add correlate and deterministic score stages"
 ### Task 5: Provider setup gate
 
 **Files:**
-- Create: `radar/pipeline/provider_setup.py`
-- Test: `tests/radar/test_provider_setup.py`
+- Create: `providers/signals/pipeline/provider_setup.py`
+- Test: `tests/providers/signals/test_provider_setup.py`
 
 - [ ] **Step 1: Write failing test**
 
 ```python
-# tests/radar/test_provider_setup.py
+# tests/providers/signals/test_provider_setup.py
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 
-from radar.pipeline.provider_setup import check_provider_ready
+from providers.signals.pipeline.provider_setup import check_provider_ready
 
 
 def test_product_hunt_requires_token(monkeypatch):
@@ -866,13 +870,13 @@ def test_youtube_api_requires_key(monkeypatch):
 - [ ] **Step 2: Run — expect FAIL**
 
 ```bash
-python3 -m pytest tests/radar/test_provider_setup.py -v
+python3 -m pytest tests/providers/signals/test_provider_setup.py -v
 ```
 
 - [ ] **Step 3: Implement**
 
 ```python
-# radar/pipeline/provider_setup.py
+# providers/signals/pipeline/provider_setup.py
 from __future__ import annotations
 
 import os
@@ -924,8 +928,8 @@ def check_provider_ready(name: str, meta: dict[str, Any]) -> tuple[bool, str]:
 - [ ] **Step 4: PASS + commit**
 
 ```bash
-python3 -m pytest tests/radar/test_provider_setup.py -v
-git add radar/pipeline/provider_setup.py tests/radar/test_provider_setup.py
+python3 -m pytest tests/providers/signals/test_provider_setup.py -v
+git add providers/signals/pipeline/provider_setup.py tests/providers/signals/test_provider_setup.py
 git commit -m "feat(radar): add provider setup readiness checks"
 ```
 
@@ -934,10 +938,10 @@ git commit -m "feat(radar): add provider setup readiness checks"
 ### Task 6: RSS provider
 
 **Files:**
-- Create: `radar/providers/rss/__init__.py`
-- Create: `radar/providers/rss/fetch.py`
-- Create: `radar/fixtures/rss_feed.xml`
-- Test: `tests/radar/test_rss_fetch.py`
+- Create: `providers/signals/sources/rss/__init__.py`
+- Create: `providers/signals/sources/rss/fetch.py`
+- Create: `providers/signals/fixtures/rss_feed.xml`
+- Test: `tests/providers/signals/test_rss_fetch.py`
 
 - [ ] **Step 1: Fixture + failing test**
 
@@ -945,7 +949,7 @@ Minimal Atom fixture with one entry. Test `parse_feed(xml_bytes) -> list[Signal]
 
 ```python
 def test_parse_rss_fixture():
-    xml = (ROOT / "radar/fixtures/rss_feed.xml").read_bytes()
+    xml = (ROOT / "providers/signals/fixtures/rss_feed.xml").read_bytes()
     signals = rss_fetch.parse_feed(xml, feed_url="https://example.com/feed.xml")
     assert len(signals) >= 1
     assert signals[0]["provider"] == "rss"
@@ -957,8 +961,8 @@ def test_parse_rss_fixture():
 - [ ] **Step 3: PASS + commit**
 
 ```bash
-python3 -m pytest tests/radar/test_rss_fetch.py -v
-git add radar/providers/rss radar/fixtures/rss_feed.xml tests/radar/test_rss_fetch.py
+python3 -m pytest tests/providers/signals/test_rss_fetch.py -v
+git add providers/signals/sources/rss providers/signals/fixtures/rss_feed.xml tests/providers/signals/test_rss_fetch.py
 git commit -m "feat(radar): add RSS blog provider"
 ```
 
@@ -967,10 +971,10 @@ git commit -m "feat(radar): add RSS blog provider"
 ### Task 7: Product Hunt provider
 
 **Files:**
-- Create: `radar/providers/product_hunt/__init__.py`
-- Create: `radar/providers/product_hunt/fetch.py`
-- Create: `radar/fixtures/product_hunt_posts.json`
-- Test: `tests/radar/test_product_hunt_fetch.py`
+- Create: `providers/signals/sources/product_hunt/__init__.py`
+- Create: `providers/signals/sources/product_hunt/fetch.py`
+- Create: `providers/signals/fixtures/product_hunt_posts.json`
+- Test: `tests/providers/signals/test_product_hunt_fetch.py`
 
 - [ ] **Step 1: Failing test** — `parse_posts(payload)` from GraphQL-shaped fixture (`data.posts.edges[].node` with `id`, `name`, `tagline`, `url`, `votesCount`, `createdAt`).
 
@@ -979,7 +983,7 @@ git commit -m "feat(radar): add RSS blog provider"
 - [ ] **Step 3: PASS + commit**
 
 ```bash
-python3 -m pytest tests/radar/test_product_hunt_fetch.py -v
+python3 -m pytest tests/providers/signals/test_product_hunt_fetch.py -v
 git commit -m "feat(radar): add Product Hunt GraphQL provider"
 ```
 
@@ -988,10 +992,10 @@ git commit -m "feat(radar): add Product Hunt GraphQL provider"
 ### Task 8: YouTube Data API provider
 
 **Files:**
-- Create: `radar/providers/youtube_api/__init__.py`
-- Create: `radar/providers/youtube_api/fetch.py`
-- Create: `radar/fixtures/youtube_api_search.json`
-- Test: `tests/radar/test_youtube_api_fetch.py`
+- Create: `providers/signals/sources/youtube_api/__init__.py`
+- Create: `providers/signals/sources/youtube_api/fetch.py`
+- Create: `providers/signals/fixtures/youtube_api_search.json`
+- Test: `tests/providers/signals/test_youtube_api_fetch.py`
 
 - [ ] **Step 1: Failing test** — parse search.list fixture → signals with `provider: youtube_api`, shallow fields only (no transcripts).
 
@@ -1000,7 +1004,7 @@ git commit -m "feat(radar): add Product Hunt GraphQL provider"
 - [ ] **Step 3: PASS + commit**
 
 ```bash
-python3 -m pytest tests/radar/test_youtube_api_fetch.py -v
+python3 -m pytest tests/providers/signals/test_youtube_api_fetch.py -v
 git commit -m "feat(radar): add YouTube Data API provider"
 ```
 
@@ -1009,8 +1013,8 @@ git commit -m "feat(radar): add YouTube Data API provider"
 ### Task 9: GA4 + Search Console providers (personal boost)
 
 **Files:**
-- Create: `radar/providers/ga4/...`
-- Create: `radar/providers/search_console/...`
+- Create: `providers/signals/sources/ga4/...`
+- Create: `providers/signals/sources/search_console/...`
 - Fixtures: `ga4_report.json`, `gsc_query.json`
 - Tests: `test_ga4_fetch.py`, `test_search_console_fetch.py`
 
@@ -1032,7 +1036,7 @@ For CI: only `export_path` / fixture parse is required. Live API path: if no tok
 - [ ] **Step 4: PASS both + commit**
 
 ```bash
-python3 -m pytest tests/radar/test_ga4_fetch.py tests/radar/test_search_console_fetch.py -v
+python3 -m pytest tests/providers/signals/test_ga4_fetch.py tests/providers/signals/test_search_console_fetch.py -v
 git commit -m "feat(radar): add GA4 and Search Console providers for personal boost"
 ```
 
@@ -1041,9 +1045,9 @@ git commit -m "feat(radar): add GA4 and Search Console providers for personal bo
 ### Task 10: Wire fetch_enabled + config gate + config.example
 
 **Files:**
-- Modify: `radar/providers/fetch_enabled.py`
+- Modify: `providers/signals/sources/fetch_enabled.py`
 - Modify: `templates/radar/config.example.yaml`
-- Modify: `tests/radar/test_fetch_enabled.py`
+- Modify: `tests/providers/signals/test_fetch_enabled.py`
 
 - [ ] **Step 1: Extend tests**
 
@@ -1054,7 +1058,7 @@ git commit -m "feat(radar): add GA4 and Search Console providers for personal bo
 Update `fetch_all` to:
 
 ```python
-from radar.pipeline.provider_setup import check_provider_ready
+from providers.signals.pipeline.provider_setup import check_provider_ready
 
 # before fetch:
 ok, hint = check_provider_ready(name, meta)
@@ -1115,7 +1119,7 @@ providers:
 - [ ] **Step 3: PASS + commit**
 
 ```bash
-python3 -m pytest tests/radar/test_fetch_enabled.py -v
+python3 -m pytest tests/providers/signals/test_fetch_enabled.py -v
 git commit -m "feat(radar): register new providers with setup-aware degrade"
 ```
 
@@ -1124,15 +1128,15 @@ git commit -m "feat(radar): register new providers with setup-aware degrade"
 ### Task 11: `run_stages` agent entrypoint
 
 **Files:**
-- Create: `radar/pipeline/run_stages.py`
-- Test: `tests/radar/test_run_stages.py`
+- Create: `providers/signals/pipeline/run_stages.py`
+- Test: `tests/providers/signals/test_run_stages.py`
 
 - [ ] **Step 1: Failing test** — with tmp radar root + monkeypatched `fetch_all`, running `--stage ingest` writes `signals.jsonl`, `run_meta.json`, and legacy `_raw` copy; `--stage enrich` reads signals → enriched; `--stage correlate` writes clusters with scores.
 
 - [ ] **Step 2: Implement CLI**
 
 ```bash
-python radar/pipeline/run_stages.py \
+python providers/signals/pipeline/run_stages.py \
   --config journals/radar/config.yaml \
   --radar-root journals/radar \
   --date 2026-07-12 \
@@ -1151,7 +1155,7 @@ Stages: `ingest` | `enrich` | `correlate` | `score` | `all`
 - [ ] **Step 3: PASS + commit**
 
 ```bash
-python3 -m pytest tests/radar/test_run_stages.py -v
+python3 -m pytest tests/providers/signals/test_run_stages.py -v
 git commit -m "feat(radar): add run_stages pipeline entrypoint for agents"
 ```
 
@@ -1161,8 +1165,8 @@ git commit -m "feat(radar): add run_stages pipeline entrypoint for agents"
 
 **Files:**
 - Create: `contracts/prompts/enrich.md`, `correlate.md`, `score.md`, `synthesize.md`, `configure-provider.md`
-- Modify: `skills/leverage-radar/SKILL.md`
-- Sync: `.cursor/skills/leverage-radar/SKILL.md`, `.claude/skills/leverage-radar/SKILL.md`
+- Modify: `agents/trend-radar/SKILL.md`
+- Sync: `.cursor/agents/trend-radar/SKILL.md`, `.claude/agents/trend-radar/SKILL.md`
 
 - [ ] **Step 1: Write prompt stubs** (short, actionable)
 
@@ -1178,7 +1182,7 @@ Workflow:
 
 1. Config bootstrap (unchanged)
 2. Topic bootstrap (unchanged)
-3. **Ingest:** `python radar/pipeline/run_stages.py --stage ingest ...`
+3. **Ingest:** `python providers/signals/pipeline/run_stages.py --stage ingest ...`
 4. **Enrich:** `--stage enrich`
 5. **Correlate+score:** `--stage correlate` (includes deterministic score)
 6. **Session LLM:** read `clusters.json` + `topics.yaml` only (not full raw if avoidable); semantic merge/refine ≤ `max_opportunities`; write daily note answering leverage questions; dual-write topics
@@ -1192,7 +1196,7 @@ Keep HITL Decide table. Keep bans.
 - [ ] **Step 4: Commit**
 
 ```bash
-git add contracts/prompts skills/leverage-radar/SKILL.md .cursor/skills/leverage-radar/SKILL.md .claude/skills/leverage-radar/SKILL.md
+git add contracts/prompts agents/trend-radar/SKILL.md .cursor/agents/trend-radar/SKILL.md .claude/agents/trend-radar/SKILL.md
 git commit -m "docs(radar): supervisor skill for pipeline stages and setup assist"
 ```
 
@@ -1202,7 +1206,7 @@ git commit -m "docs(radar): supervisor skill for pipeline stages and setup assis
 
 **Files:**
 - Modify: `docs/radar/protocol.md`, `providers.md`, `scoring.md`, `using-agents.md`
-- Modify: `tests/radar/test_smoke_daily_render.py` (optional assert for leverage questions listed in skill/docs — or keep template sections unchanged and assert protocol mentions `_pipeline/`)
+- Modify: `tests/providers/signals/test_smoke_daily_render.py` (optional assert for leverage questions listed in skill/docs — or keep template sections unchanged and assert protocol mentions `_pipeline/`)
 
 - [ ] **Step 1: Update protocol data-flow diagram** to `_pipeline/` stages; link new providers; document personal boost rule; document setup assist.
 
@@ -1210,13 +1214,13 @@ git commit -m "docs(radar): supervisor skill for pipeline stages and setup assis
 
 - [ ] **Step 3: Update scoring.md** — deterministic fields from Python vs session judgement; `personal_relevance` boost-only.
 
-- [ ] **Step 4: Smoke / docs test** — add `tests/radar/test_pipeline_docs.py` that reads `docs/radar/protocol.md` and asserts `_pipeline/` and `run_stages` appear (lightweight regression).
+- [ ] **Step 4: Smoke / docs test** — add `tests/providers/signals/test_pipeline_docs.py` that reads `docs/radar/protocol.md` and asserts `_pipeline/` and `run_stages` appear (lightweight regression).
 
 - [ ] **Step 5: Run full radar test suite + commit**
 
 ```bash
 python3 -m pytest tests/radar -q
-git add docs/radar tests/radar/test_pipeline_docs.py tests/radar/test_smoke_daily_render.py
+git add docs/radar tests/providers/signals/test_pipeline_docs.py tests/providers/signals/test_smoke_daily_render.py
 git commit -m "docs(radar): document Trend Radar pipeline stages and providers"
 ```
 
