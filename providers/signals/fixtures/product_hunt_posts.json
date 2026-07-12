@@ -1,0 +1,18 @@
+{
+  "data": {
+    "posts": {
+      "edges": [
+        {
+          "node": {
+            "id": "123",
+            "name": "Example AI Tool",
+            "tagline": "Ship agents faster",
+            "url": "https://www.producthunt.com/posts/example-ai-tool",
+            "votesCount": 42,
+            "createdAt": "2026-07-12T10:00:00Z"
+          }
+        }
+      ]
+    }
+  }
+}

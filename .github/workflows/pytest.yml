@@ -16,8 +16,8 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install pytest
-        run: pip install pytest
+      - name: Install pytest and PyYAML
+        run: pip install pytest pyyaml
 
       - name: Run tests
         run: pytest tests/providers/signals tests/test_boundary_scaffold.py -q

@@ -1,6 +1,4 @@
-> **Note:** Leverage Radar is a **reference signal provider** for AI Knowledge OS, not the product identity. See [ARCHITECTURE.md](../../ARCHITECTURE.md).
-
-# Using Leverage Radar with agents
+# Using Trend Radar with agents
 
 This feature does **not** call LLM vendor APIs from the repo. Scoring and clustering run **inside Cursor or Claude Code** using the agent's session model.
 
@@ -10,7 +8,7 @@ This feature does **not** call LLM vendor APIs from the repo. Scoring and cluste
 
 1. Open the private lab repo root (vault root).
 2. Ensure `.cursor/skills/trend-radar/SKILL.md` is present (synced from `agents/trend-radar/`).
-3. Ask: **"Run today's Leverage Radar"** (the skill should attach).
+3. Ask: **"Run today's Trend Radar"** (the skill should attach).
 4. Review `journals/radar/YYYY-MM-DD.md` in Obsidian.
 5. When ready, request decisions: e.g. **"Research opportunity #1"**.
 
@@ -26,16 +24,32 @@ This feature does **not** call LLM vendor APIs from the repo. Scoring and cluste
 
 1. Read or bootstrap `journals/radar/config.yaml` from `templates/radar/config.example.yaml`.
 2. Bootstrap topic store: `topics.yaml` from `templates/radar/topics.example.yaml`; `topics/_index.md` from `templates/radar/topics-index.md` if missing.
-3. Run fetch aggregation:
+3. Run pipeline stages (ingest → enrich → correlate):
 
    ```bash
-   python providers/signals/fetch_enabled.py \
+   python providers/signals/pipeline/run_stages.py \
      --config journals/radar/config.yaml \
-     --out journals/radar/_raw/YYYY-MM-DD.jsonl
+     --radar-root journals/radar \
+     --date YYYY-MM-DD \
+     --stage ingest
+
+   python providers/signals/pipeline/run_stages.py \
+     --config journals/radar/config.yaml \
+     --radar-root journals/radar \
+     --date YYYY-MM-DD \
+     --stage enrich
+
+   python providers/signals/pipeline/run_stages.py \
+     --config journals/radar/config.yaml \
+     --radar-root journals/radar \
+     --date YYYY-MM-DD \
+     --stage correlate
    ```
 
-4. Read the jsonl and `topics.yaml` (optional helper: `providers.signals.lib.topics_io`), dedupe if needed.
-5. **Using this session's model** (not external APIs): cluster signals, assign categories, score dimensions, update topic graph.
+   Artifacts land under `journals/radar/_pipeline/YYYY-MM-DD/` (`signals.jsonl`, `enriched.jsonl`, `clusters.json`, `run_meta.json`). Ingest also mirrors legacy `_raw/YYYY-MM-DD.jsonl`.
+
+4. Read `clusters.json`, `run_meta.json`, and `topics.yaml` (optional helper: `providers.signals.lib.topics_io`). Use `run_meta.providers_degraded` to trigger setup assist (`contracts/prompts/configure-provider.md`) when needed.
+5. **Using this session's model** (not external APIs): refine clusters, assign categories, apply judgement scores, update topic graph.
 6. **Dual-write topic memory:** save `topics.yaml` and create/update `topics/<slug>.md` notes (rolling summary, timeline, sources) plus `_index.md`.
 7. Write `journals/radar/YYYY-MM-DD.md` from `templates/radar/daily.md` (topic wikilinks + recurrence).
 8. **Stop** — do not research unless the user decides.
@@ -63,7 +77,7 @@ Run when the user asks for:
 
 ## Install skill copies
 
-Canonical skill: `agents/trend-radar/SKILL.md`. Keep `.cursor/skills/trend-radar/SKILL.md` and `.claude/skills/trend-radar/SKILL.md` identical. See `agents/trend-radar/README.md`.
+Canonical skill: `skills/leverage-radar/SKILL.md`. Keep `.cursor/skills/leverage-radar/SKILL.md` and `.claude/skills/leverage-radar/SKILL.md` identical. See `skills/leverage-radar/README.md`.
 
 ## Related
 

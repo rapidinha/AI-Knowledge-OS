@@ -1,5 +1,3 @@
-> **Note:** Leverage Radar is a **reference signal provider** for AI Knowledge OS, not the product identity. See [ARCHITECTURE.md](../../ARCHITECTURE.md).
-
 # Leverage Radar v2 — manual E2E checklist
 
 Run this in a private lab worktree before merging v2 provider changes. No secrets or personal config should be committed.
@@ -33,7 +31,7 @@ If TLS errors occur on macOS, set certifi:
 
 ```bash
 export SSL_CERT_FILE="$(python3 -c 'import certifi; print(certifi.where())')"
-python3 providers/signals/fetch_enabled.py \
+python3 providers/signals/sources/fetch_enabled.py \
   --config journals/radar/config.yaml \
   --out journals/radar/_raw/$(date +%Y-%m-%d)-v2-smoke.jsonl
 ```
@@ -73,7 +71,7 @@ python3 -m pytest tests/radar -q
 ## 4. Agent path (optional full run)
 
 1. Open the vault in Obsidian (or your editor).
-2. Invoke the trend-radar skill: *"Run today's Leverage Radar"*.
+2. Invoke the leverage-radar skill: *"Run today's Leverage Radar"*.
 3. Confirm the agent writes `journals/radar/YYYY-MM-DD.md` with Opportunities and topic dual-write under `journals/radar/topics/`.
 
 ## 5. Cleanup

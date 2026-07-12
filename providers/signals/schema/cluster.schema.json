@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RadarCluster",
+  "type": "object",
+  "required": ["cluster_id", "title", "signal_ids", "providers", "scores"],
+  "properties": {
+    "cluster_id": { "type": "string" },
+    "title": { "type": "string" },
+    "signal_ids": { "type": "array", "items": { "type": "string" } },
+    "providers": { "type": "array", "items": { "type": "string" } },
+    "scores": { "type": "object" },
+    "slug": { "type": ["string", "null"] },
+    "rationale_hint": { "type": ["string", "null"] },
+    "weak_signal": { "type": "boolean" }
+  }
+}

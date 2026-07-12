@@ -11,7 +11,9 @@ from providers.signals.sources.devto import fetch as devto_fetch
 from providers.signals.sources.github_trending import fetch as github_trending_fetch
 from providers.signals.sources.hn import fetch as hn_fetch
 from providers.signals.sources.lobsters import fetch as lobsters_fetch
+from providers.signals.sources.product_hunt import fetch as product_hunt_fetch
 from providers.signals.sources.reddit import fetch as reddit_fetch
+from providers.signals.sources.rss import fetch as rss_fetch
 from providers.signals.sources.youtube import fetch as youtube_fetch
 
 
@@ -141,3 +143,87 @@ providers:
     text = out.read_text(encoding="utf-8")
     assert "hn:1" in text
     assert "lobsters:" not in text
+
+
+def test_fetch_enabled_rss_with_feeds(tmp_path: Path, monkeypatch):
+    cfg = tmp_path / "config.yaml"
+    cfg.write_text(
+        """
+providers:
+  hn:
+    enabled: false
+  arxiv:
+    enabled: false
+  github_trending:
+    enabled: false
+  reddit:
+    enabled: false
+  lobsters:
+    enabled: false
+  devto:
+    enabled: false
+  youtube:
+    enabled: false
+  rss:
+    enabled: true
+    feeds:
+      - https://example.com/feed.xml
+    limit_per_feed: 5
+""",
+        encoding="utf-8",
+    )
+    out = tmp_path / "out.jsonl"
+    monkeypatch.setattr(
+        rss_fetch,
+        "fetch",
+        lambda feeds, limit_per_feed=10: [
+            {
+                "id": "rss:1",
+                "provider": "rss",
+                "url": "https://example.com/post",
+                "title": "RSS Post",
+                "ts": "2026-07-11T00:00:00Z",
+            }
+        ],
+    )
+    assert fetch_enabled.main(["--config", str(cfg), "--out", str(out)]) == 0
+    assert "rss:1" in out.read_text(encoding="utf-8")
+
+
+def test_product_hunt_degrades_without_token(tmp_path: Path, monkeypatch, capsys):
+    monkeypatch.delenv("PRODUCTHUNT_TOKEN", raising=False)
+    cfg = tmp_path / "config.yaml"
+    cfg.write_text(
+        """
+providers:
+  hn:
+    enabled: false
+  arxiv:
+    enabled: false
+  github_trending:
+    enabled: false
+  reddit:
+    enabled: false
+  lobsters:
+    enabled: false
+  devto:
+    enabled: false
+  youtube:
+    enabled: false
+  product_hunt:
+    enabled: true
+    limit: 20
+""",
+        encoding="utf-8",
+    )
+    out = tmp_path / "out.jsonl"
+    monkeypatch.setattr(
+        product_hunt_fetch,
+        "fetch",
+        lambda limit=20: (_ for _ in ()).throw(AssertionError("should not fetch")),
+    )
+    assert fetch_enabled.main(["--config", str(cfg), "--out", str(out)]) == 0
+    assert "product_hunt:" not in out.read_text(encoding="utf-8")
+    captured = capsys.readouterr()
+    assert "product_hunt: degraded (setup:" in captured.err
+    assert "PRODUCTHUNT_TOKEN" in captured.err

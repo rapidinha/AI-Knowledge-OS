@@ -1,0 +1,18 @@
+{
+  "rows": [
+    {
+      "keys": ["context engineering patterns"],
+      "clicks": 45,
+      "impressions": 890,
+      "ctr": 0.0506,
+      "position": 12.3
+    },
+    {
+      "keys": ["agent skills packaging"],
+      "clicks": 22,
+      "impressions": 410,
+      "ctr": 0.0537,
+      "position": 9.8
+    }
+  ]
+}

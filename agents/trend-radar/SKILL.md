@@ -1,61 +1,87 @@
 ---
 name: trend-radar
-description: Run daily Leverage Radar discovery (fetch signals, cluster/score in-session, write Obsidian journal). Use when user asks for leverage radar, daily radar, or what deserves attention today.
+description: Run daily Leverage / Trend Radar discovery (pipeline stages + session synthesis, write Obsidian journal). Use when user asks for leverage radar, trend radar, daily radar, configure radar providers, run radar stage, or what deserves attention today.
 ---
 
-# Leverage Radar
+# Leverage / Trend Radar
 
-Vault-native daily discovery. Fetch signals, cluster and score **inside this session**, write an Obsidian daily note. No external LLM APIs.
+Vault-native daily discovery. Python pipeline stages write auditable artifacts under `_pipeline/`; cluster refinement, judgement scoring, and synthesis run **inside this session**. No vendor LLM APIs from repo tools.
 
 ## Triggers
 
 Run when the user asks for:
 
 - leverage radar
+- trend radar
 - daily radar
+- configure radar providers
+- run radar stage
 - what deserves attention today
 - morning radar / radar report
 
 ## Workflow
 
-1. **Config** — Read `journals/radar/config.yaml`. If missing, copy from `templates/radar/config.example.yaml` and ask the user to enable providers before continuing.
+1. **Config bootstrap** — Read `journals/radar/config.yaml`. If missing, copy from `templates/radar/config.example.yaml` and ask the user to enable providers before continuing.
 
-2. **Topic store bootstrap**
+2. **Topic bootstrap**
    - If `journals/radar/topics.yaml` missing → copy `templates/radar/topics.example.yaml`.
    - Ensure `journals/radar/topics/` exists. If `_index.md` missing → copy `templates/radar/topics-index.md`.
 
-3. **Fetch** — Run (today's date as `YYYY-MM-DD`):
+3. **Ingest** — Run (today's date as `YYYY-MM-DD`):
 
    ```bash
-   python providers/signals/fetch_enabled.py \
+   python providers/signals/pipeline/run_stages.py \
      --config journals/radar/config.yaml \
-     --out journals/radar/_raw/YYYY-MM-DD.jsonl
+     --radar-root journals/radar \
+     --date YYYY-MM-DD \
+     --stage ingest
    ```
 
-   Note any `degraded` lines from stderr for the Executive Summary.
+   Writes `journals/radar/_pipeline/YYYY-MM-DD/signals.jsonl`, `run_meta.json`, and legacy `_raw/YYYY-MM-DD.jsonl`.
 
-4. **Load** — Read jsonl + `topics.yaml` via reading files (optional: `providers.signals.lib.topics_io`). Dedupe URLs/titles if needed.
+4. **Enrich** — Cheap Python enrich + cache; optional session refinement per `contracts/prompts/enrich.md`:
 
-5. **Cluster and score (session model only)** — never OpenAI/Anthropic HTTP APIs or SDKs:
-   - Cluster into ≤ `defaults.max_opportunities` Opportunities (ecosystem themes, not per-feed lists).
+   ```bash
+   python providers/signals/pipeline/run_stages.py \
+     --config journals/radar/config.yaml \
+     --radar-root journals/radar \
+     --date YYYY-MM-DD \
+     --stage enrich
+   ```
+
+5. **Correlate + score** — Python hint-cluster + deterministic scores:
+
+   ```bash
+   python providers/signals/pipeline/run_stages.py \
+     --config journals/radar/config.yaml \
+     --radar-root journals/radar \
+     --date YYYY-MM-DD \
+     --stage correlate
+   ```
+
+6. **Session LLM (supervisor)** — Read `clusters.json` + `topics.yaml` (+ `run_meta.json`); avoid full raw signals if not needed. Follow `contracts/prompts/correlate.md`, `score.md`, and `synthesize.md`:
+   - Semantic merge/refine to ≤ `defaults.max_opportunities` Opportunities (ecosystem themes, not per-feed lists).
    - Prefer multi-provider Opportunities when evidence exists.
    - Bias YouTube-heavy themes toward **Influence** (content leverage).
+   - Apply judgement dimensions (novelty, hype vs substance) on top of deterministic scores.
+   - `personal_relevance` is boost-only — never leak GA4/GSC raw metrics into prose.
    - Assign/create topic `slug` per Opportunity; merge with existing topics on alias/title/url overlap.
    - Update topic fields: `hit_count` (+1 once per distinct day), `last_seen`, `provider_set` union, `recent_urls` (cap 8), `status` hint (`emerging` / `validated` when hits≥3 and ≥2 providers).
    - Cap ~200 topics; set `status: retired` on oldest low-hit — **do not delete** Markdown notes.
+   - **Dual-write topics (required):**
+     - Write `journals/radar/topics.yaml` (machine index).
+     - For each touched topic, create/update `journals/radar/topics/<slug>.md` from `templates/radar/topic.md`:
+       - Refresh **Rolling summary** (2–4 sentences; cumulative, not only today).
+       - Append today's bullet under **Timeline** with wikilink to `[[journals/radar/YYYY-MM-DD]]`.
+       - Merge **Sources** URLs.
+     - Update `journals/radar/topics/_index.md` active/retired lists.
+   - Write `journals/radar/YYYY-MM-DD.md` from `templates/radar/daily.md` answering leverage questions (what changed, unnoticed, deserves attention, hype, will grow, engineer impact) — **not a news list**.
 
-6. **Persist topic memory (dual-write — required)**
-   - Write `journals/radar/topics.yaml` (machine index).
-   - For each touched topic, create/update `journals/radar/topics/<slug>.md` from `templates/radar/topic.md`:
-     - Refresh **Rolling summary** (2–4 sentences; cumulative, not only today).
-     - Append today's bullet under **Timeline** with wikilink to `[[journals/radar/YYYY-MM-DD]]`.
-     - Merge **Sources** URLs.
-   - Update `journals/radar/topics/_index.md` active/retired lists.
-   - These notes are for **Obsidian and future AI summarization** — keep them readable without `_raw/`.
+7. **Executive Summary** — Include degraded providers and counts from `run_meta.json` (`providers_degraded`, `providers_ok`, `counts`).
 
-7. **Write daily note** — `journals/radar/YYYY-MM-DD.md` from `templates/radar/daily.md`, including Topic wikilink + Recurrence from the topic graph.
+8. **Setup assist** — When `run_meta.providers_degraded` includes setup-related failures, follow `contracts/prompts/configure-provider.md`: one provider at a time, guide secrets via env, dry-run `--stage ingest` with only that provider enabled. Never commit secrets.
 
-8. **Stop** — No Stage 2 / wiki edits unless the user Decide's.
+9. **Stop** — No Stage 2 / wiki edits unless the user Decide's.
 
 ## HITL decisions (when user requests)
 
@@ -75,7 +101,7 @@ Bootstrap `journals/radar/decisions.yaml` from `templates/radar/decisions.exampl
 
 ## Bans
 
-- **Do not** call OpenAI or Anthropic HTTP APIs.
+- **Do not** call OpenAI or Anthropic HTTP APIs from repo Python tools.
 - **Do not** install LLM SDKs (`openai`, `anthropic`, etc.).
 - **Do not** add a user-facing `radar` CLI or daemon.
 
@@ -84,4 +110,7 @@ Bootstrap `journals/radar/decisions.yaml` from `templates/radar/decisions.exampl
 - Protocol: `docs/radar/protocol.md`
 - Scoring hints: `docs/radar/scoring.md`
 - Providers: `docs/radar/providers.md`
-- v2 design spec: `docs/specs/2026-07-11-leverage-radar-v2-design.md`
+- Stage prompts: `contracts/prompts/` (`enrich.md`, `correlate.md`, `score.md`, `synthesize.md`, `configure-provider.md`)
+- v2 design spec: `docs/superpowers/specs/2026-07-11-trend-radar-v2-design.md`
+- Trend Radar pipelines design: `docs/superpowers/specs/2026-07-12-trend-radar-pipelines-design.md`
+- Implementation plan: `docs/superpowers/plans/2026-07-12-trend-radar-pipelines.md`
