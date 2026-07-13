@@ -1,3 +1,3 @@
-# Research
+# Moved
 
-Personal research threads, literature notes, and investigations. Private domain — never upstream.
+See [`../raw/`](../raw/).

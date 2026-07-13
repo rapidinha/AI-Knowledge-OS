@@ -2,7 +2,7 @@
 
 **Status:** queued  
 **Opened:** {{date}}  
-**From radar:** [[journals/radar/{{date}}]]  
+**From radar:** [[raw/ops/radar/{{date}}]]  
 **Slug:** `{{slug}}`
 
 ## Provenance

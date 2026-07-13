@@ -20,4 +20,4 @@ Upstream does not store personal principles or case studies.
 | content-ideas | Insight → production |
 | decision-logs | Prioritize / ignore |
 
-Templates: [[_meta/templates]] · Governance: [[_meta/governance]]
+Templates: [[_meta/templates]] · LLM wiki ops: [[_meta/llm-wiki-schema]] · Governance: [[_meta/governance]]

@@ -1,26 +1,26 @@
 # Leverage Radar protocol
 
-Vault-native protocol for Stage 1 discovery. Markdown under `journals/radar/` is the source of truth; agents are the only writers of radar artifacts.
+Vault-native protocol for Stage 1 discovery. Markdown under `raw/ops/radar/` is the source of truth; agents are the only writers of radar artifacts.
 
 ## Paths (private lab)
 
 | Path | Purpose |
 |------|---------|
-| `journals/radar/YYYY-MM-DD.md` | Daily Leverage Radar report (Obsidian) |
-| `journals/radar/decisions.yaml` | Optional append-only decision log (agent-maintained) |
-| `journals/radar/_pipeline/YYYY-MM-DD/` | Pipeline artifacts: `signals.jsonl`, `enriched.jsonl`, `clusters.json`, `run_meta.json` (gitignored) |
-| `journals/radar/_raw/YYYY-MM-DD.jsonl` | Legacy per-day signal cache (mirrored from ingest; gitignored) |
-| `journals/radar/config.yaml` | Private weights, subs, keys, personal relevance (**never promote**) |
-| `journals/radar/topics.yaml` | Machine topic graph (gitignored) |
-| `journals/radar/topics/<slug>.md` | Obsidian topic notes + rolling summary (durable) |
-| `journals/radar/topics/_index.md` | Topic MOC |
-| `research/radar/<slug>/README.md` | Stage 2 research stub (v1: queue only) |
+| `raw/ops/radar/YYYY-MM-DD.md` | Daily Leverage Radar report (Obsidian) |
+| `raw/ops/radar/decisions.yaml` | Optional append-only decision log (agent-maintained) |
+| `raw/ops/radar/_pipeline/YYYY-MM-DD/` | Pipeline artifacts: `signals.jsonl`, `enriched.jsonl`, `clusters.json`, `run_meta.json` (gitignored) |
+| `raw/ops/radar/_raw/YYYY-MM-DD.jsonl` | Legacy per-day signal cache (mirrored from ingest; gitignored) |
+| `raw/ops/radar/config.yaml` | Private weights, subs, keys, personal relevance (**never promote**) |
+| `raw/ops/radar/topics.yaml` | Machine topic graph (gitignored) |
+| `raw/ops/radar/topics/<slug>.md` | Obsidian topic notes + rolling summary (durable) |
+| `raw/ops/radar/topics/_index.md` | Topic MOC |
+| `raw/research/<slug>/README.md` | Stage 2 research stub (v1: queue only) |
 
-Bootstrap: copy `templates/radar/config.example.yaml` → `journals/radar/config.yaml`.
+Bootstrap: copy `templates/radar/config.example.yaml` → `raw/ops/radar/config.yaml`.
 
 ## Data flow
 
-Python stages write auditable artifacts under `journals/radar/_pipeline/YYYY-MM-DD/`. The agent runs stages via `providers/signals/pipeline/run_stages.py`, then performs cluster refinement, judgement scoring, and synthesis **inside the session** (no vendor LLM APIs from repo tools).
+Python stages write auditable artifacts under `raw/ops/radar/_pipeline/YYYY-MM-DD/`. The agent runs stages via `providers/signals/pipeline/run_stages.py`, then performs cluster refinement, judgement scoring, and synthesis **inside the session** (no vendor LLM APIs from repo tools).
 
 ```text
 Providers (adapters)
@@ -30,18 +30,18 @@ Providers (adapters)
     → [session] semantic merge/refine → Opportunities + leverage category
     → [session] judgement scores (novelty, hype vs substance) on top of deterministic fields
     → [session] dual-write topic graph (topics.yaml + topics/<slug>.md + _index.md)
-    → [session] journals/radar/YYYY-MM-DD.md (contracts/prompts/synthesize.md)
+    → [session] raw/ops/radar/YYYY-MM-DD.md (contracts/prompts/synthesize.md)
     → Human decision (in-note or via agent chat)
     → agent updates note + decisions.yaml
-    → if research: research/radar/<slug>/README.md stub
+    → if research: raw/research/<slug>/README.md stub
 ```
 
 ### Pipeline entrypoint
 
 ```bash
 python providers/signals/pipeline/run_stages.py \
-  --config journals/radar/config.yaml \
-  --radar-root journals/radar \
+  --config raw/ops/radar/config.yaml \
+  --radar-root raw/ops/radar \
   --date YYYY-MM-DD \
   --stage ingest|enrich|correlate|all
 ```
@@ -56,7 +56,7 @@ Stages `score` and `synthesize` are reserved hooks; v2 runs deterministic scorin
 
 When `run_meta.json` lists setup-related entries in `providers_degraded`, the agent follows `contracts/prompts/configure-provider.md`: one provider at a time, secrets via environment variables, dry-run `--stage ingest` with only that provider enabled. **Never commit** tokens, service-account JSON, or personal `config.yaml`.
 
-**Topic memory dual-write (v2):** The agent writes both `journals/radar/topics.yaml` (machine index, gitignored) and per-topic Markdown notes under `journals/radar/topics/<slug>.md` (Obsidian-durable). Future AI summarization should prefer topic notes (`## Rolling summary`, `## Timeline`, `## Sources`) over `_raw/` history.
+**Topic memory dual-write (v2):** The agent writes both `raw/ops/radar/topics.yaml` (machine index, gitignored) and per-topic Markdown notes under `raw/ops/radar/topics/<slug>.md` (Obsidian-durable). Future AI summarization should prefer topic notes (`## Rolling summary`, `## Timeline`, `## Sources`) over `_raw/` history.
 
 Nothing from Stage 1 enters durable `wiki/principles/` or public case studies.
 
@@ -104,7 +104,7 @@ Every opportunity requires an explicit human decision before Stage 2 work.
 |--------|-------------|
 | **ignore** | Close; optionally suppress similar signals briefly |
 | **watch** | Keep on radar for N days (default from `defaults.watch_days`) |
-| **research** | Create `research/radar/<slug>/README.md` stub from `templates/radar/research-stub.md` |
+| **research** | Create `raw/research/<slug>/README.md` stub from `templates/radar/research-stub.md` |
 | **known** | Link existing note if present |
 | **merge** | Attach to existing research/wiki topic (wikilink only; no auto-edit of principles) |
 
@@ -114,7 +114,7 @@ Decisions may be written in the daily Markdown or requested in agent chat. The *
 
 ## Stage 2 (v1)
 
-Research stubs only — queued under `research/radar/<slug>/` with provenance and a manual checklist. No collect→draft→PR pipeline in v1.
+Research stubs only — queued under `raw/research/<slug>/` with provenance and a manual checklist. No collect→draft→PR pipeline in v1.
 
 ## Related docs
 

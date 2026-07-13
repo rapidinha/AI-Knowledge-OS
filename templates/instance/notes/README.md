@@ -1,3 +1,3 @@
-# Notes
+# Moved
 
-Atomic and working notes. Private domain — never upstream.
+See [`../raw/`](../raw/).

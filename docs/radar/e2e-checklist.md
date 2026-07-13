@@ -11,12 +11,12 @@ Run this in a private lab worktree before merging v2 provider changes. No secret
 ## 1. Bootstrap private config (gitignored)
 
 ```bash
-cp templates/radar/config.example.yaml journals/radar/config.yaml
-cp templates/radar/topics.example.yaml journals/radar/topics.yaml
-mkdir -p journals/radar/_raw
+cp templates/radar/config.example.yaml raw/ops/radar/config.yaml
+cp templates/radar/topics.example.yaml raw/ops/radar/topics.yaml
+mkdir -p raw/ops/radar/_raw
 ```
 
-Edit `journals/radar/config.yaml`:
+Edit `raw/ops/radar/config.yaml`:
 
 - `providers.lobsters.enabled: true`
 - `providers.devto.enabled: true`
@@ -31,9 +31,9 @@ If TLS errors occur on macOS, set certifi:
 
 ```bash
 export SSL_CERT_FILE="$(python3 -c 'import certifi; print(certifi.where())')"
-python3 providers/signals/sources/fetch_enabled.py \
-  --config journals/radar/config.yaml \
-  --out journals/radar/_raw/$(date +%Y-%m-%d)-v2-smoke.jsonl
+python3 radar/providers/fetch_enabled.py \
+  --config raw/ops/radar/config.yaml \
+  --out raw/ops/radar/_raw/$(date +%Y-%m-%d)-v2-smoke.jsonl
 ```
 
 **Pass criteria:**
@@ -48,7 +48,7 @@ Quick signal count (replace `SMOKE.jsonl` with your output path):
 python3 - <<'PY'
 import json, sys
 from collections import Counter
-path = sys.argv[1] if len(sys.argv) > 1 else "journals/radar/_raw/2026-07-11-v2-smoke.jsonl"
+path = sys.argv[1] if len(sys.argv) > 1 else "raw/ops/radar/_raw/2026-07-11-v2-smoke.jsonl"
 c = Counter()
 with open(path) as f:
     for line in f:
@@ -72,7 +72,7 @@ python3 -m pytest tests/radar -q
 
 1. Open the vault in Obsidian (or your editor).
 2. Invoke the leverage-radar skill: *"Run today's Leverage Radar"*.
-3. Confirm the agent writes `journals/radar/YYYY-MM-DD.md` with Opportunities and topic dual-write under `journals/radar/topics/`.
+3. Confirm the agent writes `raw/ops/radar/YYYY-MM-DD.md` with Opportunities and topic dual-write under `raw/ops/radar/topics/`.
 
 ## 5. Cleanup
 

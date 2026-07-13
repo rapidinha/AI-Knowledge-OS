@@ -23,7 +23,7 @@ radar_topic: true
 
 {{timeline}}
 
-<!-- Bullet list: `- YYYY-MM-DD — short note / link to daily [[journals/radar/YYYY-MM-DD]]` -->
+<!-- Bullet list: `- YYYY-MM-DD — short note / link to daily [[raw/ops/radar/YYYY-MM-DD]]` -->
 
 ## Sources
 

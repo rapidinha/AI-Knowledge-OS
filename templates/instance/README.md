@@ -25,18 +25,14 @@ git fetch upstream
 git checkout -B main upstream/main
 
 # 3) Copy this template to the repo root (structure only — no personal content)
-cp -R templates/instance/knowledge .
-cp -R templates/instance/notes .
-cp -R templates/instance/research .
-cp -R templates/instance/journals .
-cp -R templates/instance/experiments .
+cp -R templates/instance/raw .
 cp templates/instance/LAB.md ./LAB.md
 cp templates/instance/AGENTS.private.md ./AGENTS.private.md
 
 # 4) Edit LAB.md remotes for your accounts, then commit to origin (private)
 
 # 5) Optional — Trend Radar
-cp templates/radar/config.example.yaml journals/radar/config.yaml
+cp templates/radar/config.example.yaml raw/ops/radar/config.yaml
 # enable providers; then run the trend-radar skill in Cursor or Claude Code
 ```
 
@@ -58,39 +54,28 @@ The script rsyncs framework paths (`contracts/`, `engine/`, `agents/`, `provider
 
 ```text
 templates/instance/              ← lives on public upstream (this folder)
-├── README.md                    ← you are here
-├── LAB.md                       ← copy to private root
-├── AGENTS.private.md            ← copy to private root
-├── scripts/
-│   └── sync-from-upstream.sh    ← sync framework without clobbering wiki
-├── knowledge/
-│   ├── README.md
-│   ├── private/
-│   ├── shared/
-│   └── imported/
-├── notes/
-├── research/
-├── journals/
-└── experiments/
+├── README.md
+├── LAB.md
+├── AGENTS.private.md
+├── scripts/sync-from-upstream.sh
+├── raw/
+│   ├── sources/                 ← ingest
+│   ├── research/                ← secondary research
+│   └── ops/{daily,posts,radar,experiments}
+└── knowledge|notes|journals|research|experiments/  ← stubs → see raw/
 ```
 
 After copy, the private instance root looks like:
 
 ```text
 (private instance)/
-├── wiki/                        ← from upstream (scaffold) + your living KB
-├── knowledge/{private,shared,imported}/
-├── notes/
-├── research/
-├── journals/
-├── experiments/
+├── wiki/                        ← compiled LLM wiki (instance-owned)
+├── raw/sources|research|ops/
 ├── LAB.md
 ├── AGENTS.private.md
-└── …
+└── (framework paths synced from upstream)
 ```
 
-## Rules (unchanged)
+**Forbidden on upstream root:** `raw/`, `knowledge/`, `notes/`, `journals/`, `experiments/`, … — see `AGENTS.md`.
 
-- Never open a public PR that adds root-level `knowledge/`, `notes/`, `research/`, `journals/`, `experiments/`, `obsidian/`, or `vault/`.
-- Promote only via sanitization → `feature/public/*` → PR to upstream.
-- See root [GOVERNANCE.md](../../GOVERNANCE.md).
+Schema for ingest → research → consolidate → query → lint: `wiki/_meta/llm-wiki-schema.md`.

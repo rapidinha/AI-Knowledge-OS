@@ -8,15 +8,15 @@ Durable theme memory for Leverage Radar. Each note under this folder is one topi
 
 ## How to use
 
-- Morning: open today's `[[journals/radar/YYYY-MM-DD]]`
+- Morning: open today's `[[raw/ops/radar/YYYY-MM-DD]]`
 - Deep dive: open a topic note; read **Rolling summary**
-- Later AI: ask the vault agent to summarize `journals/radar/topics/` or a single `slug`
+- Later AI: ask the vault agent to summarize `raw/ops/radar/topics/` or a single `slug`
 
 ## Active topics
 
 {{active_list}}
 
-<!-- Agent maintains a bullet list: `- [[journals/radar/topics/<slug>|<title>]] — status · hits:N · last:YYYY-MM-DD` -->
+<!-- Agent maintains a bullet list: `- [[raw/ops/radar/topics/<slug>|<title>]] — status · hits:N · last:YYYY-MM-DD` -->
 
 ## Retired
 

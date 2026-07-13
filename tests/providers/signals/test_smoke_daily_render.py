@@ -11,5 +11,5 @@ def test_daily_template_has_core_sections():
 
 def test_daily_template_has_recurrence_and_topic_link():
     assert "**Recurrence:**" in TEMPLATE
-    assert "journals/radar/topics/" in TEMPLATE
+    assert "raw/ops/radar/topics/" in TEMPLATE
     assert "## Topics" in TEMPLATE

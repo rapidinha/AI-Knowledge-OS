@@ -1,4 +1,4 @@
-# Using Trend Radar with agents
+# Using Leverage Radar with agents
 
 This feature does **not** call LLM vendor APIs from the repo. Scoring and clustering run **inside Cursor or Claude Code** using the agent's session model.
 
@@ -7,53 +7,37 @@ This feature does **not** call LLM vendor APIs from the repo. Scoring and cluste
 ## Cursor IDE
 
 1. Open the private lab repo root (vault root).
-2. Ensure `.cursor/skills/trend-radar/SKILL.md` is present (synced from `agents/trend-radar/`).
-3. Ask: **"Run today's Trend Radar"** (the skill should attach).
-4. Review `journals/radar/YYYY-MM-DD.md` in Obsidian.
+2. Ensure `.cursor/skills/leverage-radar/SKILL.md` is present (synced from `skills/leverage-radar/`).
+3. Ask: **"Run today's Leverage Radar"** (the skill should attach).
+4. Review `raw/ops/radar/YYYY-MM-DD.md` in Obsidian.
 5. When ready, request decisions: e.g. **"Research opportunity #1"**.
 
 ## Claude Code
 
 1. Same vault root.
-2. Ensure `.claude/skills/trend-radar/SKILL.md` is present.
-3. Invoke the trend-radar skill / ask the same prompt.
+2. Ensure `.claude/skills/leverage-radar/SKILL.md` is present.
+3. Invoke the leverage-radar skill / ask the same prompt.
 4. Review the daily note in Obsidian.
 5. Apply decisions through agent chat the same way as Cursor.
 
 ## What the agent does
 
-1. Read or bootstrap `journals/radar/config.yaml` from `templates/radar/config.example.yaml`.
+1. Read or bootstrap `raw/ops/radar/config.yaml` from `templates/radar/config.example.yaml`.
 2. Bootstrap topic store: `topics.yaml` from `templates/radar/topics.example.yaml`; `topics/_index.md` from `templates/radar/topics-index.md` if missing.
-3. Run pipeline stages (ingest → enrich → correlate):
+3. Run fetch aggregation:
 
    ```bash
-   python providers/signals/pipeline/run_stages.py \
-     --config journals/radar/config.yaml \
-     --radar-root journals/radar \
-     --date YYYY-MM-DD \
-     --stage ingest
-
-   python providers/signals/pipeline/run_stages.py \
-     --config journals/radar/config.yaml \
-     --radar-root journals/radar \
-     --date YYYY-MM-DD \
-     --stage enrich
-
-   python providers/signals/pipeline/run_stages.py \
-     --config journals/radar/config.yaml \
-     --radar-root journals/radar \
-     --date YYYY-MM-DD \
-     --stage correlate
+   python radar/providers/fetch_enabled.py \
+     --config raw/ops/radar/config.yaml \
+     --out raw/ops/radar/_raw/YYYY-MM-DD.jsonl
    ```
 
-   Artifacts land under `journals/radar/_pipeline/YYYY-MM-DD/` (`signals.jsonl`, `enriched.jsonl`, `clusters.json`, `run_meta.json`). Ingest also mirrors legacy `_raw/YYYY-MM-DD.jsonl`.
-
-4. Read `clusters.json`, `run_meta.json`, and `topics.yaml` (optional helper: `providers.signals.lib.topics_io`). Use `run_meta.providers_degraded` to trigger setup assist (`contracts/prompts/configure-provider.md`) when needed.
-5. **Using this session's model** (not external APIs): refine clusters, assign categories, apply judgement scores, update topic graph.
+4. Read the jsonl and `topics.yaml` (optional helper: `radar.lib.topics_io`), dedupe if needed.
+5. **Using this session's model** (not external APIs): cluster signals, assign categories, score dimensions, update topic graph.
 6. **Dual-write topic memory:** save `topics.yaml` and create/update `topics/<slug>.md` notes (rolling summary, timeline, sources) plus `_index.md`.
-7. Write `journals/radar/YYYY-MM-DD.md` from `templates/radar/daily.md` (topic wikilinks + recurrence).
+7. Write `raw/ops/radar/YYYY-MM-DD.md` from `templates/radar/daily.md` (topic wikilinks + recurrence).
 8. **Stop** — do not research unless the user decides.
-9. On decision requests: update Decide fields, append `decisions.yaml`; on `research`, create `research/radar/<slug>/README.md` from `templates/radar/research-stub.md`.
+9. On decision requests: update Decide fields, append `decisions.yaml`; on `research`, create `raw/research/<slug>/README.md` from `templates/radar/research-stub.md`.
 
 **PyYAML** is recommended for `topics_io` and full config parsing (`pip install pyyaml`).
 

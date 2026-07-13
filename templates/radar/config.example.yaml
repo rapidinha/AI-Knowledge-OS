@@ -1,12 +1,10 @@
-# Copy to journals/radar/config.yaml (private — gitignored)
+# Copy to raw/ops/radar/config.yaml (private — gitignored)
 # Connect a source: set enabled: true. Secrets via env vars only.
 
 defaults:
   watch_days: 7
   ignore_suppress_days: 3
   max_opportunities: 7
-  max_signals_per_enrich_batch: 200
-  max_clusters: 12
 
 # Scoring hints for the AGENT (not an API). The agent applies these while writing the daily note.
 score_dimensions:
@@ -68,32 +66,3 @@ providers:
         label: "Example Eng"
     search_queries: []
     max_videos_per_channel: 5
-
-  product_hunt:
-    enabled: false
-    limit: 20
-
-  rss:
-    enabled: false
-    feeds: []
-    limit_per_feed: 10
-
-  youtube_api:
-    enabled: false
-    queries: []
-    channel_ids: []
-    max_results: 5
-
-  ga4:
-    enabled: false
-    property_id: ""
-    credentials_file: ""
-    export_path: ""  # lab JSON export for offline/CI-friendly runs
-    limit: 20
-
-  search_console:
-    enabled: false
-    site_url: ""
-    credentials_file: ""
-    export_path: ""
-    limit: 20

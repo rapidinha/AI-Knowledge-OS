@@ -335,3 +335,61 @@ Publish only when intentionally making a named system public.
 
 - [ ] Intentional public disclosure of named system
 - [ ] Evidence uses repo-relative paths only; no secrets
+
+
+---
+
+## Concept template
+
+**Path:** `wiki/concepts/<slug>.md` (instance Knowledge Base — not an upstream corpus requirement)
+
+```markdown
+---
+type: concept
+status: active
+sources: []
+private: false
+---
+
+# <Title>
+
+**When to use:** <One sentence>
+
+## Body
+
+<Synthesis>
+
+## Claims and tensions
+
+- <Claim>
+
+## Related
+
+- [[concepts/<related>]]
+- [[principles/<related>]]
+```
+
+## Entity template
+
+**Path:** `wiki/entities/<slug>.md`
+
+```markdown
+---
+type: entity
+status: active
+sources: []
+private: false
+---
+
+# <Name>
+
+**What it is:** <One sentence>
+
+## Notes
+
+<Facts worth keeping>
+
+## Related
+
+- [[concepts/<related>]]
+```

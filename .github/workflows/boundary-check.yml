@@ -15,7 +15,7 @@ jobs:
       - name: Fail if forbidden paths exist at repo root
         run: |
           set -euo pipefail
-          forbidden=(knowledge notes journals experiments obsidian vault)
+          forbidden=(knowledge notes journals experiments obsidian vault raw)
           found=0
           for name in "${forbidden[@]}"; do
             if [ -e "$name" ]; then
