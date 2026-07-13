@@ -1,3 +1,3 @@
-# Journals
+# Moved
 
-Dated journals and reflective logs. Private domain — never upstream.
+See [`../raw/`](../raw/).

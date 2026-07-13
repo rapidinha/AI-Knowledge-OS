@@ -21,30 +21,30 @@ Run when the user asks for:
 
 ## Workflow
 
-1. **Config bootstrap** — Read `journals/radar/config.yaml`. If missing, copy from `templates/radar/config.example.yaml` and ask the user to enable providers before continuing.
+1. **Config bootstrap** — Read `raw/ops/radar/config.yaml`. If missing, copy from `templates/radar/config.example.yaml` and ask the user to enable providers before continuing.
 
 2. **Topic bootstrap**
-   - If `journals/radar/topics.yaml` missing → copy `templates/radar/topics.example.yaml`.
-   - Ensure `journals/radar/topics/` exists. If `_index.md` missing → copy `templates/radar/topics-index.md`.
+   - If `raw/ops/radar/topics.yaml` missing → copy `templates/radar/topics.example.yaml`.
+   - Ensure `raw/ops/radar/topics/` exists. If `_index.md` missing → copy `templates/radar/topics-index.md`.
 
 3. **Ingest** — Run (today's date as `YYYY-MM-DD`):
 
    ```bash
    python providers/signals/pipeline/run_stages.py \
-     --config journals/radar/config.yaml \
-     --radar-root journals/radar \
+     --config raw/ops/radar/config.yaml \
+     --radar-root raw/ops/radar \
      --date YYYY-MM-DD \
      --stage ingest
    ```
 
-   Writes `journals/radar/_pipeline/YYYY-MM-DD/signals.jsonl`, `run_meta.json`, and legacy `_raw/YYYY-MM-DD.jsonl`.
+   Writes `raw/ops/radar/_pipeline/YYYY-MM-DD/signals.jsonl`, `run_meta.json`, and legacy `_raw/YYYY-MM-DD.jsonl`.
 
 4. **Enrich** — Cheap Python enrich + cache; optional session refinement per `contracts/prompts/enrich.md`:
 
    ```bash
    python providers/signals/pipeline/run_stages.py \
-     --config journals/radar/config.yaml \
-     --radar-root journals/radar \
+     --config raw/ops/radar/config.yaml \
+     --radar-root raw/ops/radar \
      --date YYYY-MM-DD \
      --stage enrich
    ```
@@ -53,8 +53,8 @@ Run when the user asks for:
 
    ```bash
    python providers/signals/pipeline/run_stages.py \
-     --config journals/radar/config.yaml \
-     --radar-root journals/radar \
+     --config raw/ops/radar/config.yaml \
+     --radar-root raw/ops/radar \
      --date YYYY-MM-DD \
      --stage correlate
    ```
@@ -69,13 +69,13 @@ Run when the user asks for:
    - Update topic fields: `hit_count` (+1 once per distinct day), `last_seen`, `provider_set` union, `recent_urls` (cap 8), `status` hint (`emerging` / `validated` when hits≥3 and ≥2 providers).
    - Cap ~200 topics; set `status: retired` on oldest low-hit — **do not delete** Markdown notes.
    - **Dual-write topics (required):**
-     - Write `journals/radar/topics.yaml` (machine index).
-     - For each touched topic, create/update `journals/radar/topics/<slug>.md` from `templates/radar/topic.md`:
+     - Write `raw/ops/radar/topics.yaml` (machine index).
+     - For each touched topic, create/update `raw/ops/radar/topics/<slug>.md` from `templates/radar/topic.md`:
        - Refresh **Rolling summary** (2–4 sentences; cumulative, not only today).
-       - Append today's bullet under **Timeline** with wikilink to `[[journals/radar/YYYY-MM-DD]]`.
+       - Append today's bullet under **Timeline** with wikilink to `[[raw/ops/radar/YYYY-MM-DD]]`.
        - Merge **Sources** URLs.
-     - Update `journals/radar/topics/_index.md` active/retired lists.
-   - Write `journals/radar/YYYY-MM-DD.md` from `templates/radar/daily.md` answering leverage questions (what changed, unnoticed, deserves attention, hype, will grow, engineer impact) — **not a news list**.
+     - Update `raw/ops/radar/topics/_index.md` active/retired lists.
+   - Write `raw/ops/radar/YYYY-MM-DD.md` from `templates/radar/daily.md` answering leverage questions (what changed, unnoticed, deserves attention, hype, will grow, engineer impact) — **not a news list**.
 
 7. **Executive Summary** — Include degraded providers and counts from `run_meta.json` (`providers_degraded`, `providers_ok`, `counts`).
 
@@ -85,13 +85,13 @@ Run when the user asks for:
 
 ## HITL decisions (when user requests)
 
-Apply decisions only when the user sets a **Decide** action (in chat or by editing the daily note). Parse opportunity rank/slug/title from `journals/radar/YYYY-MM-DD.md`.
+Apply decisions only when the user sets a **Decide** action (in chat or by editing the daily note). Parse opportunity rank/slug/title from `raw/ops/radar/YYYY-MM-DD.md`.
 
-Bootstrap `journals/radar/decisions.yaml` from `templates/radar/decisions.example.yaml` if missing.
+Bootstrap `raw/ops/radar/decisions.yaml` from `templates/radar/decisions.example.yaml` if missing.
 
 | Action | Steps |
 |--------|-------|
-| **research** | Set `Decide: research` on the opportunity; append row to `decisions.yaml` (`date`, `slug`, `action`, `at`); create `research/radar/<slug>/README.md` from `templates/radar/research-stub.md` |
+| **research** | Set `Decide: research` on the opportunity; append row to `decisions.yaml` (`date`, `slug`, `action`, `at`); create `raw/research/<slug>/README.md` from `templates/radar/research-stub.md` |
 | **ignore** | Set `Decide: ignore`; move to Ignore section if needed; append `decisions.yaml` |
 | **watch** | Set `Decide: watch`; add to Worth Watching; append `decisions.yaml` |
 | **known** | Set `Decide: known`; link existing note if present; append `decisions.yaml` |

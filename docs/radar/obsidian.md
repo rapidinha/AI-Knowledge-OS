@@ -5,7 +5,7 @@ Obsidian is the primary reading surface for Leverage Radar. The agent writes; yo
 ## Morning ritual
 
 1. Open your private lab vault in Obsidian.
-2. Navigate to `journals/radar/YYYY-MM-DD.md` (today's date).
+2. Navigate to `raw/ops/radar/YYYY-MM-DD.md` (today's date).
 3. Read **Executive Summary** (2–4 sentences) for the day's leverage picture.
 4. Scan **Top Opportunities** — each has topic wikilink, recurrence, category, scores, rationale, sources, and a **Decide** line.
 5. Skim **Highest ROI** (Learning / Content / Project picks) and **Worth Watching**.
@@ -49,25 +49,25 @@ Frontmatter tracks metadata for filtering and dashboards:
 
 ## Vault setup
 
-1. Copy `templates/personal-lab/` into your private lab if you have not already.
-2. Ensure `journals/radar/` exists (see `templates/personal-lab/journals/radar/README.md`).
-3. Copy `templates/radar/config.example.yaml` → `journals/radar/config.yaml`.
+1. Copy `templates/instance/` into your private lab if you have not already.
+2. Ensure `raw/ops/radar/` exists (see `templates/instance/raw/ops/radar/README.md`).
+3. Copy `templates/radar/config.example.yaml` → `raw/ops/radar/config.yaml`.
 4. Run the leverage-radar skill in Cursor or Claude Code before your morning read.
 
 `_raw/` signal caches are gitignored — they are ephemeral fetch output, not notes you curate.
 
 ## Topic memory (v2)
 
-Durable theme notes live under `journals/radar/topics/`:
+Durable theme notes live under `raw/ops/radar/topics/`:
 
-1. Open `journals/radar/topics/_index.md` for the MOC (active and retired topics).
+1. Open `raw/ops/radar/topics/_index.md` for the MOC (active and retired topics).
 2. Click a topic wikilink from the daily note or index to open `topics/<slug>.md`.
 3. Read **Rolling summary** for the cumulative abstract; **Timeline** for day-by-day history with links back to daily notes.
 
 Optional Dataview query for active topics:
 
 ```dataview
-TABLE status, hit_count, last_seen FROM "journals/radar/topics" WHERE radar_topic = true SORT hit_count DESC
+TABLE status, hit_count, last_seen FROM "raw/ops/radar/topics" WHERE radar_topic = true SORT hit_count DESC
 ```
 
 Topic Markdown notes are **not** gitignored — they are durable vault memory. `topics.yaml` (machine index) is gitignored.
@@ -76,9 +76,9 @@ Topic Markdown notes are **not** gitignored — they are durable vault memory. `
 
 Daily notes and research stubs use Obsidian-style links:
 
-- `[[journals/radar/2026-07-11]]` — back to the originating daily
-- `[[journals/radar/topics/agent-skills]]` — durable topic note with rolling summary
-- `[[research/radar/some-slug]]` — research stub from a decision
+- `[[raw/ops/radar/2026-07-11]]` — back to the originating daily
+- `[[raw/ops/radar/topics/agent-skills]]` — durable topic note with rolling summary
+- `[[raw/research/some-slug]]` — research stub from a decision
 
 Keep links relative to your vault root.
 

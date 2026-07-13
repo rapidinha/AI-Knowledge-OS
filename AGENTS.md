@@ -23,7 +23,7 @@ These rules bind any coding or writing agent operating on the **public** reposit
 - Change architectural decisions without RFC
 - Promote instance principles/case studies/journals into OSS
 - Bind the product to Obsidian, Cursor, Claude, or a specific LLM
-- Create or commit forbidden paths at upstream root: `knowledge/`, `notes/`, `journals/`, `experiments/`, `obsidian/`, `vault/`
+- Create or commit forbidden paths at upstream root: `knowledge/`, `notes/`, `journals/`, `experiments/`, `obsidian/`, `vault/`, `raw/`
 - Use personal notes, private vault files, or unpublished research as sources for public text
 - Move files from a private instance into this repository
 - Assume the maintainer's biography, employer secrets, or private decisions as facts
@@ -35,7 +35,7 @@ These rules bind any coding or writing agent operating on the **public** reposit
 
 | Path | Status |
 |------|--------|
-| `knowledge/`, `notes/`, `journals/`, `experiments/`, `obsidian/`, `vault/` | **Forbidden** |
+| `knowledge/`, `notes/`, `journals/`, `experiments/`, `obsidian/`, `vault/`, `raw/` | **Forbidden** |
 | `research/` | Allowed **only** as scaffold (`README.md`, `.gitkeep`) |
 
 ## Domains

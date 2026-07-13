@@ -1,4 +1,4 @@
-# Copy to journals/radar/decisions.yaml (local decision log; commit only if you want history)
+# Copy to raw/ops/radar/decisions.yaml (local decision log; commit only if you want history)
 # Append-only decision log. Agent maintains this on HITL actions.
 
 decisions:
