@@ -61,7 +61,7 @@ Each concept has one canonical home:
 | Agent behavior | [AGENTS.md](../AGENTS.md) + per-agent README under [agents/](../agents/) |
 | Reference providers | [providers/](../providers/) + [docs/radar/](radar/) |
 
-Do not duplicate full explanations across files without a link back to the canonical doc. Historical specs under `docs/specs/` and `docs/plans/` are archive — not product identity.
+Do not duplicate full explanations across files without a link back to the canonical doc. Historical specs and plans under `docs/superpowers/specs/` and `docs/superpowers/plans/` are archive — not product identity.
 
 ## Reference providers
 

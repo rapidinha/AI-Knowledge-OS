@@ -122,4 +122,4 @@ Research stubs only — queued under `raw/research/<slug>/` with provenance and 
 - [Providers](providers.md)
 - [Scoring](scoring.md)
 - [Using agents](using-agents.md)
-- [Design spec](../specs/2026-07-11-leverage-radar-design.md)
+- [Design spec](../superpowers/specs/2026-07-11-leverage-radar-design.md)

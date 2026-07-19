@@ -216,7 +216,7 @@ Documentation is part of the product, not an afterthought.
 ### Public upstream
 
 ```text
-docs/specs/2026-07-11-leverage-radar-design.md
+docs/superpowers/specs/2026-07-11-leverage-radar-design.md
 docs/radar/                      # protocol, Obsidian, providers, scoring guides
 templates/radar/                 # daily note + research stub templates
 skills/leverage-radar/           # agent skill (Claude Code or Cursor)
