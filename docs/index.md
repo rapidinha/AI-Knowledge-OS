@@ -50,6 +50,5 @@ Radar docs describe a **reference provider**, not the product identity. See [ARC
 
 | Path | Purpose |
 |------|---------|
-| [docs/specs/](specs/) | Design specifications (framework history) |
-| [docs/plans/](plans/) | Implementation plans |
-| [docs/superpowers/](superpowers/) | Repositioning spec and Phase 1 plan |
+| [docs/superpowers/specs/](superpowers/specs/) | Design specifications (framework history) |
+| [docs/superpowers/plans/](superpowers/plans/) | Implementation plans (framework history) |
