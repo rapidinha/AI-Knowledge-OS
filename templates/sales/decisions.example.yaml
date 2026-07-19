@@ -1,0 +1,11 @@
+# Copy to raw/ops/sales/decisions.yaml (local decision log; gitignored)
+# Append-only. Agent writes one entry per HITL gate answered in chat.
+
+decisions:
+  # - date: 2026-07-18
+  #   stage: verdict            # icp | verdict | content_plan | draft | kill_check
+  #   beachhead_slug: workaround-spreadsheet-pain
+  #   question: "Go / Watch / Pivot / No-Go?"
+  #   answer: go
+  #   decided_by: human_chat
+  #   at: 2026-07-18T09:15:00-03:00

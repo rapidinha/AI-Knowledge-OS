@@ -10,3 +10,7 @@ __pycache__/
 
 journals/radar/topics.yaml
 journals/radar/_pipeline/
+
+# Sales Motion (personal lab — never commit ICP/leads/decisions/state/ledger)
+raw/ops/sales/*
+!raw/ops/sales/.gitkeep

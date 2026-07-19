@@ -1,0 +1,40 @@
+# Copy to raw/ops/sales/config.yaml (private — gitignored)
+# Built through a chat Q&A with the sales-motion skill (S1 gate) — this file
+# is the durable record of that conversation, not something to hand-fill blind.
+
+product: ""     # what you're actually selling — fill via S1 chat
+goal: ""        # what this run optimizes for, e.g. "first paying customer"
+icp: ""         # defined BY LANGUAGE, not demographics — e.g. "founders who say
+                # they polished for weeks and shipped to silence"
+
+pain_lexicon:
+  intensity_terms: []          # e.g. ["hate doing this", "so frustrating"]
+  workaround_terms: []         # e.g. ["spreadsheet", "manually", "copy paste"]
+  willingness_to_pay_terms: [] # e.g. ["would pay for", "switched from"]
+
+channels:
+  hn:
+    enabled: false
+    limit: 30
+  reddit:
+    enabled: false
+    subreddits: []
+    user_agent: "ai-knowledge-os-sales-motion/0.1 (by /u/YOUR_USER)"
+    limit: 25
+  rss:
+    enabled: false
+    feeds: []
+    limit_per_feed: 10
+  x_manual:
+    enabled: true   # paste-only intake, always safe to leave on
+
+defaults:
+  max_beachheads: 12
+
+verdict:
+  go_threshold: 65
+  watch_threshold: 40
+  min_signals_for_go: 5
+  min_sources_for_go: 2
+
+kill_check_weeks: 3
